@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>練習 2｜登入框（解答）</title>
+  <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+</head>
+<body class="min-h-screen bg-gray-100 flex items-center justify-center p-4">
+
+  <div class="w-full max-w-sm bg-white rounded-xl shadow-lg p-8">
+    <h1 class="text-2xl font-bold text-gray-800 text-center mb-6">會員登入</h1>
+    <input type="email" placeholder="Email"
+           class="w-full border border-gray-300 rounded-lg px-4 py-2 mb-4
+                  focus:outline-none focus:ring-2 focus:ring-blue-400" />
+    <button class="w-full py-2.5 bg-blue-500 text-white rounded-lg font-medium
+                   hover:bg-blue-700 transition">
+      登入
+    </button>
+  </div>
+
+  <script>
+    (() => {
+      const source = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+      document.body.style.flexDirection = 'column';
+      document.body.style.gap = '32px';
+      const details = document.createElement('details');
+      details.open = true;
+      details.style.cssText = 'width:min(900px,100%);background:#111827;color:#e5e7eb;border-radius:12px;overflow:hidden;text-align:left;';
+      details.innerHTML = '<summary style="cursor:pointer;padding:12px 16px;font-weight:700;background:#0f172a;">本頁完整 HTML 程式碼</summary><pre style="margin:0;padding:16px;overflow:auto;font:13px/1.6 ui-monospace,Menlo,Consolas,monospace;"><code></code></pre>';
+      details.querySelector('code').textContent = source;
+      document.body.append(details);
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>範例 04｜深色模式與自訂主題（v4 @theme）</title>
+  <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+  <!-- v4：用 CSS 客製主題 + 手動深色模式策略 -->
+  <style type="text/tailwindcss">
+    @custom-variant dark (&:where(.dark, .dark *));
+
+    @theme {
+      --color-brand: #6366f1;
+      --color-brand-dark: #4f46e5;
+    }
+  </style>
+</head>
+<body class="bg-white text-gray-900 dark:bg-gray-900 dark:text-gray-100 p-8 transition-colors">
+
+  <div class="flex items-center justify-between mb-6">
+    <h1 class="text-3xl font-bold">04 深色模式 + 自訂主題</h1>
+    <button onclick="document.documentElement.classList.toggle('dark')"
+            class="px-4 py-2 rounded-lg bg-brand text-white hover:bg-brand-dark transition">
+      切換深/淺色
+    </button>
+  </div>
+
+  <!-- 深色模式：用 dark: 前綴 -->
+  <section class="mb-8">
+    <h2 class="text-xl font-semibold mb-3">dark: 前綴</h2>
+    <div class="p-6 rounded-lg border border-gray-200 dark:border-gray-700
+                bg-gray-50 dark:bg-gray-800">
+      <p class="text-gray-600 dark:text-gray-300">
+        這個區塊會依深/淺色模式改變背景與文字顏色。點右上角按鈕切換。
+      </p>
+    </div>
+  </section>
+
+  <!-- 自訂主題色 bg-brand -->
+  <section>
+    <h2 class="text-xl font-semibold mb-3">自訂品牌色（@theme 定義的 bg-brand）</h2>
+    <div class="flex gap-3">
+      <span class="px-4 py-2 rounded-lg bg-brand text-white">bg-brand</span>
+      <span class="px-4 py-2 rounded-lg bg-brand-dark text-white">bg-brand-dark</span>
+      <span class="px-4 py-2 rounded-lg border-2 border-brand text-brand">border-brand</span>
+    </div>
+  </section>
+
+</body>
+</html>

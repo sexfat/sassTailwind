@@ -1,0 +1,366 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sass 練習題</title>
+<style>
+:root{--bg:#f6f7f9;--surface:#fff;--text:#172033;--muted:#637083;--border:#d9e0ea;--brand:#2457c5;--code-bg:#111827;--code-text:#e5e7eb;}
+*{box-sizing:border-box;}
+body{margin:0;font-family:system-ui,-apple-system,"Segoe UI","Noto Sans TC",sans-serif;line-height:1.75;color:var(--text);background:var(--bg);}
+.wrap{max-width:860px;margin:0 auto;padding:40px 24px 80px;}
+h1{font-size:2rem;border-bottom:3px solid var(--brand);padding-bottom:.4em;}
+h2{margin-top:2em;font-size:1.35rem;}
+h3{margin-top:1.6em;font-size:1.1rem;color:var(--brand);}
+blockquote{margin:1em 0;padding:.6em 1em;background:#eff6ff;border-left:4px solid #60a5fa;color:#334155;border-radius:0 6px 6px 0;}
+code{background:#eef1f6;padding:.1em .35em;border-radius:4px;font-size:.9em;font-family:ui-monospace,Menlo,Consolas,monospace;}
+pre{background:var(--code-bg);color:var(--code-text);padding:16px 18px;border-radius:10px;overflow-x:auto;}
+pre code{background:none;padding:0;color:inherit;font-size:.86rem;line-height:1.6;}
+ul{padding-left:1.4em;}
+.badge{display:inline-block;font-size:.75rem;padding:.15em .6em;border-radius:999px;color:#fff;vertical-align:middle;margin-left:.5em;}
+.b-green{background:#22c55e;}.b-yellow{background:#f59e0b;}.b-red{background:#ef4444;}
+.nav-back{display:inline-block;margin-bottom:1em;color:var(--brand);text-decoration:none;font-size:.9rem;}
+.intro-ai{margin:1.2em 0;padding:16px 18px;background:#eef2ff;border:1px solid #c7d2fe;border-radius:12px;}
+.intro-ai h3{margin:0 0 .4em;color:#4338ca;}
+.intro-ai ul{margin:.4em 0 0;}
+.ai{margin:.9em 0 0;border:1px solid #c7d2fe;background:#eef2ff;border-radius:10px;padding:12px 14px;}
+.ai .t{font-weight:700;color:#4338ca;font-size:.9rem;margin-bottom:.5em;display:flex;align-items:center;gap:.4em;}
+.ai pre{background:#1e1b4b;color:#e0e7ff;margin:0;font-size:.82rem;}
+.ai .tip{font-size:.82rem;color:#4b5563;margin:.5em 0 0;}
+.figref{margin:.6em 0 .2em;font-size:.88rem;background:#eef2ff;border:1px solid #c7d2fe;border-radius:8px;padding:8px 12px;}
+.figref a{font-weight:600;}
+.exercise-tabs{margin:1.6em 0 2em;border:1px solid var(--border);background:var(--surface);border-radius:14px;box-shadow:0 10px 30px rgba(15,23,42,.06);overflow:hidden;}
+.tab-list{display:flex;gap:6px;padding:10px;background:#eef2ff;border-bottom:1px solid var(--border);overflow-x:auto;scrollbar-width:thin;}
+.tab-button{flex:0 0 auto;border:1px solid transparent;background:transparent;color:#475569;border-radius:10px;padding:9px 14px;font:600 .92rem/1.2 system-ui,-apple-system,"Segoe UI","Noto Sans TC",sans-serif;cursor:pointer;white-space:nowrap;transition:background .18s,color .18s,border-color .18s,box-shadow .18s;}
+.tab-button:hover{background:rgba(255,255,255,.72);color:var(--brand);}
+.tab-button:focus-visible{outline:3px solid rgba(36,87,197,.24);outline-offset:2px;}
+.tab-button[aria-selected="true"]{background:var(--surface);color:var(--brand);border-color:#c7d2fe;box-shadow:0 6px 16px rgba(36,87,197,.12);}
+.tab-panels{padding:22px 24px 26px;}
+.tab-panel{display:none;}
+.tab-panel.is-active{display:block;}
+.tab-panel h3{margin-top:0;}
+.answer-link{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:1em 0;padding:10px 12px;background:#f8fafc;border:1px solid var(--border);border-radius:10px;color:var(--muted);font-size:.9rem;}
+.answer-link a{color:var(--brand);font-weight:700;text-decoration:none;}
+.answer-link a:hover{text-decoration:underline;}
+.code-reference{margin:1em 0;border:1px solid var(--border);border-radius:10px;background:#f8fafc;overflow:hidden;}
+.code-reference summary{cursor:pointer;padding:10px 12px;font-weight:800;color:var(--brand);}
+.code-reference pre{margin:0;border-radius:0;border-top:1px solid var(--border);}
+.section-heading{margin:0 0 .75em;color:#475569;font-size:.85rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;}
+@media (max-width:640px){
+  .wrap{padding:28px 16px 56px;}
+  .tab-list{padding:8px;}
+  .tab-button{padding:8px 10px;font-size:.86rem;}
+  .tab-panels{padding:18px 16px 22px;}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+<a class="nav-back" href="../講義.html">← 回 Sass 講義</a>
+<h1>Sass 練習題</h1>
+<blockquote>每題請自己先寫，再對照 <code>解答/</code> 資料夾（<a href="解答/練習1-3.html">練習1-3</a>、<a href="解答/練習4-6.html">練習4-6</a>、<a href="解答/練習7.html">練習7</a>）。建議邊寫邊用 <code>sass 檔名.scss out.css</code> 編譯，觀察輸出的 CSS。回 <a href="../講義.html">Sass 講義</a>。</blockquote>
+
+<div class="intro-ai">
+<h3>怎麼用 AI 幫你學（先看這裡）</h3>
+<p>每題下方都有一個「AI 協助」框，附上可直接複製的 prompt。寫 prompt 的 4 個要領：</p>
+<ul>
+<li><strong>給情境</strong>：開頭說明「我在學 Sass/SCSS，請用現代語法（<code>@use</code>、<code>math.div</code>）」，AI 才不會給過時寫法。</li>
+<li><strong>先要提示、別急著要答案</strong>：加一句「先給我思路與提示，不要直接給完整程式碼」，練習效果最好。</li>
+<li><strong>卡住再貼程式碼除錯</strong>：把你寫的 SCSS 貼上，問「為什麼編譯錯誤？」或「輸出的 CSS 為什麼不對？」。</li>
+<li><strong>要求解釋</strong>：拿到答案後追問「請逐行解釋這段」「還有沒有更精簡的寫法？」。</li>
+</ul>
+</div>
+
+<h2>基礎題 <span class="badge b-green">基礎</span></h2>
+
+<h3>練習 1：變數與運算</h3>
+<p class="figref">Figma 參考樣式：<a href="https://www.figma.com/design/e87BnLqAVr9tTSyCTNP7TX/?node-id=5-27" target="_blank" rel="noopener">開啟「Button」元件（primary/success/danger）</a></p>
+<p>定義主色 <code>$primary: #6366f1</code>、基準間距 <code>$space: 8px</code>。做出 <code>.btn</code>：</p>
+<ul>
+<li>背景用主色、文字白色</li>
+<li>上下 padding 為 <code>$space</code>、左右為 <code>$space</code> 的 3 倍</li>
+<li>圓角 <code>$space</code></li>
+</ul>
+<div class="ai"><div class="t">AI 協助 · 可以這樣問</div>
+<pre><code>我在學 Sass。想用變數做一個 .btn 按鈕：
+主色 $primary:#6366f1、基準間距 $space:8px。
+需求：背景主色、白字、上下 padding 用 $space、左右用 $space 的 3 倍、圓角 $space。
+請先給我思路與會用到的語法提示，「不要」直接給完整答案。</code></pre>
+<p class="tip">寫出來後可再問：「左右 padding 要怎麼用運算寫成 $space 的 3 倍？」</p></div>
+
+<h3>練習 2：巢狀與 <code>&amp;</code></h3>
+<p>寫一個 <code>.nav</code>，內含 <code>.nav__item</code>（巢狀），並用 <code>&amp;</code> 完成：</p>
+<ul>
+<li><code>.nav__item</code> hover 時文字變成 <code>$primary</code></li>
+<li><code>.nav__item</code> 加上 <code>--active</code> 修飾子時字重 bold（<code>.nav__item--active</code>）</li>
+</ul>
+<div class="ai"><div class="t">AI 協助 · 可以這樣問</div>
+<pre><code>我在學 Sass 的巢狀與 &amp; 父選擇器。
+請教我怎麼用 &amp; 寫 BEM：一個 .nav 內含 .nav__item，
+其中 hover 變色、加 --active 修飾子時字重 bold。
+先解釋 &amp; 在 &amp;__item、&amp;:hover、&amp;--active 各自會編譯成什麼，再讓我自己寫。</code></pre>
+<p class="tip">追問：「為什麼 &amp;__item 會變成 .nav__item 而不是 .nav .item？」能幫你真的理解 &amp;。</p></div>
+
+<h3>練習 3：Mixin</h3>
+<p>寫一個 <code>@mixin flex($justify: center, $align: center)</code>，能設定 <code>display:flex</code> 與傳入的對齊方式。用它做出 <code>.header</code>（兩端對齊 <code>space-between</code>、垂直置中）。</p>
+<div class="ai"><div class="t">AI 協助 · 可以這樣問</div>
+<pre><code>請教我 Sass 的 @mixin 帶參數＋預設值。
+我想寫 @mixin flex($justify: center, $align: center) 設定 flex 與對齊，
+再用 .header 呼叫它做出 space-between + 垂直置中。
+請先說明「參數預設值」和「具名參數呼叫」的語法，再讓我試寫。</code></pre>
+<p class="tip">進階：問「這個跟直接寫 display:flex 有什麼好處？什麼時候該用 mixin？」</p></div>
+
+<h2>進階題 <span class="badge b-yellow">進階</span></h2>
+
+<h3>練習 4：響應式 Mixin</h3>
+<p>寫一個 <code>@mixin respond($bp)</code>，支援 <code>mobile</code>（max-width 767px）與 <code>tablet</code>（max-width 1023px），使用 <code>@content</code>。用它讓 <code>.container</code> 在 mobile 時寬度變 100%。</p>
+<div class="ai"><div class="t">AI 協助 · 可以這樣問</div>
+<pre><code>我想用 Sass 做響應式 mixin。請教我 @content 的用法：
+寫 @mixin respond($bp)，用 @if / @else if 判斷 mobile(max-width:767px) 與 tablet(max-width:1023px)，
+把 @content 塞進對應的 @media 內。
+先解釋 @content 是什麼、呼叫時的 @include respond(mobile){...} 大括號會跑去哪裡。</code></pre>
+<p class="tip">想更進階可問：「怎麼改用斷點 map + @each 讓斷點集中管理？」</p></div>
+
+<h3>練習 5：迴圈生成間距工具類</h3>
+<p>用 <code>@for</code> 產生 <code>.m-1</code> ~ <code>.m-5</code>（margin）與 <code>.p-1</code> ~ <code>.p-5</code>（padding），每一級是 <code>4px * 級數</code>。（例如 <code>.m-3 { margin: 12px; }</code>）</p>
+<div class="ai"><div class="t">AI 協助 · 可以這樣問</div>
+<pre><code>請教我 Sass 的 @for 迴圈自動生成工具類。
+我要產生 .m-1~.m-5 和 .p-1~.p-5，每級 margin/padding = 4px × 級數。
+請說明 @for $i from 1 through 5 跟 to 的差別，以及怎麼用 #{$i} 把變數插進 class 名稱。
+先給提示，我自己寫寫看。</code></pre>
+<p class="tip">卡在 class 名稱沒展開時，貼上你的程式碼問：「為什麼 class 變成 .m-$i 而不是 .m-1？」</p></div>
+
+<h3>練習 6：Map + <code>@each</code></h3>
+<p class="figref">Figma 參考樣式：<a href="https://www.figma.com/design/e87BnLqAVr9tTSyCTNP7TX/?node-id=6-31" target="_blank" rel="noopener">開啟「Alert」元件（info/success/warning/error）</a></p>
+<p>給定：</p>
+<pre><code>$status: (
+  'info': #3b82f6,
+  'success': #22c55e,
+  'warning': #f59e0b,
+  'error': #ef4444,
+);</code></pre>
+<p>自動生成 <code>.alert--info</code>、<code>.alert--success</code>… 每個要有：對應背景色、白色文字、padding 12px、圓角 6px。</p>
+<div class="ai"><div class="t">AI 協助 · 可以這樣問</div>
+<pre><code>我有一個 Sass map $status（info/success/warning/error 對應顏色）。
+請教我用 @each $name, $color in $status 自動生成 .alert--#{$name}，
+每個要有對應背景色、白字、padding 12px、圓角 6px。
+先解釋 @each 遍歷 map 時 $name 和 $color 分別拿到什麼。</code></pre>
+<p class="tip">追問：「這樣寫跟手動複製四份 .alert 相比，之後要新增一個顏色時差在哪？」</p></div>
+
+<h2>挑戰題 <span class="badge b-red">挑戰</span></h2>
+
+<h3>練習 7：迷你設計系統</h3>
+<p class="figref">Figma 參考樣式：<a href="https://www.figma.com/design/e87BnLqAVr9tTSyCTNP7TX/?node-id=6-20" target="_blank" rel="noopener">開啟「Card」元件（primary/success/danger + hover）</a></p>
+<p>綜合運用<strong>模組化 + Map + mixin + 迴圈</strong>，做一個卡片元件系統：</p>
+<ul>
+<li>把變數放進 <code>_tokens.scss</code>（partial），用 <code>@use</code> 引入。</li>
+<li>用一個 Map 定義三種卡片主題色。</li>
+<li>寫 <code>@mixin card-base</code> 放共用樣式（padding、圓角、陰影、transition）。</li>
+<li>用 <code>@each</code> 生成 <code>.card--primary</code> / <code>.card--success</code> / <code>.card--danger</code>，各自有主題色的上邊框，hover 時陰影加深。</li>
+</ul>
+<p>完成後編譯，檢查輸出的 CSS 是否精簡且正確。</p>
+<div class="ai"><div class="t">AI 協助 · 可以這樣問（挑戰題建議分段問）</div>
+<pre><code>我要用 Sass 做一個卡片設計系統，請「分步驟」帶我，一次只給一小段：
+步驟1：把 $card-radius、$card-padding、$card-themes(map) 放進 _tokens.scss（partial），
+       主檔怎麼用 @use '_tokens' as t 引入並加命名空間？
+步驟2：寫 @mixin card-base 放共用樣式（padding、圓角、陰影、transition）。
+步驟3：用 @each 生成 .card--primary/success/danger，各自主題色上邊框、hover 陰影加深。
+每一步請先解釋再給範例，讓我跟著做。</code></pre>
+<p class="tip">挑戰題別一次要全部答案。分步問，並在每步用 <code>sass 練習7.scss out.css</code> 編譯驗證，再進下一步。</p></div>
+</div>
+<script>
+(() => {
+  const codeSamples = {
+    1: String.raw`$primary: #6366f1;
+$space: 8px;
+
+.btn {
+  background: $primary;
+  color: white;
+  padding: $space ($space * 3);
+  border-radius: $space;
+  border: none;
+  cursor: pointer;
+}`,
+    2: String.raw`.nav {
+  display: flex;
+  gap: 16px;
+
+  &__item {
+    color: #333;
+    cursor: pointer;
+
+    &:hover {
+      color: $primary;
+    }
+
+    &--active {
+      font-weight: bold;
+    }
+  }
+}`,
+    3: String.raw`@mixin flex($justify: center, $align: center) {
+  display: flex;
+  justify-content: $justify;
+  align-items: $align;
+}
+
+.header {
+  @include flex(space-between, center);
+  padding: 16px;
+}`,
+    4: String.raw`@mixin respond($bp) {
+  @if $bp == mobile {
+    @media (max-width: 767px) { @content; }
+  } @else if $bp == tablet {
+    @media (max-width: 1023px) { @content; }
+  }
+}
+
+.container {
+  width: 1200px;
+  margin: 0 auto;
+
+  @include respond(mobile) {
+    width: 100%;
+  }
+}`,
+    5: String.raw`@for $i from 1 through 5 {
+  .m-#{$i} { margin: 4px * $i; }
+  .p-#{$i} { padding: 4px * $i; }
+}`,
+    6: String.raw`$status: (
+  'info': #3b82f6,
+  'success': #22c55e,
+  'warning': #f59e0b,
+  'error': #ef4444,
+);
+
+@each $name, $color in $status {
+  .alert--#{$name} {
+    background: $color;
+    color: white;
+    padding: 12px;
+    border-radius: 6px;
+  }
+}`,
+    7: String.raw`// _練習7_tokens.scss
+$card-radius: 12px !default;
+$card-padding: 20px !default;
+
+$card-themes: (
+  'primary': #6366f1,
+  'success': #22c55e,
+  'danger':  #ef4444,
+) !default;
+
+// 練習7.scss
+@use 'sass:color';
+@use '練習7_tokens' as t;
+
+@mixin card-base {
+  padding: t.$card-padding;
+  border-radius: t.$card-radius;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  background: white;
+  transition: box-shadow 0.2s;
+}
+
+.card {
+  @include card-base;
+
+  @each $name, $color in t.$card-themes {
+    &--#{$name} {
+      border-top: 4px solid $color;
+
+      &:hover {
+        box-shadow: 0 8px 24px rgba($color, 0.35);
+      }
+    }
+  }
+}`
+  };
+  const wrap = document.querySelector('.wrap');
+  const exercises = [...wrap.querySelectorAll('h3')]
+    .filter((heading) => /^練習\s*\d+/.test(heading.textContent.trim()));
+  if (!exercises.length) return;
+
+  const tabs = document.createElement('section');
+  tabs.className = 'exercise-tabs';
+  tabs.setAttribute('aria-label', 'Sass 練習分頁');
+  tabs.innerHTML = '<div class="tab-list" role="tablist" aria-label="練習列表"></div><div class="tab-panels"></div>';
+  const tabList = tabs.querySelector('.tab-list');
+  const panels = tabs.querySelector('.tab-panels');
+  const firstSectionHeading = [...wrap.querySelectorAll('h2')]
+    .find((heading) => /基礎題|進階題|挑戰題/.test(heading.textContent));
+  firstSectionHeading.before(tabs);
+
+  exercises.forEach((heading, index) => {
+    const number = (heading.textContent.match(/\d+/) || [index + 1])[0];
+    const id = `exercise-${number}`;
+    const levelHeading = heading.previousElementSibling?.tagName === 'H2'
+      ? heading.previousElementSibling
+      : null;
+    const levelText = levelHeading?.textContent.trim().replace(/\s+/g, ' ');
+    const panel = document.createElement('article');
+    panel.className = `tab-panel${index === 0 ? ' is-active' : ''}`;
+    panel.id = `${id}-panel`;
+    panel.setAttribute('role', 'tabpanel');
+    panel.setAttribute('aria-labelledby', `${id}-tab`);
+    if (index !== 0) panel.hidden = true;
+
+    if (levelText) {
+      const label = document.createElement('div');
+      label.className = 'section-heading';
+      label.textContent = levelText;
+      panel.append(label);
+    }
+
+    let node = heading;
+    while (node) {
+      const next = node.nextElementSibling;
+      panel.append(node);
+      if (!next || next.tagName === 'H3' || next.tagName === 'H2') break;
+      node = next;
+    }
+
+    if (codeSamples[number]) {
+      const codeReference = document.createElement('details');
+      codeReference.className = 'code-reference';
+      codeReference.open = true;
+      codeReference.innerHTML = '<summary>解答程式碼</summary><pre><code></code></pre>';
+      codeReference.querySelector('code').textContent = codeSamples[number];
+      panel.append(codeReference);
+    }
+    panels.append(panel);
+
+    const button = document.createElement('button');
+    button.className = 'tab-button';
+    button.id = `${id}-tab`;
+    button.type = 'button';
+    button.setAttribute('role', 'tab');
+    button.setAttribute('aria-controls', panel.id);
+    button.setAttribute('aria-selected', index === 0 ? 'true' : 'false');
+    button.textContent = `練習 ${number}`;
+    tabList.append(button);
+  });
+
+  [...wrap.querySelectorAll('h2')]
+    .filter((heading) => /基礎題|進階題|挑戰題/.test(heading.textContent))
+    .forEach((heading) => heading.remove());
+
+  tabList.addEventListener('click', (event) => {
+    const selected = event.target.closest('.tab-button');
+    if (!selected) return;
+    const targetPanel = document.getElementById(selected.getAttribute('aria-controls'));
+    [...tabList.children].forEach((button) => button.setAttribute('aria-selected', String(button === selected)));
+    [...panels.children].forEach((panel) => {
+      const active = panel === targetPanel;
+      panel.classList.toggle('is-active', active);
+      panel.hidden = !active;
+    });
+  });
+})();
+</script>
+</body>
+</html>

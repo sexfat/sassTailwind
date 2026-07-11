@@ -1,0 +1,49 @@
+// ============================================
+// 範例 02：巢狀 Nesting 與 & 父選擇器
+// ============================================
+
+$primary: #3b82f6;
+
+.card {
+  padding: 16px;
+  background: white;
+  border-radius: 8px;
+
+  // 巢狀子元素
+  .title {
+    font-size: 20px;
+    font-weight: bold;
+  }
+
+  .content {
+    color: #666;
+    line-height: 1.6;
+  }
+
+  // & = .card，用來寫狀態
+  &:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  // & 寫 BEM 修飾子 → .card--featured
+  &--featured {
+    border: 2px solid $primary;
+  }
+
+  // & 放後面 → .dark-mode .card
+  .dark-mode & {
+    background: #1f2937;
+    color: white;
+  }
+}
+
+// 按鈕的多種狀態
+.button {
+  background: $primary;
+  color: white;
+
+  &:hover { opacity: 0.9; }
+  &:active { transform: translateY(1px); }
+  &:disabled { opacity: 0.5; cursor: not-allowed; }
+  &.is-loading { pointer-events: none; }
+}

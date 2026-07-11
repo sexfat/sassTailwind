@@ -1,0 +1,46 @@
+// ============================================
+// 範例 01：變數 Variables
+// 編譯：sass sass/examples/01-variables.scss out.css
+// ============================================
+
+// --- 設計 token ---
+$primary: #3b82f6;
+$danger: #ef4444;
+$radius: 8px;
+$spacing: 16px;
+$font-stack: 'Noto Sans TC', system-ui, sans-serif;
+
+// --- 可覆寫的預設值 ---
+$max-width: 1200px !default;
+
+body {
+  font-family: $font-stack;
+  max-width: $max-width;
+  margin: 0 auto;
+}
+
+.button {
+  background: $primary;
+  border-radius: $radius;
+  padding: $spacing ($spacing * 2); // 運算：16px 32px
+  color: white;
+}
+
+.button-danger {
+  background: $danger;
+  border-radius: $radius;
+  padding: $spacing ($spacing * 2);
+  color: white;
+}
+
+// --- 變數作用域示範 ---
+.box {
+  $local: 20px; // 區域變數
+  padding: $local;
+}
+
+// --- 插值：把 Sass 值放進 CSS 變數 ---
+:root {
+  --primary: #{$primary};
+  --radius: #{$radius};
+}

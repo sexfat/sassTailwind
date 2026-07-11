@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sass 解答：練習 7</title>
+<style>
+:root{--bg:#f6f7f9;--text:#172033;--muted:#637083;--brand:#2457c5;--code-bg:#111827;--code-text:#e5e7eb;}
+*{box-sizing:border-box;}
+body{margin:0;font-family:system-ui,-apple-system,"Segoe UI","Noto Sans TC",sans-serif;line-height:1.75;color:var(--text);background:var(--bg);}
+.wrap{max-width:860px;margin:0 auto;padding:40px 24px 80px;}
+h1{font-size:2rem;border-bottom:3px solid var(--brand);padding-bottom:.4em;}
+h2{margin-top:2em;font-size:1.2rem;color:var(--brand);}
+p.desc{color:var(--muted);margin:.2em 0 .6em;}
+.file-label{margin-top:1.6em;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.85rem;background:#eef1f6;display:inline-block;padding:.2em .6em;border-radius:6px 6px 0 0;border:1px solid #d9e0ea;border-bottom:none;}
+pre{background:var(--code-bg);color:var(--code-text);padding:16px 18px;border-radius:0 10px 10px 10px;overflow-x:auto;margin-top:0;}
+pre code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.86rem;line-height:1.6;}
+code{font-family:ui-monospace,Menlo,Consolas,monospace;}
+.nav-back{display:inline-block;margin-bottom:1em;color:var(--brand);text-decoration:none;font-size:.9rem;}
+.tag{display:inline-block;font-size:.72rem;background:#ef4444;color:#fff;padding:.12em .6em;border-radius:999px;margin-left:.5em;vertical-align:middle;}
+</style>
+</head>
+<body>
+<div class="wrap">
+<a class="nav-back" href="../練習題.html">← 回練習題</a>
+<h1>解答：練習 7 · 迷你設計系統 <span class="tag">挑戰</span></h1>
+<p class="desc">兩個檔案：token partial 用 <code>@use</code> 引入。編譯：<code>sass 練習7.scss out.css</code></p>
+
+<div class="file-label">_練習7_tokens.scss（partial：設計 token）</div>
+<pre><code>$card-radius: 12px !default;
+$card-padding: 20px !default;
+
+$card-themes: (
+  'primary': #6366f1,
+  'success': #22c55e,
+  'danger':  #ef4444,
+) !default;</code></pre>
+
+<div class="file-label">練習7.scss（主檔）</div>
+<pre><code>@use 'sass:color';
+@use '練習7_tokens' as t;
+
+// 共用基礎
+@mixin card-base {
+  padding: t.$card-padding;
+  border-radius: t.$card-radius;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  background: white;
+  transition: box-shadow 0.2s;
+}
+
+.card {
+  @include card-base;
+
+  @each $name, $color in t.$card-themes {
+    &--#{$name} {
+      border-top: 4px solid $color;
+
+      &:hover {
+        box-shadow: 0 8px 24px rgba($color, 0.35);
+      }
+    }
+  }
+}</code></pre>
+</div>
+</body>
+</html>

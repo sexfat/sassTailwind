@@ -1,0 +1,75 @@
+// ============================================
+// 範例 05：函式、運算、控制流程、Map
+// ============================================
+@use 'sass:math';
+@use 'sass:map';
+@use 'sass:color';
+
+// --- 自訂函式：px 轉 rem ---
+@function rem($px, $base: 16px) {
+  @return math.div($px, $base) * 1rem;
+}
+
+.title {
+  font-size: rem(24px); // 1.5rem
+}
+
+// --- @for：產生 12 欄網格 ---
+@for $i from 1 through 12 {
+  .col-#{$i} {
+    width: math.percentage(math.div($i, 12));
+  }
+}
+
+// --- @each + Map：自動生成顏色工具類 ---
+$colors: (
+  'primary': #3b82f6,
+  'success': #22c55e,
+  'danger':  #ef4444,
+);
+
+@each $name, $color in $colors {
+  .text-#{$name} { color: $color; }
+  .bg-#{$name}   { background: $color; }
+  .border-#{$name} { border: 1px solid $color; }
+}
+
+// --- @if：依背景明暗自動選字色 ---
+@mixin auto-text-color($bg) {
+  background: $bg;
+  @if color.channel($bg, 'lightness', $space: hsl) > 50% {
+    color: #000;
+  } @else {
+    color: #fff;
+  }
+}
+
+.tag-light { @include auto-text-color(#fde68a); }
+.tag-dark  { @include auto-text-color(#1e3a8a); }
+
+// --- 整合：按鈕系統 ---
+@mixin button-base {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.2s;
+}
+
+.btn {
+  @include button-base;
+
+  @each $name, $color in $colors {
+    &--#{$name} {
+      background: $color;
+      color: white;
+
+      &:hover {
+        background: color.adjust($color, $lightness: -8%);
+      }
+    }
+  }
+}

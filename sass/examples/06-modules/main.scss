@@ -1,0 +1,20 @@
+// ============================================
+// 範例 06：模組化 @use（現代寫法，取代 @import）
+// 編譯：sass sass/examples/06-modules/main.scss out.css
+// ============================================
+
+// 用命名空間引入
+@use 'variables' as v;
+@use 'mixins' as m;
+
+.hero {
+  @include m.flex-center;
+  background: v.$primary;
+  height: 300px;
+}
+
+.card {
+  @include m.card;
+  border-top: 3px solid v.$secondary;
+  border-radius: v.$radius;
+}

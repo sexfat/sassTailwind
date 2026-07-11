@@ -1,0 +1,364 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Figma Design System 練習題</title>
+<style>
+:root{--bg:#f6f7f9;--surface:#fff;--text:#172033;--muted:#637083;--border:#d9e0ea;--brand:#4f46e5;--code-bg:#111827;--code-text:#e5e7eb;}
+*{box-sizing:border-box;}
+body{margin:0;font-family:system-ui,-apple-system,"Segoe UI","Noto Sans TC",sans-serif;line-height:1.75;color:var(--text);background:var(--bg);}
+.wrap{max-width:900px;margin:0 auto;padding:40px 24px 80px;}
+h1{font-size:2rem;border-bottom:3px solid var(--brand);padding-bottom:.4em;}
+h2{margin-top:2em;font-size:1.35rem;}
+h3{margin-top:1.6em;font-size:1.1rem;color:var(--brand);}
+blockquote{margin:1em 0;padding:.6em 1em;background:#eef2ff;border-left:4px solid #818cf8;color:#334155;border-radius:0 6px 6px 0;}
+code{background:#eef1f6;padding:.1em .35em;border-radius:4px;font-size:.9em;font-family:ui-monospace,Menlo,Consolas,monospace;}
+pre{background:var(--code-bg);color:var(--code-text);padding:16px 18px;border-radius:10px;overflow-x:auto;}
+pre code{background:none;padding:0;color:inherit;font-size:.84rem;line-height:1.6;}
+ul,ol{padding-left:1.4em;}
+a{color:var(--brand);}
+table{border-collapse:collapse;width:100%;margin:1em 0;font-size:.92rem;}
+th,td{border:1px solid var(--border);padding:8px 10px;text-align:left;}
+th{background:#eef2ff;}
+.badge{display:inline-block;font-size:.75rem;padding:.15em .6em;border-radius:999px;color:#fff;vertical-align:middle;margin-left:.5em;}
+.b-green{background:#22c55e;}.b-yellow{background:#f59e0b;}.b-red{background:#ef4444;}
+.nav-back{display:inline-block;margin-bottom:1em;color:var(--brand);text-decoration:none;font-size:.9rem;}
+.intro-ai{margin:1.2em 0;padding:16px 18px;background:#eef2ff;border:1px solid #c7d2fe;border-radius:12px;}
+.intro-ai h3{margin:0 0 .4em;color:var(--brand);}
+.ai{margin:.9em 0 0;border:1px solid #c7d2fe;background:#eef2ff;border-radius:10px;padding:12px 14px;}
+.ai .t{font-weight:700;color:var(--brand);font-size:.9rem;margin-bottom:.5em;}
+.ai pre{background:#1e1b4b;color:#e0e7ff;margin:0;font-size:.8rem;}
+.rules{background:#fff7ed;border:1px solid #fdba74;border-radius:10px;padding:12px 16px;}
+.check li{margin:.2em 0;}
+.exercise-tabs{margin:1.6em 0 2em;border:1px solid var(--border);background:var(--surface);border-radius:14px;box-shadow:0 10px 30px rgba(15,23,42,.06);overflow:hidden;}
+.tab-list{display:flex;gap:6px;padding:10px;background:#eef2ff;border-bottom:1px solid var(--border);overflow-x:auto;scrollbar-width:thin;}
+.tab-button{flex:0 0 auto;border:1px solid transparent;background:transparent;color:#475569;border-radius:10px;padding:9px 14px;font:600 .92rem/1.2 system-ui,-apple-system,"Segoe UI","Noto Sans TC",sans-serif;cursor:pointer;white-space:nowrap;transition:background .18s,color .18s,border-color .18s,box-shadow .18s;}
+.tab-button:hover{background:rgba(255,255,255,.72);color:var(--brand);}
+.tab-button:focus-visible{outline:3px solid rgba(79,70,229,.24);outline-offset:2px;}
+.tab-button[aria-selected="true"]{background:var(--surface);color:var(--brand);border-color:#c7d2fe;box-shadow:0 6px 16px rgba(79,70,229,.12);}
+.tab-panels{padding:22px 24px 26px;}
+.tab-panel{display:none;}
+.tab-panel.is-active{display:block;}
+.tab-panel h3{margin-top:0;}
+.answer-link{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:1em 0;padding:10px 12px;background:#f8fafc;border:1px solid var(--border);border-radius:10px;color:var(--muted);font-size:.9rem;}
+.answer-link a{color:var(--brand);font-weight:700;text-decoration:none;}
+.answer-link a:hover{text-decoration:underline;}
+.code-reference{margin:1em 0;border:1px solid var(--border);border-radius:10px;background:#f8fafc;overflow:hidden;}
+.code-reference summary{cursor:pointer;padding:10px 12px;font-weight:800;color:var(--brand);}
+.code-reference pre{margin:0;border-radius:0;border-top:1px solid var(--border);}
+.section-heading{margin:0 0 .75em;color:#475569;font-size:.85rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;}
+@media (max-width:640px){
+  .wrap{padding:28px 16px 56px;}
+  .tab-list{padding:8px;}
+  .tab-button{padding:8px 10px;font-size:.86rem;}
+  .tab-panels{padding:18px 16px 22px;}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+<a class="nav-back" href="Figma_DesignSystem_練習題.md">Markdown 版</a>
+<h1>Figma Design System 練習題</h1>
+<blockquote>用已建好的 <strong>Sass Design System Tokens</strong> 練習「從 token 組出元件、再組出頁面」。Figma 檔案：<a href="https://www.figma.com/design/e87BnLqAVr9tTSyCTNP7TX">開啟</a>（分頁 Design System · Tokens）。</blockquote>
+
+<h2>前置：你手上有什麼</h2>
+<div class="table-wrap"><table>
+<thead><tr><th>類型</th><th>名稱</th><th>用途</th></tr></thead>
+<tbody>
+<tr><td>變數 · Primitives</td><td><code>blue/50…900</code>、<code>gray/50…900</code>…</td><td>原始色階（<strong>不要直接用在元件上</strong>，只給 semantic 別名）</td></tr>
+<tr><td>變數 · Semantic</td><td><code>color/bg/*</code>、<code>color/text/*</code>、<code>color/border/*</code>、<code>color/brand/*</code>、<code>color/status/*</code></td><td><strong>元件一律綁這一層</strong>（<code>$primary</code>、<code>$text</code>…）</td></tr>
+<tr><td>變數 · Scale</td><td><code>space/xs…4xl</code>、<code>radius/none…full</code></td><td>間距、圓角</td></tr>
+<tr><td>文字樣式</td><td><code>text/display</code>、<code>text/h1~h3</code>、<code>text/body</code>、<code>text/label</code>、<code>text/caption</code></td><td>套字級</td></tr>
+<tr><td>效果樣式</td><td><code>shadow/sm~xl</code></td><td>陰影</td></tr>
+<tr><td>模式</td><td>Semantic 有 <strong>Light / Dark</strong></td><td>切模式整組換色</td></tr>
+</tbody></table></div>
+
+<div class="rules">
+<strong>三條黃金規則（每題都要遵守）</strong>
+<ol>
+<li><strong>只綁 Semantic，不綁 Primitives</strong>：背景 <code>color/bg/*</code>、文字 <code>color/text/*</code>、邊框 <code>color/border/*</code>。這樣切 Light/Dark 才會連動。</li>
+<li><strong>間距/圓角綁 Scale 變數</strong>，不要手打數字（padding、gap、radius 綁 <code>space/*</code>、<code>radius/*</code>）。</li>
+<li><strong>文字套 text style、陰影套 shadow style</strong>，不要每次重設 fontSize / effects。</li>
+</ol>
+</div>
+
+<div class="intro-ai">
+<h3>怎麼用 AI 幫你建</h3>
+<p>每題附一段可直接貼給 AI（Claude Code + Figma MCP）的 prompt。要領：指定檔案 key <code>e87BnLqAVr9tTSyCTNP7TX</code>、要求「先盤點變數再動手」、強調「全部綁 Semantic 變數、先說明步驟」。</p>
+</div>
+
+<h2>基礎題 <span class="badge b-green">基礎</span></h2>
+
+<h3>練習 1：Button 變體集</h3>
+<p>建一個 <code>Button</code> component set：</p>
+<ul>
+<li>變體軸：<code>Style = Primary / Secondary / Ghost</code>，<code>State = Default / Hover</code></li>
+<li>Primary：背景 <code>color/brand/primary</code>、hover 換 <code>color/brand/hover</code>、文字 <code>color/text/inverse</code></li>
+<li>Secondary：背景 <code>color/bg/surface</code>、邊框 <code>color/border/default</code>、文字 <code>color/text/primary</code></li>
+<li>Ghost：透明底、文字 <code>color/brand/primary</code></li>
+<li>padding 綁 <code>space/sm</code>（上下）、<code>space/lg</code>（左右）；圓角綁 <code>radius/md</code>；文字套 <code>text/label</code></li>
+</ul>
+<p class="start" style="font-size:.85rem;color:var(--muted)">✓ 範例解答已建在 Figma 分頁「練習1 解答 · Button」，可打開對照。</p>
+<div class="ai"><div class="t">AI 協助</div>
+<pre><code>用 Figma MCP（use_figma）在檔案 e87BnLqAVr9tTSyCTNP7TX 幫我建一個 Button component set。
+變體：Style=Primary/Secondary/Ghost × State=Default/Hover。
+一律綁 Semantic 變數：Primary 背景 color/brand/primary、hover color/brand/hover、文字 color/text/inverse；
+Secondary 背景 color/bg/surface、邊框 color/border/default、文字 color/text/primary；Ghost 透明底、文字 color/brand/primary。
+padding 綁 space/sm 與 space/lg、圓角綁 radius/md、文字套 text/label。先說明步驟再做。</code></pre></div>
+
+<h3>練習 2：Badge 標籤</h3>
+<p>建 <code>Badge</code>，變體 <code>Type = Neutral / Success / Warning / Danger / Info</code>：</p>
+<ul>
+<li>背景用對應 <code>color/status/*</code>（Neutral 用 <code>color/bg/muted</code>）、文字用 <code>color/text/inverse</code></li>
+<li>padding <code>space/xs</code> / <code>space/sm</code>、圓角 <code>radius/full</code>、文字 <code>text/caption</code></li>
+</ul>
+<p class="start" style="font-size:.85rem;color:var(--muted)">✓ 範例解答已建在 Figma 分頁「練習2 解答 · Badge」。</p>
+<div class="ai"><div class="t">AI 協助</div>
+<pre><code>幫我在同一個 Figma 檔建 Badge component set，變體 Type=Neutral/Success/Warning/Danger/Info。
+背景綁 color/status/*（Neutral 用 color/bg/muted），文字 color/text/inverse，
+padding 綁 space/xs、space/sm，圓角 radius/full，文字套 text/caption。</code></pre></div>
+
+<h2>進階題 <span class="badge b-yellow">進階</span></h2>
+
+<h3>練習 3：Input 輸入框（含狀態）</h3>
+<p>建 <code>Input</code>，變體 <code>State = Default / Focus / Error</code>：</p>
+<ul>
+<li>背景 <code>color/bg/surface</code>、文字 <code>color/text/primary</code>、placeholder <code>color/text/secondary</code></li>
+<li>Default 邊框 <code>color/border/default</code>；Focus 邊框 <code>color/brand/primary</code>（加 2px）；Error 邊框 <code>color/status/danger</code></li>
+<li>padding <code>space/md</code>、圓角 <code>radius/md</code></li>
+</ul>
+
+<h3>練習 4：Card 卡片</h3>
+<p>建 <code>Card</code>：背景 <code>color/bg/surface</code>、邊框 <code>color/border/default</code>、圓角 <code>radius/lg</code>、陰影 <code>shadow/md</code>（hover 變體用 <code>shadow/lg</code>）。內含：標題 <code>text/h3</code>（<code>color/text/primary</code>）、內文 <code>text/body</code>（<code>color/text/secondary</code>）、一顆 Primary Button（用練習 1 的元件）。</p>
+<p class="start" style="font-size:.85rem;color:var(--muted)">✓ 範例解答已建在 Figma 分頁「練習4 解答 · Card」（內嵌練習 1 的 Button 實例）。</p>
+<div class="ai"><div class="t">AI 協助</div>
+<pre><code>幫我建 Card 元件（Default/Hover 兩態）：背景 color/bg/surface、邊框 color/border/default、
+圓角 radius/lg、陰影套 shadow/md（hover 用 shadow/lg）。內含 text/h3 標題、text/body 內文，
+並嵌入我先前建的 Button 元件實例。全部綁 Semantic 變數與 style。</code></pre></div>
+
+<h3>練習 5：Alert 提示</h3>
+<p>建 <code>Alert</code>，變體 <code>Type = Success / Warning / Danger / Info</code>：淺色底（提示：可暫用 <code>color/status/*</code> 直接當底，或進階挑戰自建 <code>color/status/*-subtle</code> 語義色）、文字 <code>color/text/primary</code>、左邊 4px 邊框用 <code>color/status/*</code>、圓角 <code>radius/md</code>、padding <code>space/md</code>。</p>
+
+<h2>挑戰題 <span class="badge b-red">挑戰</span></h2>
+
+<h3>練習 6：組一個「設定頁」並支援深色模式</h3>
+<p>用上面做好的元件，組一個實際頁面：</p>
+<ul>
+<li>版面背景綁 <code>color/bg/base</code></li>
+<li>一張 Card 裡放：標題（<code>text/h2</code>）、兩個 Input、一個 Badge、底部 Primary + Secondary 兩顆 Button</li>
+<li>在頁面 frame 上用 <code>setExplicitVariableModeForCollection(Semantic, Dark)</code>，複製一份切成 Dark，做出 Light / Dark 對照</li>
+<li>確認：切到 Dark 時，<strong>沒有任何顏色寫死</strong>（全部跟著變）</li>
+</ul>
+<div class="ai"><div class="t">AI 協助</div>
+<pre><code>幫我用已建好的 Button/Input/Badge/Card 元件，在 Figma 組一個「設定頁」：
+頁面背景綁 color/bg/base，卡片內含 text/h2 標題、兩個 Input、一個 Badge、Primary+Secondary 按鈕。
+然後複製一份，用 setExplicitVariableModeForCollection 把它切成 Semantic 的 Dark 模式，做 Light/Dark 對照。
+最後幫我檢查有沒有哪個節點的顏色是寫死、沒綁變數的。</code></pre></div>
+
+<h3>練習 7：擴充 token（自建語義色）</h3>
+<p>目前 status 色只有實色。請新增一組 <strong>subtle（淺色底）語義色</strong>：</p>
+<ul>
+<li>在 Semantic collection 加 <code>color/status/success-subtle</code> → Light 別名 <code>green/100</code>、Dark 別名 <code>green/900</code></li>
+<li>其餘 warning/danger/info 比照</li>
+<li>再回頭把練習 5 的 Alert 底色改綁這組新變數</li>
+</ul>
+
+<h2>✓ 驗收 Checklist</h2>
+<ul class="check">
+<li>☐ 元件沒有任何寫死的顏色（都綁 Semantic 變數）</li>
+<li>☐ padding / gap / 圓角都綁 Scale 變數，沒有手打數字</li>
+<li>☐ 文字都套 text style、陰影都套 shadow style</li>
+<li>☐ 變體命名用 <code>Property=Value, Property=Value</code> 格式</li>
+<li>☐ 切 Semantic 的 Light ↔ Dark，整個頁面顏色正確連動</li>
+<li>☐ 新增／改一個 primitive 或 semantic，元件自動跟著變</li>
+</ul>
+
+<blockquote>卡住時的通用 prompt：<code>我在用 Figma MCP 練習建 design system，檔案 e87BnLqAVr9tTSyCTNP7TX。請先幫我盤點現有的變數與 style，再一步一步帶我建 &lt;元件名&gt;，全部綁 Semantic 變數，先說明再動手。</code></blockquote>
+</div>
+<script>
+(() => {
+  const wrap = document.querySelector('.wrap');
+  const exercises = [...wrap.querySelectorAll('h3')]
+    .filter((heading) => /^練習\s*\d+/.test(heading.textContent.trim()));
+  if (!exercises.length) return;
+
+  const tabs = document.createElement('section');
+  tabs.className = 'exercise-tabs';
+  tabs.setAttribute('aria-label', 'Figma Design System 練習分頁');
+  tabs.innerHTML = '<div class="tab-list" role="tablist" aria-label="練習列表"></div><div class="tab-panels"></div>';
+  const tabList = tabs.querySelector('.tab-list');
+  const panels = tabs.querySelector('.tab-panels');
+  const codeSamples = {
+    1: String.raw`Button component set
+variants:
+  Style: Primary | Secondary | Ghost
+  State: Default | Hover
+tokens:
+  Primary.bg: color/brand/primary
+  Primary.hover.bg: color/brand/hover
+  Primary.text: color/text/inverse
+  Secondary.bg: color/bg/surface
+  Secondary.border: color/border/default
+  Ghost.text: color/brand/primary
+  padding-y: space/sm
+  padding-x: space/lg
+  radius: radius/md
+  text-style: text/label`,
+    2: String.raw`Badge component set
+variants:
+  Type: Neutral | Success | Warning | Danger | Info
+tokens:
+  Neutral.bg: color/bg/muted
+  Success.bg: color/status/success
+  Warning.bg: color/status/warning
+  Danger.bg: color/status/danger
+  Info.bg: color/status/info
+  text: color/text/inverse
+  padding-y: space/xs
+  padding-x: space/sm
+  radius: radius/full
+  text-style: text/caption`,
+    3: String.raw`Input component set
+variants:
+  State: Default | Focus | Error
+tokens:
+  bg: color/bg/surface
+  text: color/text/primary
+  placeholder: color/text/secondary
+  Default.border: color/border/default
+  Focus.border: color/brand/primary
+  Error.border: color/status/danger
+  padding: space/md
+  radius: radius/md`,
+    4: String.raw`Card component
+variants:
+  State: Default | Hover
+tokens:
+  bg: color/bg/surface
+  border: color/border/default
+  radius: radius/lg
+  shadow.default: shadow/md
+  shadow.hover: shadow/lg
+children:
+  title: text/h3 + color/text/primary
+  body: text/body + color/text/secondary
+  action: Button / Primary instance`,
+    5: String.raw`Alert component set
+variants:
+  Type: Success | Warning | Danger | Info
+tokens:
+  bg: color/status/*-subtle
+  left-border: color/status/*
+  text: color/text/primary
+  radius: radius/md
+  padding: space/md
+layout:
+  left border width: 4px`,
+    6: String.raw`Settings page frame
+tokens:
+  page.bg: color/bg/base
+components:
+  Card
+  Input x 2
+  Badge x 1
+  Button / Primary
+  Button / Secondary
+mode:
+  duplicate frame
+  setExplicitVariableModeForCollection(Semantic, Dark)
+validation:
+  no hard-coded fills
+  no hard-coded text colors
+  semantic variables only`,
+    7: String.raw`Semantic token extension
+variables:
+  color/status/success-subtle:
+    Light: alias green/100
+    Dark: alias green/900
+  color/status/warning-subtle:
+    Light: alias amber/100
+    Dark: alias amber/900
+  color/status/danger-subtle:
+    Light: alias red/100
+    Dark: alias red/900
+  color/status/info-subtle:
+    Light: alias blue/100
+    Dark: alias blue/900
+apply:
+  Alert.bg -> color/status/*-subtle`
+  };
+  const firstSectionHeading = [...wrap.querySelectorAll('h2')]
+    .find((heading) => /基礎題|進階題|挑戰題/.test(heading.textContent));
+  firstSectionHeading.before(tabs);
+
+  exercises.forEach((heading, index) => {
+    const number = (heading.textContent.match(/\d+/) || [index + 1])[0];
+    const id = `exercise-${number}`;
+    const levelHeading = heading.previousElementSibling?.tagName === 'H2'
+      ? heading.previousElementSibling
+      : null;
+    const levelText = levelHeading?.textContent.trim().replace(/\s+/g, ' ');
+    const panel = document.createElement('article');
+    panel.className = `tab-panel${index === 0 ? ' is-active' : ''}`;
+    panel.id = `${id}-panel`;
+    panel.setAttribute('role', 'tabpanel');
+    panel.setAttribute('aria-labelledby', `${id}-tab`);
+    if (index !== 0) panel.hidden = true;
+
+    if (levelText) {
+      const label = document.createElement('div');
+      label.className = 'section-heading';
+      label.textContent = levelText;
+      panel.append(label);
+    }
+
+    let node = heading;
+    while (node) {
+      const next = node.nextElementSibling;
+      panel.append(node);
+      if (!next || next.tagName === 'H3' || next.tagName === 'H2') break;
+      node = next;
+    }
+
+    panel.querySelectorAll('.start').forEach((node) => node.remove());
+    if (codeSamples[number]) {
+      const codeReference = document.createElement('details');
+      codeReference.className = 'code-reference';
+      codeReference.open = true;
+      codeReference.innerHTML = '<summary>Figma MCP 操作參考 / 解答規格</summary><pre><code></code></pre>';
+      codeReference.querySelector('code').textContent = codeSamples[number];
+      panel.append(codeReference);
+    }
+    panels.append(panel);
+
+    const button = document.createElement('button');
+    button.className = 'tab-button';
+    button.id = `${id}-tab`;
+    button.type = 'button';
+    button.setAttribute('role', 'tab');
+    button.setAttribute('aria-controls', panel.id);
+    button.setAttribute('aria-selected', index === 0 ? 'true' : 'false');
+    button.textContent = `練習 ${number}`;
+    tabList.append(button);
+  });
+
+  [...wrap.querySelectorAll('h2')]
+    .filter((heading) => /基礎題|進階題|挑戰題/.test(heading.textContent))
+    .forEach((heading) => heading.remove());
+
+  tabList.addEventListener('click', (event) => {
+    const selected = event.target.closest('.tab-button');
+    if (!selected) return;
+    const targetPanel = document.getElementById(selected.getAttribute('aria-controls'));
+    [...tabList.children].forEach((button) => button.setAttribute('aria-selected', String(button === selected)));
+    [...panels.children].forEach((panel) => {
+      const active = panel === targetPanel;
+      panel.classList.toggle('is-active', active);
+      panel.hidden = !active;
+    });
+  });
+})();
+</script>
+</body>
+</html>

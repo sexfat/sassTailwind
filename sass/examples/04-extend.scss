@@ -1,0 +1,35 @@
+// ============================================
+// 範例 04：繼承 @extend 與 %placeholder
+// ============================================
+
+// % 佔位選擇器：本身不輸出，只給人繼承
+%card-base {
+  padding: 16px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+%text-truncate {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.card {
+  @extend %card-base;
+  background: white;
+
+  .title {
+    @extend %text-truncate;
+    font-weight: bold;
+  }
+}
+
+.card-dark {
+  @extend %card-base;
+  background: #333;
+  color: white;
+}
+
+// 觀察編譯結果：.card 與 .card-dark 的選擇器會被合併，
+// %card-base 的樣式只輸出一份。

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>練習 4｜group-hover 互動卡片（解答）</title>
+  <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+</head>
+<body class="bg-gray-100 p-8 flex justify-center">
+
+  <a href="#" class="group block max-w-sm bg-white rounded-xl shadow p-6
+                     hover:shadow-xl transition">
+    <h3 class="text-lg font-bold text-gray-800 group-hover:text-blue-600 transition">
+      閱讀更多文章
+    </h3>
+    <p class="text-gray-500 mt-1">探索前端開發的最新趨勢與技巧。</p>
+    <span class="inline-flex items-center gap-1 mt-4 text-blue-600 font-medium">
+      前往
+      <!-- 箭頭：整卡 hover 時右移 -->
+      <span class="group-hover:translate-x-1 transition">→</span>
+    </span>
+  </a>
+
+  <script>
+    (() => {
+      const source = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+      document.body.style.flexDirection = 'column';
+      document.body.style.alignItems = 'center';
+      document.body.style.gap = '32px';
+      const details = document.createElement('details');
+      details.open = true;
+      details.style.cssText = 'width:min(900px,100%);background:#111827;color:#e5e7eb;border-radius:12px;overflow:hidden;text-align:left;';
+      details.innerHTML = '<summary style="cursor:pointer;padding:12px 16px;font-weight:700;background:#0f172a;">本頁完整 HTML 程式碼</summary><pre style="margin:0;padding:16px;overflow:auto;font:13px/1.6 ui-monospace,Menlo,Consolas,monospace;"><code></code></pre>';
+      details.querySelector('code').textContent = source;
+      document.body.append(details);
+    })();
+  </script>
+</body>
+</html>

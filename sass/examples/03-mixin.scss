@@ -1,0 +1,55 @@
+// ============================================
+// 範例 03：Mixin（含參數、@content、響應式）
+// ============================================
+
+// 無參數
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+// 帶參數（含預設值）
+@mixin button($bg, $color: white) {
+  background: $bg;
+  color: $color;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+// 響應式斷點 mixin，使用 @content
+@mixin respond($breakpoint) {
+  @if $breakpoint == mobile {
+    @media (max-width: 767px) { @content; }
+  } @else if $breakpoint == tablet {
+    @media (max-width: 1023px) { @content; }
+  } @else if $breakpoint == desktop {
+    @media (min-width: 1024px) { @content; }
+  }
+}
+
+// --- 使用 ---
+.hero {
+  @include flex-center;
+  height: 400px;
+}
+
+.btn-primary { @include button(#3b82f6); }
+.btn-danger  { @include button(#ef4444); }
+.btn-warn    { @include button($bg: #f59e0b, $color: #000); }
+
+.container {
+  width: 1200px;
+  margin: 0 auto;
+
+  @include respond(mobile) {
+    width: 100%;
+    padding: 0 16px;
+  }
+
+  @include respond(tablet) {
+    width: 90%;
+  }
+}

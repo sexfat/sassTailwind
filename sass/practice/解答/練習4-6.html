@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sass 解答：練習 4–6</title>
+<style>
+:root{--bg:#f6f7f9;--text:#172033;--muted:#637083;--brand:#2457c5;--code-bg:#111827;--code-text:#e5e7eb;}
+*{box-sizing:border-box;}
+body{margin:0;font-family:system-ui,-apple-system,"Segoe UI","Noto Sans TC",sans-serif;line-height:1.75;color:var(--text);background:var(--bg);}
+.wrap{max-width:860px;margin:0 auto;padding:40px 24px 80px;}
+h1{font-size:2rem;border-bottom:3px solid var(--brand);padding-bottom:.4em;}
+h2{margin-top:2em;font-size:1.2rem;color:var(--brand);}
+p.desc{color:var(--muted);margin:.2em 0 .6em;}
+pre{background:var(--code-bg);color:var(--code-text);padding:16px 18px;border-radius:10px;overflow-x:auto;}
+pre code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.86rem;line-height:1.6;}
+code{font-family:ui-monospace,Menlo,Consolas,monospace;}
+.nav-back{display:inline-block;margin-bottom:1em;color:var(--brand);text-decoration:none;font-size:.9rem;}
+.tag{display:inline-block;font-size:.72rem;background:#f59e0b;color:#fff;padding:.12em .6em;border-radius:999px;margin-left:.5em;vertical-align:middle;}
+.answer-tabs{margin:1.4em 0 2em;border:1px solid #d9e0ea;background:#fff;border-radius:14px;box-shadow:0 10px 30px rgba(15,23,42,.06);overflow:hidden;}
+.tab-list{display:flex;gap:6px;padding:10px;background:#fef3c7;border-bottom:1px solid #d9e0ea;overflow-x:auto;scrollbar-width:thin;}
+.tab-button{flex:0 0 auto;border:1px solid transparent;background:transparent;color:#475569;border-radius:10px;padding:9px 14px;font:600 .92rem/1.2 system-ui,-apple-system,"Segoe UI","Noto Sans TC",sans-serif;cursor:pointer;white-space:nowrap;transition:background .18s,color .18s,border-color .18s,box-shadow .18s;}
+.tab-button:hover{background:rgba(255,255,255,.72);color:var(--brand);}
+.tab-button:focus-visible{outline:3px solid rgba(36,87,197,.24);outline-offset:2px;}
+.tab-button[aria-selected="true"]{background:#fff;color:var(--brand);border-color:#fde68a;box-shadow:0 6px 16px rgba(36,87,197,.12);}
+.tab-panels{padding:22px 24px 26px;}
+.tab-panel{display:none;}
+.tab-panel.is-active{display:block;}
+.tab-panel h2{margin-top:0;}
+@media (max-width:640px){.wrap{padding:28px 16px 56px;}.tab-list{padding:8px;}.tab-button{padding:8px 10px;font-size:.86rem;}.tab-panels{padding:18px 16px 22px;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<a class="nav-back" href="../練習題.html">← 回練習題</a>
+<h1>解答：練習 4–6 <span class="tag">進階</span></h1>
+<p class="desc">對應原始檔：<code>解答/練習4-6.scss</code>　檔案開頭需 <code>@use 'sass:math';</code></p>
+
+<h2>練習 4：響應式 Mixin</h2>
+<pre><code>@mixin respond($bp) {
+  @if $bp == mobile {
+    @media (max-width: 767px) { @content; }
+  } @else if $bp == tablet {
+    @media (max-width: 1023px) { @content; }
+  }
+}
+
+.container {
+  width: 1200px;
+  margin: 0 auto;
+
+  @include respond(mobile) {
+    width: 100%;
+  }
+}</code></pre>
+
+<h2>練習 5：迴圈生成間距工具類</h2>
+<pre><code>@for $i from 1 through 5 {
+  .m-#{$i} { margin: 4px * $i; }
+  .p-#{$i} { padding: 4px * $i; }
+}</code></pre>
+
+<h2>練習 6：Map + @each</h2>
+<pre><code>$status: (
+  'info': #3b82f6,
+  'success': #22c55e,
+  'warning': #f59e0b,
+  'error': #ef4444,
+);
+
+@each $name, $color in $status {
+  .alert--#{$name} {
+    background: $color;
+    color: white;
+    padding: 12px;
+    border-radius: 6px;
+  }
+}</code></pre>
+</div>
+<script>
+(() => {
+  const wrap = document.querySelector('.wrap');
+  const answers = [...wrap.querySelectorAll('h2')].filter((heading) => /^練習\s*\d+/.test(heading.textContent.trim()));
+  if (!answers.length) return;
+  const tabs = document.createElement('section');
+  tabs.className = 'answer-tabs';
+  tabs.setAttribute('aria-label', 'Sass 解答分頁');
+  tabs.innerHTML = '<div class="tab-list" role="tablist" aria-label="解答列表"></div><div class="tab-panels"></div>';
+  const tabList = tabs.querySelector('.tab-list');
+  const panels = tabs.querySelector('.tab-panels');
+  answers[0].before(tabs);
+
+  answers.forEach((heading, index) => {
+    const number = (heading.textContent.match(/\d+/) || [index + 4])[0];
+    const panel = document.createElement('article');
+    panel.className = `tab-panel${index === 0 ? ' is-active' : ''}`;
+    panel.id = `answer-${number}-panel`;
+    panel.setAttribute('role', 'tabpanel');
+    panel.setAttribute('aria-labelledby', `answer-${number}-tab`);
+    if (index !== 0) panel.hidden = true;
+
+    let node = heading;
+    while (node) {
+      const next = node.nextElementSibling;
+      panel.append(node);
+      if (!next || next.tagName === 'H2') break;
+      node = next;
+    }
+    panels.append(panel);
+
+    const button = document.createElement('button');
+    button.className = 'tab-button';
+    button.id = `answer-${number}-tab`;
+    button.type = 'button';
+    button.setAttribute('role', 'tab');
+    button.setAttribute('aria-controls', panel.id);
+    button.setAttribute('aria-selected', index === 0 ? 'true' : 'false');
+    button.textContent = `練習 ${number}`;
+    tabList.append(button);
+  });
+
+  tabList.addEventListener('click', (event) => {
+    const selected = event.target.closest('.tab-button');
+    if (!selected) return;
+    const targetPanel = document.getElementById(selected.getAttribute('aria-controls'));
+    [...tabList.children].forEach((button) => button.setAttribute('aria-selected', String(button === selected)));
+    [...panels.children].forEach((panel) => {
+      const active = panel === targetPanel;
+      panel.classList.toggle('is-active', active);
+      panel.hidden = !active;
+    });
+  });
+})();
+</script>
+</body>
+</html>

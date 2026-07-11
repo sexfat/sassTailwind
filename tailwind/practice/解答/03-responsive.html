@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>練習 3｜響應式導覽列 + 卡片牆（解答）</title>
+  <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+</head>
+<body class="bg-gray-100 p-8">
+
+  <!-- 導覽列 -->
+  <nav class="flex items-center justify-between bg-white rounded-lg shadow px-6 py-4 mb-8">
+    <div class="text-xl font-bold text-blue-600">LOGO</div>
+    <div class="flex gap-6 text-gray-600">
+      <a href="#" class="hover:text-blue-600">首頁</a>
+      <a href="#" class="hover:text-blue-600">產品</a>
+      <a href="#" class="hover:text-blue-600">聯絡</a>
+    </div>
+  </nav>
+
+  <!-- 卡片牆：手機 1 欄 / md 2 欄 / lg 3 欄 -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div class="bg-white rounded-lg shadow p-6 hover:shadow-xl transition">卡片 1</div>
+    <div class="bg-white rounded-lg shadow p-6 hover:shadow-xl transition">卡片 2</div>
+    <div class="bg-white rounded-lg shadow p-6 hover:shadow-xl transition">卡片 3</div>
+    <div class="bg-white rounded-lg shadow p-6 hover:shadow-xl transition">卡片 4</div>
+    <div class="bg-white rounded-lg shadow p-6 hover:shadow-xl transition">卡片 5</div>
+    <div class="bg-white rounded-lg shadow p-6 hover:shadow-xl transition">卡片 6</div>
+  </div>
+
+  <script>
+    (() => {
+      const source = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+      const details = document.createElement('details');
+      details.open = true;
+      details.style.cssText = 'max-width:900px;margin:32px auto 0;background:#111827;color:#e5e7eb;border-radius:12px;overflow:hidden;text-align:left;';
+      details.innerHTML = '<summary style="cursor:pointer;padding:12px 16px;font-weight:700;background:#0f172a;">本頁完整 HTML 程式碼</summary><pre style="margin:0;padding:16px;overflow:auto;font:13px/1.6 ui-monospace,Menlo,Consolas,monospace;"><code></code></pre>';
+      details.querySelector('code').textContent = source;
+      document.body.append(details);
+    })();
+  </script>
+</body>
+</html>

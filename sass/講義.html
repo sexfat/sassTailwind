@@ -1,0 +1,767 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sass / SCSS 完整講義</title>
+<style>
+:root {
+  color-scheme: light;
+  --bg: #f6f7f9;
+  --surface: #ffffff;
+  --surface-2: #eef4ff;
+  --text: #172033;
+  --muted: #637083;
+  --border: #d9e0ea;
+  --brand: #2457c5;
+  --brand-2: #0f8b8d;
+  --accent: #b45309;
+  --code-bg: #111827;
+  --code-text: #e5e7eb;
+  --warning-bg: #fff7ed;
+  --warning-border: #fb923c;
+  --note-bg: #eff6ff;
+  --note-border: #60a5fa;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans TC", sans-serif;
+  line-height: 1.75;
+  color: var(--text);
+  background: var(--bg);
+}
+a { color: var(--brand); text-decoration: none; }
+a:hover { text-decoration: underline; }
+.site-header {
+  background: linear-gradient(135deg, #12336f, #0f766e);
+  color: #fff;
+  padding: 40px 24px;
+}
+.header-inner { max-width: 1120px; margin: 0 auto; }
+.header-inner h1 { margin: 0 0 12px; font-size: clamp(2rem, 5vw, 3.4rem); line-height: 1.15; letter-spacing: 0; }
+.header-inner p { max-width: 760px; margin: 0; color: #dbeafe; font-size: 1.08rem; }
+.header-actions { margin-top: 20px; display: flex; flex-wrap: wrap; gap: 10px; }
+.home-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  padding: 7px 13px;
+  border: 1px solid rgba(255,255,255,.38);
+  border-radius: 8px;
+  color: #fff;
+  background: rgba(255,255,255,.12);
+}
+.home-link:hover { background: rgba(255,255,255,.2); text-decoration: none; }
+.layout {
+  display: grid;
+  grid-template-columns: minmax(220px, 280px) minmax(0, 1fr);
+  gap: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px;
+}
+.sidebar {
+  position: sticky;
+  top: 16px;
+  align-self: start;
+  max-height: calc(100vh - 32px);
+  overflow: auto;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 16px;
+}
+.sidebar h2 { margin: 0 0 10px; font-size: 1rem; }
+.sidebar a { display: block; padding: 7px 8px; border-radius: 6px; color: #26364d; line-height: 1.35; }
+.sidebar a:hover { background: var(--surface-2); text-decoration: none; }
+.sidebar .home { margin-bottom: 10px; font-weight: 700; color: var(--brand); background: #eef4ff; }
+.sidebar .h3 { padding-left: 20px; font-size: .92rem; color: var(--muted); }
+.content {
+  min-width: 0;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: clamp(20px, 4vw, 44px);
+}
+.content h1, .content h2, .content h3, .content h4 { line-height: 1.35; letter-spacing: 0; }
+.content h1 { margin-top: 0; font-size: clamp(1.9rem, 4vw, 2.8rem); }
+.content h2 { margin-top: 46px; padding-top: 14px; border-top: 1px solid var(--border); font-size: 1.7rem; }
+.content h3 { margin-top: 30px; font-size: 1.28rem; color: #183b78; }
+.content p, .content li { font-size: 1rem; }
+.content code:not(pre code) {
+  background: #eef2f7;
+  color: #9f1239;
+  padding: .12em .35em;
+  border-radius: 4px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+  font-size: .92em;
+}
+.table-wrap { overflow-x: auto; margin: 18px 0; }
+table { width: 100%; border-collapse: collapse; min-width: 560px; background: #fff; }
+th, td { border: 1px solid var(--border); padding: 10px 12px; text-align: left; vertical-align: top; }
+th { background: #eef2f7; font-weight: 700; }
+.callout {
+  margin: 20px 0;
+  padding: 14px 16px;
+  border-left: 5px solid var(--note-border);
+  border-radius: 8px;
+  background: var(--note-bg);
+}
+.callout.warning { border-left-color: var(--warning-border); background: var(--warning-bg); }
+.callout p { margin: 0 0 8px; }
+.callout p:last-child { margin-bottom: 0; }
+.code-wrap { margin: 18px 0 24px; border-radius: 8px; overflow: hidden; background: var(--code-bg); }
+.code-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 12px;
+  background: #0b1220;
+  color: #cbd5e1;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+  font-size: .82rem;
+}
+.copy-code {
+  border: 1px solid #475569;
+  border-radius: 6px;
+  background: #1f2937;
+  color: #e5e7eb;
+  padding: 4px 9px;
+  cursor: pointer;
+  font: inherit;
+}
+.copy-code:hover { background: #334155; }
+pre { margin: 0; padding: 16px; overflow-x: auto; color: var(--code-text); background: var(--code-bg); }
+pre code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; font-size: .94rem; line-height: 1.6; white-space: pre; }
+hr { border: 0; border-top: 1px solid var(--border); margin: 30px 0; }
+.page-links, footer {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px 28px;
+}
+.link-row { display: flex; flex-wrap: wrap; gap: 12px; }
+.link-button {
+  display: inline-flex;
+  align-items: center;
+  min-height: 42px;
+  padding: 8px 14px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--text);
+}
+.link-button:hover { background: var(--surface-2); text-decoration: none; }
+.footer-inner { border-top: 1px solid var(--border); padding-top: 18px; color: var(--muted); }
+@media (max-width: 860px) {
+  .layout { display: block; padding: 16px; }
+  .sidebar { position: static; max-height: none; margin-bottom: 16px; }
+  .content { padding: 20px; }
+  table { min-width: 520px; }
+}
+@media print {
+  body { background: #fff; color: #000; }
+  .site-header { background: #fff; color: #000; padding: 0 0 16px; }
+  .header-inner p { color: #333; }
+  .layout { display: block; max-width: none; padding: 0; }
+  .sidebar, .copy-code, .page-links { display: none !important; }
+  .content { border: 0; padding: 0; }
+  h1, h2, h3, section, .content > h2, .code-wrap, table, .callout { page-break-inside: avoid; break-inside: avoid; }
+  a { color: #000; text-decoration: none; }
+  pre { white-space: pre-wrap; border: 1px solid #999; }
+}
+</style>
+</head>
+<body>
+<header class="site-header"><div class="header-inner"><h1>Sass / SCSS 完整講義</h1><p>完整轉換自 sass/講義.md，保留 12 個章節、所有範例與重點提示。</p><div class="header-actions"><a class="home-link" href="../index.html">回課程首頁</a></div></div></header>
+<div class="layout">
+<nav class="sidebar" aria-label="章節導覽"><h2>章節導覽</h2><a class="home" href="../index.html">回課程首頁</a><a class="h1" href="#sass--scss-完整講義">Sass / SCSS 完整講義</a>
+<a class="h2" href="#目錄">目錄</a>
+<a class="h2" href="#1-什麼是-sass為什麼要用">1. 什麼是 Sass？為什麼要用</a>
+<a class="h3" href="#痛點原生-css-的限制">痛點：原生 CSS 的限制</a>
+<a class="h3" href="#sass-的解法">Sass 的解法</a>
+<a class="h3" href="#scss-vs-sass-語法">SCSS vs Sass 語法</a>
+<a class="h2" href="#2-安裝與編譯">2. 安裝與編譯</a>
+<a class="h3" href="#前置安裝-nodejs">前置：安裝 Node.js</a>
+<a class="h3" href="#方法-anpm（推薦最通用）">方法 A：npm（推薦，最通用）</a>
+<a class="h3" href="#檢查是否安裝成功">檢查是否安裝成功</a>
+<a class="h3" href="#常用編譯參數">常用編譯參數</a>
+<a class="h3" href="#方法-bvs-code-擴充套件（最適合新手）">方法 B：VS Code 擴充套件（最適合新手）</a>
+<a class="h3" href="#方法-c建置工具整合">方法 C：建置工具整合</a>
+<a class="h2" href="#3-變數-variables">3. 變數 Variables</a>
+<a class="h3" href="#變數的資料型態">變數的資料型態</a>
+<a class="h3" href="#變數作用域與-default、global">變數作用域與 <code>!default</code>、<code>!global</code></a>
+<a class="h3" href="#sass-變數-vs-css-自訂屬性（css-variables）">Sass 變數 vs CSS 自訂屬性（CSS Variables）</a>
+<a class="h2" href="#4-巢狀-nesting-與--父選擇器">4. 巢狀 Nesting 與 <code>&amp;</code> 父選擇器</a>
+<a class="h3" href="#父選擇器參照"><code>&amp;</code> 父選擇器參照</a>
+<a class="h3" href="#巢狀屬性">巢狀屬性</a>
+<a class="h2" href="#5-partials-與模組化-use--forward">5. Partials 與模組化 <code>@use</code> / <code>@forward</code></a>
+<a class="h3" href="#partials">Partials</a>
+<a class="h3" href="#use（現代做法取代舊的-import）"><code>@use</code>（現代做法，取代舊的 <code>@import</code>）</a>
+<a class="h3" href="#forward轉發（做給別人用的樣式庫）"><code>@forward</code>：轉發（做給別人用的樣式庫）</a>
+<a class="h3" href="#-關於舊的-import">關於舊的 <code>@import</code></a>
+<a class="h2" href="#6-mixinmixin--include">6. Mixin：<code>@mixin</code> / <code>@include</code></a>
+<a class="h3" href="#基本用法">基本用法</a>
+<a class="h3" href="#帶參數">帶參數</a>
+<a class="h3" href="#可變參數與-content">可變參數與 <code>@content</code></a>
+<a class="h2" href="#7-繼承-extend-與-placeholder">7. 繼承 <code>@extend</code> 與 <code>%placeholder</code></a>
+<a class="h3" href="#extend-vs-mixin-該用哪個"><code>@extend</code> vs <code>@mixin</code> 該用哪個？</a>
+<a class="h2" href="#8-函式-function-與內建函式">8. 函式 <code>@function</code> 與內建函式</a>
+<a class="h3" href="#自訂函式">自訂函式</a>
+<a class="h3" href="#常用內建模組與函式">常用內建模組與函式</a>
+<a class="h2" href="#9-運算-operators">9. 運算 Operators</a>
+<a class="h2" href="#10-控制流程-if--each--for--while">10. 控制流程 <code>@if</code> / <code>@each</code> / <code>@for</code> / <code>@while</code></a>
+<a class="h3" href="#if--else"><code>@if</code> / <code>@else</code></a>
+<a class="h3" href="#each遍歷-list--map"><code>@each</code>：遍歷 List / Map</a>
+<a class="h3" href="#for計數迴圈"><code>@for</code>：計數迴圈</a>
+<a class="h3" href="#while"><code>@while</code></a>
+<a class="h2" href="#11-maps-與-lists">11. Maps 與 Lists</a>
+<a class="h3" href="#lists（清單）">Lists（清單）</a>
+<a class="h3" href="#maps（鍵值對超重要）">Maps（鍵值對，超重要）</a>
+<a class="h2" href="#12-實戰整合元件化的思維">12. 實戰整合：元件化的思維</a>
+<a class="h2" href="#-重點速記">重點速記</a></nav>
+<main class="content">
+<h1 id="sass--scss-完整講義">Sass / SCSS 完整講義</h1>
+<aside class="callout note"><p>Sass（Syntactically Awesome Style Sheets）是最成熟、使用最廣的 <strong>CSS 預處理器（CSS Preprocessor）</strong>。</p><p>它讓你用「變數、巢狀、函式、模組化」等程式語言的能力來寫 CSS，最後編譯成瀏覽器看得懂的純 CSS。</p></aside>
+<h2 id="目錄">目錄</h2>
+<ol><li><a href="#1-什麼是-sass為什麼要用">什麼是 Sass？為什麼要用</a></li><li><a href="#2-安裝與編譯">安裝與編譯</a></li><li><a href="#3-變數-variables">變數 Variables</a></li><li><a href="#4-巢狀-nesting-與--父選擇器">巢狀 Nesting 與 <code>&amp;</code> 父選擇器</a></li><li><a href="#5-partials-與模組化-use--forward">Partials 與模組化 <code>@use</code> / <code>@forward</code></a></li><li><a href="#6-mixinmixin--include">Mixin：<code>@mixin</code> / <code>@include</code></a></li><li><a href="#7-繼承-extend-與-placeholder">繼承 <code>@extend</code> 與 <code>%placeholder</code></a></li><li><a href="#8-函式-function-與內建函式">函式 <code>@function</code> 與內建函式</a></li><li><a href="#9-運算-operators">運算 Operators</a></li><li><a href="#10-控制流程-if--each--for--while">控制流程 <code>@if</code> / <code>@each</code> / <code>@for</code> / <code>@while</code></a></li><li><a href="#11-maps-與-lists">Maps 與 Lists</a></li><li><a href="#12-實戰整合元件化的思維">實戰整合：元件化的思維</a></li></ol>
+<hr>
+<h2 id="1-什麼是-sass為什麼要用">1. 什麼是 Sass？為什麼要用</h2>
+<h3 id="痛點原生-css-的限制">痛點：原生 CSS 的限制</h3>
+<p>原生 CSS 寫大型專案時常遇到：</p>
+<ul><li><strong>重複值難維護</strong>：主色 <code>#3b82f6</code> 散落在幾十個地方，改一次改到手軟。</li><li><strong>沒有巢狀</strong>：選擇器層層重複，<code>.card .header .title</code> 每次都要重打。</li><li><strong>無法重用邏輯</strong>：同一組陰影、漸層、置中技巧到處複製貼上。</li><li><strong>難以模組化</strong>：一個 <code>style.css</code> 動輒上千行。</li></ul>
+<h3 id="sass-的解法">Sass 的解法</h3>
+<p>Sass 提供：<strong>變數、巢狀、mixin、函式、繼承、模組化、控制流程</strong>。寫起來像程式，維護性大幅提升。</p>
+<h3 id="scss-vs-sass-語法">SCSS vs Sass 語法</h3>
+<p>Sass 有兩種語法，<strong>現在幾乎都用 SCSS</strong>：</p>
+<div class="table-wrap"><table><thead><tr><th>特性</th><th>SCSS（<code>.scss</code>）</th><th>Sass 縮排語法（<code>.sass</code>）</th></tr></thead><tbody><tr><td>大括號 <code>{}</code></td><td>有</td><td>無（靠縮排）</td></tr>
+<tr><td>分號 <code>;</code></td><td>有</td><td>無</td></tr>
+<tr><td>與 CSS 相容</td><td>完全相容（CSS 就是合法 SCSS）</td><td>不相容</td></tr>
+<tr><td>推薦度</td><td>推薦</td><td>較少用</td></tr></tbody></table></div>
+<div class="code-wrap"><div class="code-toolbar"><span>scss</span><button type="button" class="copy-code">複製</button></div><pre><code class="language-scss">// SCSS 語法（本教材一律使用這種）
+.button {
+  color: white;
+  background: blue;
+}</code></pre></div>
+<aside class="callout note"><p><strong>重點</strong>：任何合法的 CSS 都是合法的 SCSS，所以你可以把現有 <code>.css</code> 直接改成 <code>.scss</code> 開始漸進導入。</p></aside>
+<hr>
+<h2 id="2-安裝與編譯">2. 安裝與編譯</h2>
+<p>Sass 本身<strong>不能被瀏覽器直接讀取</strong>，必須先「編譯」成 <code>.css</code>。目前官方主推 <strong>Dart Sass</strong>。</p>
+<h3 id="前置安裝-nodejs">前置：安裝 Node.js</h3>
+<p>npm 方式需要先裝 <a href="https://nodejs.org/">Node.js</a>：</p>
+<ul><li>選 <strong>LTS（長期支援）版本</strong>，較穩定。</li><li>建議安裝在系統槽（預設路徑即可）。</li></ul>
+<h3 id="方法-anpm（推薦最通用）">方法 A：npm（推薦，最通用）</h3>
+<div class="code-wrap"><div class="code-toolbar"><span>bash</span><button type="button" class="copy-code">複製</button></div><pre><code class="language-bash"># 全域安裝
+npm install -g sass
+
+# Mac 使用者若遇到權限錯誤，需加 sudo（管理者權限）
+sudo npm install -g sass
+
+# 或裝在專案內
+npm install --save-dev sass
+
+# 編譯單一檔案：來源 → 輸出
+sass input.scss output.css
+
+# 監看模式：存檔就自動重新編譯
+sass --watch input.scss:output.css
+
+# 監看整個資料夾：scss 資料夾 → css 資料夾
+sass --watch scss:css</code></pre></div>
+<aside class="callout note"><p>補充：<code>sass</code> 也支援「空格分隔」寫法，例如 <code>sass style.scss style.css --watch</code>、<code>sass style.scss css/style.css</code>，效果與冒號寫法相同。</p></aside>
+<h3 id="檢查是否安裝成功">檢查是否安裝成功</h3>
+<div class="code-wrap"><div class="code-toolbar"><span>bash</span><button type="button" class="copy-code">複製</button></div><pre><code class="language-bash">sass --version</code></pre></div>
+<p>有正確安裝就會印出 Sass 版本號。</p>
+<h3 id="常用編譯參數">常用編譯參數</h3>
+<div class="code-wrap"><div class="code-toolbar"><span>bash</span><button type="button" class="copy-code">複製</button></div><pre><code class="language-bash"># 輸出樣式：expanded（展開，好讀）/ compressed（壓縮，上線用）
+sass input.scss output.css --style=compressed
+
+# 不產生 source map
+sass input.scss output.css --no-source-map</code></pre></div>
+<h3 id="方法-bvs-code-擴充套件（最適合新手）">方法 B：VS Code 擴充套件（最適合新手）</h3>
+<p>安裝 <strong>Live Sass Compiler</strong> 擴充套件 → 右下角點「Watch Sass」→ 存檔即自動產生 <code>.css</code>。免裝 Node.js。</p>
+<p><strong>自訂輸出設定</strong>：可修改套件設定檔控制輸出格式與路徑。</p>
+<ol><li>開啟命令面板（<code>F1</code> 或 <code>Ctrl + Shift + P</code>）</li><li>輸入 <code>open settings</code></li><li>選擇 <strong>Open Settings (JSON)</strong>，放入以下設定：</li></ol>
+<div class="code-wrap"><div class="code-toolbar"><span>json</span><button type="button" class="copy-code">複製</button></div><pre><code class="language-json">// css 產出設定
+"liveSassCompile.settings.formats": [
+  {
+    "format": "expanded",   // expanded=展開好讀；compressed=壓縮成一行，正式版本用
+    "extensionName": ".css",
+    "savePath": "/css/"     // 輸出路徑，可自行更改
+  }
+]</code></pre></div>
+<h3 id="方法-c建置工具整合">方法 C：建置工具整合</h3>
+<p>實務專案中通常交給 <strong>Vite / Webpack</strong> 處理：</p>
+<div class="code-wrap"><div class="code-toolbar"><span>bash</span><button type="button" class="copy-code">複製</button></div><pre><code class="language-bash">npm install -D sass</code></pre></div>
+<p>Vite 只要安裝 <code>sass</code>，直接 <code>import './style.scss'</code> 就會自動編譯，不需額外設定。</p>
+<hr>
+<h2 id="3-變數-variables">3. 變數 Variables</h2>
+<p>用 <code>$</code> 宣告變數，把重複的值集中管理。</p>
+<div class="code-wrap"><div class="code-toolbar"><span>scss</span><button type="button" class="copy-code">複製</button></div><pre><code class="language-scss">// 定義變數
+$primary: #3b82f6;
+$radius: 8px;
+$font-stack: 'Noto Sans TC', system-ui, sans-serif;
+$spacing: 16px;
+
+.button {
+  background: $primary;
+  border-radius: $radius;
+  font-family: $font-stack;
+  padding: $spacing;
+}</code></pre></div>
+<p>編譯後：</p>
+<div class="code-wrap"><div class="code-toolbar"><span>css</span><button type="button" class="copy-code">複製</button></div><pre><code class="language-css">.button {
+  background: #3b82f6;
+  border-radius: 8px;
+  font-family: 'Noto Sans TC', system-ui, sans-serif;
+  padding: 16px;
+}</code></pre></div>
+<h3 id="變數的資料型態">變數的資料型態</h3>
+<p>Sass 變數可以存放 7 種型態的值：</p>
+<div class="table-wrap"><table><thead><tr><th>型態</th><th>說明</th><th>範例</th></tr></thead><tbody>
+<tr><td>數值 Number</td><td>可帶或不帶單位</td><td><code>12</code>、<code>100px</code></td></tr>
+<tr><td>字串 String</td><td>可帶或不帶引號</td><td><code>'Noto Sans TC'</code>、<code>bold</code></td></tr>
+<tr><td>顏色 Color</td><td>各種顏色表示法</td><td><code>blue</code>、<code>#4cb5fc</code>、<code>hsl(204, 97%, 64%)</code></td></tr>
+<tr><td>列表 List</td><td>空格或逗號分隔</td><td><code>1px 2px 3px</code>、<code>1px, 2px, 3px</code></td></tr>
+<tr><td>地圖 Map</td><td>鍵值對</td><td><code>('primary': blue, 'danger': red)</code></td></tr>
+<tr><td>布林 Boolean</td><td>真／假</td><td><code>true</code>、<code>false</code></td></tr>
+<tr><td>空值 Null</td><td>空</td><td><code>null</code></td></tr>
+</tbody></table></div>
+<div class="code-wrap"><div class="code-toolbar"><span>scss</span><button type="button" class="copy-code">複製</button></div><pre><code class="language-scss">$font-size-h1: 50px;              // 數值
+$font-color:   rgb(255, 81, 0);   // 顏色
+$margin:       10px 20px 30px;    // list
+$is-open:      true;              // 布林
+$empty:        null;              // 空值
+$bg-color: (                      // map
+  'blue':   #0059ff,
+  'yellow': #ffd900,
+  'green':  #73ff00,
+);</code></pre></div>
+<aside class="callout note"><p>Null 常用在 mixin 參數的預設值：某屬性傳 <code>null</code> 時，Sass 會<strong>直接不輸出</strong>該行 CSS（見第 6 章）。</p></aside>
+<h3 id="變數作用域與-default、global">變數作用域與 <code>!default</code>、<code>!global</code></h3>
+<div class="code-wrap"><div class="code-toolbar"><span>scss</span><button type="button" class="copy-code">複製</button></div><pre><code class="language-scss">$color: red;          // 全域變數
+
+.box {
+  $color: blue;       // 區域變數（只在這個區塊有效）
+  color: $color;      // blue
+}
+
+.text {
+  color: $color;      // red（外層的全域值）
+}</code></pre></div>
+<ul><li><code>!default</code>：<strong>只有在該變數尚未被定義時才賦值</strong>，常用於可覆寫的設定檔。</li></ul>
+<div class="code-wrap"><div class="code-toolbar"><span>scss</span><button type="button" class="copy-code">複製</button></div><pre><code class="language-scss">$primary: #3b82f6 !default;  // 若使用者已定義 $primary 就不覆蓋</code></pre></div>
+<ul><li><code>!global</code>：在區域中強制修改全域變數（少用）。</li></ul>
+<h3 id="sass-變數-vs-css-自訂屬性（css-variables）">Sass 變數 vs CSS 自訂屬性（CSS Variables）</h3>
+<div class="table-wrap"><table><thead><tr><th></th><th>Sass 變數 <code>$x</code></th><th>CSS 變數 <code>--x</code></th></tr></thead><tbody><tr><td>生效時機</td><td><strong>編譯時</strong>（編譯後就消失）</td><td><strong>執行時</strong>（瀏覽器讀）</td></tr>
+<tr><td>能被 JS 讀寫</td><td>✗</td><td>✓</td></tr>
+<tr><td>響應 media query / 動態切換</td><td>✗</td><td>✓</td></tr></tbody></table></div>
+<p>兩者可以搭配使用：用 Sass 管理設計 token，用 CSS 變數處理需要執行時切換的東西（例如深色模式）。</p>
+<div class="code-wrap"><div class="code-toolbar"><span>scss</span><button type="button" class="copy-code">複製</button></div><pre><code class="language-scss">:root {
+  --primary: #{$primary};  // 用 #{} 插值把 Sass 值塞進 CSS 變數
+}</code></pre></div>
+<aside class="callout note"><p><code>#{ }</code> 稱為 <strong>插值（Interpolation）</strong>，可把 Sass 的值插入到選擇器、屬性名、字串中。</p></aside>
+<p>只要出現在 <strong>url 路徑／class 名稱／屬性名稱</strong> 這三種位置，就一定要用 <code>#{}</code> 把變數包起來，否則變數不會被展開：</p>
+<div class="code-wrap"><div class="code-toolbar"><span>scss</span><button type="button" class="copy-code">複製</button></div><pre><code class="language-scss">// 1) class 名稱
+.#{$name} { width: 10px; }
+
+// 2) url 路徑
+.box { background-image: url(./images/#{$link}.jpg); }
+
+// 3) 屬性名稱
+.attr { #{$prop}: 10px; }</code></pre></div>
+<hr>
+<h2 id="4-巢狀-nesting-與--父選擇器">4. 巢狀 Nesting 與 <code>&amp;</code> 父選擇器</h2>
+<p>巢狀讓你依照 HTML 結構撰寫，減少重複。</p>
+<div class="code-wrap"><div class="code-toolbar"><span>scss</span><button type="button" class="copy-code">複製</button></div><pre><code class="language-scss">.card {
+  padding: 16px;
+  background: white;
+
+  .title {
+    font-size: 20px;
+    font-weight: bold;
+  }
+
+  .content {
+    color: #666;
+  }
+}</code></pre></div>
+<p>編譯後：</p>
+<div class="code-wrap"><div class="code-toolbar"><span>css</span><button type="button" class="copy-code">複製</button></div><pre><code class="language-css">.card { padding: 16px; background: white; }
+.card .title { font-size: 20px; font-weight: bold; }
+.card .content { color: #666; }</code></pre></div>
+<h3 id="父選擇器參照"><code>&amp;</code> 父選擇器參照</h3>
+<p><code>&amp;</code> 代表「目前的父選擇器」，最常用來寫 <strong>狀態（hover/focus）</strong> 和 <strong>BEM 命名</strong>。</p>
+<div class="code-wrap"><div class="code-toolbar"><span>scss</span><button type="button" class="copy-code">複製</button></div><pre><code class="language-scss">.button {
+  background: $primary;
+
+  &amp;:hover {           // → .button:hover
+    background: darken($primary, 10%);
+  }
+
+  &amp;:focus { outline: 2px solid; }
+
+  &amp;--primary {        // → .button--primary（BEM 修飾子）
+    background: green;
+  }
+
+  &amp;.is-active {       // → .button.is-active
+    font-weight: bold;
+  }
+}</code></pre></div>
+<p><code>&amp;</code> 也可以放在後面，表達「被某個父層包住時」：</p>
+<div class="code-wrap"><div class="code-toolbar"><span>scss</span><button type="button" class="copy-code">複製</button></div><pre><code class="language-scss">.title {
+  color: black;
+
+  .dark-mode &amp; {      // → .dark-mode .title
+    color: white;
+  }
+}</code></pre></div>
+<h3 id="巢狀屬性">巢狀屬性</h3>
+<p>同前綴的屬性也能巢狀（較少用）：</p>
+<div class="code-wrap"><div class="code-toolbar"><span>scss</span><button type="button" class="copy-code">複製</button></div><pre><code class="language-scss">.box {
+  font: {
+    family: sans-serif;
+    size: 16px;
+    weight: bold;
+  }
+}</code></pre></div>
+<aside class="callout warning"><p><strong>巢狀不要超過 3 層</strong>！過深的巢狀會產生冗長、難覆寫、效能差的選擇器，是常見的壞味道。</p></aside>
+<hr>
+<h2 id="5-partials-與模組化-use--forward">5. Partials 與模組化 <code>@use</code> / <code>@forward</code></h2>
+<h3 id="partials">Partials</h3>
+<p>以 <strong>底線開頭</strong> 命名的檔案（如 <code>_variables.scss</code>）稱為 partial，它<strong>不會被單獨編譯成 CSS</strong>，只用來被其他檔案引入。</p>
+<div class="code-wrap"><div class="code-toolbar"><span>text</span><button type="button" class="copy-code">複製</button></div><pre><code>scss/
+├── _variables.scss   # 變數
+├── _mixins.scss      # mixin
+├── _buttons.scss     # 按鈕元件
+└── main.scss         # 主檔，把上面組合起來</code></pre></div>
+<h3 id="use（現代做法取代舊的-import）"><code>@use</code>（現代做法，取代舊的 <code>@import</code>）</h3>
+<div class="code-wrap"><div class="code-toolbar"><span>scss</span><button type="button" class="copy-code">複製</button></div><pre><code class="language-scss">// main.scss
+@use 'variables';
+@use 'mixins';
+@use 'buttons';</code></pre></div>
+<p><code>@use</code> 引入時會有 <strong>命名空間</strong>，預設是檔名：</p>
+<div class="code-wrap"><div class="code-toolbar"><span>scss</span><button type="button" class="copy-code">複製</button></div><pre><code class="language-scss">// _variables.scss
+$primary: #3b82f6;
+
+// main.scss
+@use 'variables';
+
+.button {
+  color: variables.$primary;   // 用「命名空間.變數」存取
+}</code></pre></div>
+<p>可以用 <code>as</code> 改別名，或 <code>as *</code> 拿掉命名空間：</p>
+<div class="code-wrap"><div class="code-toolbar"><span>scss</span><button type="button" class="copy-code">複製</button></div><pre><code class="language-scss">@use 'variables' as v;
+@use 'variables' as *;   // 之後可直接寫 $primary
+
+.button { color: v.$primary; }</code></pre></div>
+<h3 id="forward轉發（做給別人用的樣式庫）"><code>@forward</code>：轉發（做給別人用的樣式庫）</h3>
+<p><code>@forward</code> 讓你把多個 partial 集中成一個入口再對外提供。</p>
+<div class="code-wrap"><div class="code-toolbar"><span>scss</span><button type="button" class="copy-code">複製</button></div><pre><code class="language-scss">// _index.scss（樣式庫入口）
+@forward 'variables';
+@forward 'mixins';
+
+// 使用端
+@use 'index' as lib;</code></pre></div>
+<h3 id="-關於舊的-import">關於舊的 <code>@import</code></h3>
+<p>老教材常見 <code>@import 'variables';</code>。<strong>Sass 官方已宣布逐步淘汰 <code>@import</code></strong>，因為它會造成全域命名衝突、重複載入。<strong>新專案請一律使用 <code>@use</code> / <code>@forward</code></strong>。</p>
+<hr>
+<h2 id="6-mixinmixin--include">6. Mixin：<code>@mixin</code> / <code>@include</code></h2>
+<p>Mixin 是「可重用的樣式片段」，可以帶參數，是 Sass 最強大的功能之一。</p>
+<h3 id="基本用法">基本用法</h3>
+<div class="code-wrap"><div class="code-toolbar"><span>scss</span><button type="button" class="copy-code">複製</button></div><pre><code class="language-scss">@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.box {
+  @include flex-center;   // 引入
+}</code></pre></div>
+<h3 id="帶參數">帶參數</h3>
+<div class="code-wrap"><div class="code-toolbar"><span>scss</span><button type="button" class="copy-code">複製</button></div><pre><code class="language-scss">@mixin button($bg, $color: white) {   // $color 有預設值
+  background: $bg;
+  color: $color;
+  padding: 8px 16px;
+  border-radius: 6px;
+}
+
+.btn-primary { @include button(#3b82f6); }
+.btn-danger  { @include button(#ef4444, white); }
+.btn-warn    { @include button($bg: #f59e0b); }  // 具名參數</code></pre></div>
+<h3 id="可變參數與-content">可變參數與 <code>@content</code></h3>
+<div class="code-wrap"><div class="code-toolbar"><span>scss</span><button type="button" class="copy-code">複製</button></div><pre><code class="language-scss">// 響應式斷點 mixin（超實用！）
+@mixin respond($breakpoint) {
+  @if $breakpoint == mobile {
+    @media (max-width: 767px) { @content; }
+  } @else if $breakpoint == tablet {
+    @media (max-width: 1023px) { @content; }
+  }
+}
+
+.container {
+  width: 1200px;
+
+  @include respond(mobile) {   // @content 會把這個區塊塞進 media query
+    width: 100%;
+  }
+}</code></pre></div>
+<p>編譯後：</p>
+<div class="code-wrap"><div class="code-toolbar"><span>css</span><button type="button" class="copy-code">複製</button></div><pre><code class="language-css">.container { width: 1200px; }
+@media (max-width: 767px) {
+  .container { width: 100%; }
+}</code></pre></div>
+<aside class="callout note"><p><strong>Mixin vs 函式</strong>：mixin 產生「一段 CSS 規則」；函式（下面第 8 章）回傳「一個值」。</p></aside>
+<hr>
+<h2 id="7-繼承-extend-與-placeholder">7. 繼承 <code>@extend</code> 與 <code>%placeholder</code></h2>
+<p><code>@extend</code> 讓一個選擇器繼承另一個選擇器的樣式，做法是<strong>共用選擇器</strong>（而非複製屬性）。</p>
+<div class="code-wrap"><div class="code-toolbar"><span>scss</span><button type="button" class="copy-code">複製</button></div><pre><code class="language-scss">%card-base {          // % 開頭是「佔位選擇器」，本身不會輸出 CSS
+  padding: 16px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,.1);
+}
+
+.card       { @extend %card-base; background: white; }
+.card-dark  { @extend %card-base; background: #333; }</code></pre></div>
+<p>編譯後（注意選擇器被合併，樣式不重複）：</p>
+<div class="code-wrap"><div class="code-toolbar"><span>css</span><button type="button" class="copy-code">複製</button></div><pre><code class="language-css">.card, .card-dark {
+  padding: 16px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,.1);
+}
+.card { background: white; }
+.card-dark { background: #333; }</code></pre></div>
+<h3 id="extend-vs-mixin-該用哪個"><code>@extend</code> vs <code>@mixin</code> 該用哪個？</h3>
+<div class="table-wrap"><table><thead><tr><th></th><th><code>@extend</code> / <code>%placeholder</code></th><th><code>@mixin</code></th></tr></thead><tbody><tr><td>產出</td><td>合併選擇器，CSS 較精簡</td><td>每次複製一份樣式</td></tr>
+<tr><td>能帶參數</td><td>✗</td><td>✓</td></tr>
+<tr><td>能放 media query 內</td><td>有限制，容易出錯</td><td>✓</td></tr>
+<tr><td>建議</td><td>純共用、無參數時</td><td><strong>大多數情況優先用 mixin</strong></td></tr></tbody></table></div>
+<aside class="callout note"><p>實務建議：<strong>不確定就用 mixin</strong>。<code>@extend</code> 在大型專案容易產生非預期的選擇器爆炸。</p></aside>
+<hr>
+<h2 id="8-函式-function-與內建函式">8. 函式 <code>@function</code> 與內建函式</h2>
+<h3 id="自訂函式">自訂函式</h3>
+<p>函式用 <code>@function</code> 定義、<code>@return</code> 回傳一個值。</p>
+<div class="code-wrap"><div class="code-toolbar"><span>scss</span><button type="button" class="copy-code">複製</button></div><pre><code class="language-scss">@function rem($px, $base: 16px) {
+  @return math.div($px, $base) * 1rem;
+}
+
+.title {
+  font-size: rem(24px);   // → 1.5rem
+}</code></pre></div>
+<aside class="callout note"><p>注意：新版 Sass 除法要用 <code>math.div()</code>，需先 <code>@use 'sass:math';</code>。</p></aside>
+<h3 id="常用內建模組與函式">常用內建模組與函式</h3>
+<p>新版 Sass 內建函式分在不同模組，需先 <code>@use</code>：</p>
+<div class="code-wrap"><div class="code-toolbar"><span>scss</span><button type="button" class="copy-code">複製</button></div><pre><code class="language-scss">@use 'sass:math';
+@use 'sass:color';
+@use 'sass:string';
+@use 'sass:list';
+@use 'sass:map';</code></pre></div>
+<p><strong>顏色相關（最常用）</strong>：</p>
+<div class="code-wrap"><div class="code-toolbar"><span>scss</span><button type="button" class="copy-code">複製</button></div><pre><code class="language-scss">color.adjust($primary, $lightness: -10%)   // 調整明度
+color.scale($primary, $lightness: 20%)     // 按比例調整
+color.mix(red, blue, 50%)                  // 混色
+rgba($primary, 0.5)                         // 加透明度</code></pre></div>
+<aside class="callout note"><p>舊寫法 <code>darken()</code> / <code>lighten()</code> / <code>mix()</code> 仍可用，但官方推薦改用 <code>color.adjust</code> / <code>color.scale</code>。</p></aside>
+<p><strong>數學相關</strong>：</p>
+<div class="code-wrap"><div class="code-toolbar"><span>scss</span><button type="button" class="copy-code">複製</button></div><pre><code class="language-scss">math.div(100, 3)     // 除法
+math.round(4.6)      // 5
+math.ceil(4.1)       // 5
+math.percentage(0.5) // 50%
+math.max(1, 5, 3)    // 5</code></pre></div>
+<hr>
+<h2 id="9-運算-operators">9. 運算 Operators</h2>
+<p>Sass 支援數學運算，方便算佈局尺寸。</p>
+<div class="code-wrap"><div class="code-toolbar"><span>scss</span><button type="button" class="copy-code">複製</button></div><pre><code class="language-scss">$gap: 16px;
+
+.col {
+  width: math.div(100%, 3);          // 三欄等寬
+  padding: $gap * 2;                 // 32px
+  margin-bottom: $gap / 2;           // 需用 math.div，見下
+}</code></pre></div>
+<div class="table-wrap"><table><thead><tr><th>運算子</th><th>說明</th></tr></thead><tbody><tr><td><code>+ - * /</code></td><td>加減乘除</td></tr>
+<tr><td><code>%</code></td><td>取餘數</td></tr>
+<tr><td><code>== !=</code></td><td>相等 / 不相等</td></tr>
+<tr><td><code>&lt; &gt; &lt;= &gt;=</code></td><td>比較</td></tr>
+<tr><td><code>and or not</code></td><td>邏輯</td></tr></tbody></table></div>
+<aside class="callout warning"><p><strong>除法陷阱</strong>：<code>/</code> 在 CSS 有特殊意義（如 <code>font: 16px/1.5</code>），Sass 新版已<strong>不建議</strong>用 <code>/</code> 做除法，請改用 <code>math.div(a, b)</code>。</p></aside>
+<p>字串也能用 <code>+</code> 串接：</p>
+<div class="code-wrap"><div class="code-toolbar"><span>scss</span><button type="button" class="copy-code">複製</button></div><pre><code class="language-scss">$name: 'icon';
+.#{$name}-home { content: 'home'; }   // 搭配插值產生 .icon-home</code></pre></div>
+<hr>
+<h2 id="10-控制流程-if--each--for--while">10. 控制流程 <code>@if</code> / <code>@each</code> / <code>@for</code> / <code>@while</code></h2>
+<p>Sass 有像程式語言一樣的流程控制，常用來<strong>自動產生大量重複樣式</strong>。</p>
+<h3 id="if--else"><code>@if</code> / <code>@else</code></h3>
+<div class="code-wrap"><div class="code-toolbar"><span>scss</span><button type="button" class="copy-code">複製</button></div><pre><code class="language-scss">@use 'sass:color';
+
+@mixin text-color($bg) {
+  // 取得 HSL 的明度通道（新版 Dart Sass 寫法）
+  @if color.channel($bg, 'lightness', $space: hsl) &gt; 50% {
+    color: black;      // 淺底配黑字
+  } @else {
+    color: white;      // 深底配白字
+  }
+}</code></pre></div>
+<h3 id="each遍歷-list--map"><code>@each</code>：遍歷 List / Map</h3>
+<div class="code-wrap"><div class="code-toolbar"><span>scss</span><button type="button" class="copy-code">複製</button></div><pre><code class="language-scss">// 遍歷 List
+$sizes: sm, md, lg;
+@each $size in $sizes {
+  .icon-#{$size} { /* ... */ }
+}
+
+// 遍歷 Map（產生一整組顏色工具類）
+$colors: (
+  'primary': #3b82f6,
+  'success': #22c55e,
+  'danger':  #ef4444,
+);
+
+@each $name, $color in $colors {
+  .text-#{$name} { color: $color; }
+  .bg-#{$name}   { background: $color; }
+}</code></pre></div>
+<p>編譯後會自動產生 <code>.text-primary</code>、<code>.bg-primary</code>、<code>.text-success</code>… 一整組。</p>
+<h4 id="實用範例跨瀏覽器前綴">實用範例：跨瀏覽器前綴</h4>
+<p>用 <code>@each</code> 遍歷各家瀏覽器前綴，一次補齊 <code>-webkit-</code>、<code>-moz-</code> 等：</p>
+<div class="code-wrap"><div class="code-toolbar"><span>scss</span><button type="button" class="copy-code">複製</button></div><pre><code class="language-scss">@mixin prefix($property, $value) {
+  @each $prefix in '', -webkit-, -moz-, -ms-, -o- {
+    #{$prefix}#{$property}: $value;
+  }
+}
+
+.box {
+  @include prefix(transform, translateX(10px));
+}</code></pre></div>
+<h4 id="實用範例斷點-map--respond-mixin">實用範例：斷點 map + respond mixin</h4>
+<p>把斷點集中在一份 map，再用 <code>@each</code> 搭配 <code>@if</code> 做出響應式 mixin：</p>
+<div class="code-wrap"><div class="code-toolbar"><span>scss</span><button type="button" class="copy-code">複製</button></div><pre><code class="language-scss">$breakpoints: (
+  small:   480px,
+  medium:  720px,
+  desktop: 988px,
+  large:   1366px,
+);
+
+@mixin respond($name) {
+  @each $viewpoint, $width in $breakpoints {
+    @if $name == $viewpoint {
+      @media all and (min-width: $width) { @content; }
+    }
+  }
+}
+
+.container {
+  @include respond(medium) {
+    width: 100%;
+  }
+}</code></pre></div>
+<h3 id="for計數迴圈"><code>@for</code>：計數迴圈</h3>
+<div class="code-wrap"><div class="code-toolbar"><span>scss</span><button type="button" class="copy-code">複製</button></div><pre><code class="language-scss">// 產生 12 欄網格
+@for $i from 1 through 12 {
+  .col-#{$i} {
+    width: math.percentage(math.div($i, 12));
+  }
+}</code></pre></div>
+<ul><li><code>from 1 through 12</code>：包含 12（1~12）</li><li><code>from 1 to 12</code>：不含 12（1~11）</li></ul>
+<h3 id="while"><code>@while</code></h3>
+<div class="code-wrap"><div class="code-toolbar"><span>scss</span><button type="button" class="copy-code">複製</button></div><pre><code class="language-scss">$i: 6;
+@while $i &gt; 0 {
+  .mt-#{$i} { margin-top: #{$i * 4}px; }
+  $i: $i - 1;
+}</code></pre></div>
+<hr>
+<h2 id="11-maps-與-lists">11. Maps 與 Lists</h2>
+<h3 id="lists（清單）">Lists（清單）</h3>
+<p>以空格或逗號分隔的值集合。</p>
+<div class="code-wrap"><div class="code-toolbar"><span>scss</span><button type="button" class="copy-code">複製</button></div><pre><code class="language-scss">$fonts: 'Noto Sans TC', system-ui, sans-serif;
+$sizes: 8px 16px 24px 32px;
+
+list.nth($sizes, 2)      // 取第 2 個 → 16px（索引從 1 開始）
+list.length($sizes)      // 4</code></pre></div>
+<h3 id="maps（鍵值對超重要）">Maps（鍵值對，超重要）</h3>
+<p>Map 是管理<strong>設計系統 token</strong> 的核心工具。</p>
+<div class="code-wrap"><div class="code-toolbar"><span>scss</span><button type="button" class="copy-code">複製</button></div><pre><code class="language-scss">@use 'sass:map';
+
+$theme: (
+  'primary':   #3b82f6,
+  'secondary': #64748b,
+  'radius':    8px,
+);
+
+.button {
+  background: map.get($theme, 'primary');   // 取值
+  border-radius: map.get($theme, 'radius');
+}
+
+map.has-key($theme, 'primary')   // true
+map.keys($theme)                 // primary, secondary, radius</code></pre></div>
+<p>搭配 <code>@each</code> 就能從一份 map 自動生成整套樣式，是 Sass 模組化的精髓。</p>
+<hr>
+<h2 id="12-實戰整合元件化的思維">12. 實戰整合：元件化的思維</h2>
+<p>把前面所有概念組起來，做一個可維護的按鈕系統：</p>
+<div class="code-wrap"><div class="code-toolbar"><span>scss</span><button type="button" class="copy-code">複製</button></div><pre><code class="language-scss">@use 'sass:map';
+@use 'sass:color';
+
+// 1) 設計 token（Map）
+$buttons: (
+  'primary': #3b82f6,
+  'success': #22c55e,
+  'danger':  #ef4444,
+);
+
+// 2) 共用基礎（mixin）
+@mixin button-base {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background .2s;
+}
+
+// 3) 用迴圈生成各種顏色變體
+.btn {
+  @include button-base;
+
+  @each $name, $color in $buttons {
+    &amp;--#{$name} {
+      background: $color;
+      color: white;
+
+      &amp;:hover {
+        background: color.adjust($color, $lightness: -8%);
+      }
+    }
+  }
+}</code></pre></div>
+<p>這段會產生 <code>.btn--primary</code>、<code>.btn--success</code>、<code>.btn--danger</code>，每個都有對應 hover。<strong>改 map 就能一次調整整套設計</strong>——這就是 Sass 的價值。</p>
+<hr>
+<h2 id="-重點速記">重點速記</h2>
+<ul><li>用 <code>$</code> 定義變數集中管理設計值。</li><li>巢狀不超過 3 層，善用 <code>&amp;</code> 寫狀態與 BEM。</li><li><strong>模組化用 <code>@use</code> / <code>@forward</code>，別再用 <code>@import</code></strong>。</li><li>重用邏輯優先用 <strong>mixin</strong>（可帶參數）；純共用無參數才考慮 <code>@extend</code>。</li><li>除法用 <code>math.div()</code>，顏色用 <code>color.adjust()</code>。</li><li>Map + <code>@each</code> = 自動生成設計系統。</li></ul>
+<p>接著到 <a href="practice/練習題.html">練習題</a> 動手做，並用 <code>examples/</code> 的檔案實際編譯觀察輸出。每一題都附了「AI 協助」示範怎麼問 AI。</p>
+<p style="margin-top:1.5em;"><a href="practice/練習題.html" style="display:inline-block;background:linear-gradient(135deg,#12336f,#0f766e);color:#fff;padding:14px 28px;border-radius:10px;font-weight:700;text-decoration:none;">前往 Sass 練習題 →</a></p>
+</main>
+</div>
+<div class="page-links"><div class="link-row"><a class="link-button" href="../index.html">回課程首頁</a><a class="link-button" href="../tailwind/講義.html">前往 Tailwind 講義</a></div></div>
+<footer><div class="footer-inner">Sass / SCSS 完整講義 | <a href="../index.html">回到 index.html</a></div></footer>
+
+<script>
+(function () {
+  document.querySelectorAll('.copy-code').forEach(function (button) {
+    button.addEventListener('click', function () {
+      var code = button.closest('.code-wrap').querySelector('code').textContent;
+      if (!navigator.clipboard) return;
+      navigator.clipboard.writeText(code).then(function () {
+        var old = button.textContent;
+        button.textContent = '已複製';
+        setTimeout(function () { button.textContent = old; }, 1200);
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,45 @@
+// ============================================
+// 練習 4~6 解答
+// ============================================
+@use 'sass:math';
+
+// --- 練習 4：響應式 Mixin ---
+@mixin respond($bp) {
+  @if $bp == mobile {
+    @media (max-width: 767px) { @content; }
+  } @else if $bp == tablet {
+    @media (max-width: 1023px) { @content; }
+  }
+}
+
+.container {
+  width: 1200px;
+  margin: 0 auto;
+
+  @include respond(mobile) {
+    width: 100%;
+  }
+}
+
+// --- 練習 5：迴圈生成間距工具類 ---
+@for $i from 1 through 5 {
+  .m-#{$i} { margin: 4px * $i; }
+  .p-#{$i} { padding: 4px * $i; }
+}
+
+// --- 練習 6：Map + @each ---
+$status: (
+  'info': #3b82f6,
+  'success': #22c55e,
+  'warning': #f59e0b,
+  'error': #ef4444,
+);
+
+@each $name, $color in $status {
+  .alert--#{$name} {
+    background: $color;
+    color: white;
+    padding: 12px;
+    border-radius: 6px;
+  }
+}

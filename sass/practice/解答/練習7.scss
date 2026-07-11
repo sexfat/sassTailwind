@@ -1,0 +1,29 @@
+// ============================================
+// 練習 7 解答：迷你設計系統
+// 編譯：sass 練習7.scss out.css
+// ============================================
+@use 'sass:color';
+@use '練習7_tokens' as t;
+
+// 共用基礎
+@mixin card-base {
+  padding: t.$card-padding;
+  border-radius: t.$card-radius;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  background: white;
+  transition: box-shadow 0.2s;
+}
+
+.card {
+  @include card-base;
+
+  @each $name, $color in t.$card-themes {
+    &--#{$name} {
+      border-top: 4px solid $color;
+
+      &:hover {
+        box-shadow: 0 8px 24px rgba($color, 0.35);
+      }
+    }
+  }
+}

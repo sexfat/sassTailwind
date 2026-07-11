@@ -1,0 +1,384 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tailwind CSS 練習題</title>
+<style>
+:root{--bg:#f6f7f9;--surface:#fff;--text:#172033;--muted:#637083;--border:#d9e0ea;--brand:#0f766e;--code-bg:#111827;--code-text:#e5e7eb;}
+*{box-sizing:border-box;}
+body{margin:0;font-family:system-ui,-apple-system,"Segoe UI","Noto Sans TC",sans-serif;line-height:1.75;color:var(--text);background:var(--bg);}
+.wrap{max-width:860px;margin:0 auto;padding:40px 24px 80px;}
+h1{font-size:2rem;border-bottom:3px solid var(--brand);padding-bottom:.4em;}
+h2{margin-top:2em;font-size:1.35rem;}
+h3{margin-top:1.6em;font-size:1.1rem;color:var(--brand);}
+blockquote{margin:1em 0;padding:.6em 1em;background:#f0fdfa;border-left:4px solid #2dd4bf;color:#334155;border-radius:0 6px 6px 0;}
+code{background:#eef1f6;padding:.1em .35em;border-radius:4px;font-size:.9em;font-family:ui-monospace,Menlo,Consolas,monospace;}
+ul{padding-left:1.4em;}
+a{color:var(--brand);}
+.badge{display:inline-block;font-size:.75rem;padding:.15em .6em;border-radius:999px;color:#fff;vertical-align:middle;margin-left:.5em;}
+.b-green{background:#22c55e;}.b-yellow{background:#f59e0b;}.b-red{background:#ef4444;}
+.nav-back{display:inline-block;margin-bottom:1em;color:var(--brand);text-decoration:none;font-size:.9rem;}
+.start{font-size:.85rem;color:var(--muted);}
+.intro-ai{margin:1.2em 0;padding:16px 18px;background:#ecfeff;border:1px solid #a5f3fc;border-radius:12px;}
+.intro-ai h3{margin:0 0 .4em;color:#0e7490;}
+.intro-ai ul{margin:.4em 0 0;}
+.ai{margin:.9em 0 0;border:1px solid #a5f3fc;background:#ecfeff;border-radius:10px;padding:12px 14px;}
+.ai .t{font-weight:700;color:#0e7490;font-size:.9rem;margin-bottom:.5em;}
+.ai pre{background:#083344;color:#cffafe;margin:0;padding:14px 16px;border-radius:8px;overflow-x:auto;font-size:.82rem;line-height:1.55;}
+.ai pre code{font-family:ui-monospace,Menlo,Consolas,monospace;background:none;padding:0;}
+.ai .tip{font-size:.82rem;color:#4b5563;margin:.5em 0 0;}
+.figref{margin:.6em 0 .2em;font-size:.88rem;background:#f0f9ff;border:1px solid #bae6fd;border-radius:8px;padding:8px 12px;}
+.figref a{font-weight:600;}
+.exercise-tabs{margin:1.6em 0 2em;border:1px solid var(--border);background:var(--surface);border-radius:14px;box-shadow:0 10px 30px rgba(15,23,42,.06);overflow:hidden;}
+.tab-list{display:flex;gap:6px;padding:10px;background:#ccfbf1;border-bottom:1px solid var(--border);overflow-x:auto;scrollbar-width:thin;}
+.tab-button{flex:0 0 auto;border:1px solid transparent;background:transparent;color:#475569;border-radius:10px;padding:9px 14px;font:600 .92rem/1.2 system-ui,-apple-system,"Segoe UI","Noto Sans TC",sans-serif;cursor:pointer;white-space:nowrap;transition:background .18s,color .18s,border-color .18s,box-shadow .18s;}
+.tab-button:hover{background:rgba(255,255,255,.72);color:var(--brand);}
+.tab-button:focus-visible{outline:3px solid rgba(15,118,110,.24);outline-offset:2px;}
+.tab-button[aria-selected="true"]{background:var(--surface);color:var(--brand);border-color:#99f6e4;box-shadow:0 6px 16px rgba(15,118,110,.12);}
+.tab-panels{padding:22px 24px 26px;}
+.tab-panel{display:none;}
+.tab-panel.is-active{display:block;}
+.tab-panel h3{margin-top:0;}
+.answer-link{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:1em 0;padding:10px 12px;background:#f8fafc;border:1px solid var(--border);border-radius:10px;color:var(--muted);font-size:.9rem;}
+.answer-link a{color:var(--brand);font-weight:700;text-decoration:none;}
+.answer-link a:hover{text-decoration:underline;}
+.code-reference{margin:1em 0;border:1px solid var(--border);border-radius:10px;background:#f8fafc;overflow:hidden;}
+.code-reference summary{cursor:pointer;padding:10px 12px;font-weight:800;color:var(--brand);}
+.code-reference pre{margin:0;background:var(--code-bg);color:var(--code-text);padding:16px 18px;border-radius:0;border-top:1px solid var(--border);overflow-x:auto;}
+.code-reference pre code{background:none;color:inherit;padding:0;font:400 .84rem/1.6 ui-monospace,Menlo,Consolas,monospace;}
+.section-heading{margin:0 0 .75em;color:#475569;font-size:.85rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;}
+@media (max-width:640px){
+  .wrap{padding:28px 16px 56px;}
+  .tab-list{padding:8px;}
+  .tab-button{padding:8px 10px;font-size:.86rem;}
+  .tab-panels{padding:18px 16px 22px;}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+<a class="nav-back" href="../講義.html">← 回 Tailwind 講義</a>
+<h1>Tailwind CSS 練習題</h1>
+<blockquote>每題都有一個 <code>起始檔</code> 供你動手，<code>解答/</code> 資料夾有完整答案。用瀏覽器（或 VS Code Live Server）打開 HTML 即可即時看效果。所有練習皆用 Play CDN，不需安裝。回 <a href="../講義.html">Tailwind 講義</a>。</blockquote>
+
+<div class="intro-ai">
+<h3>怎麼用 AI 幫你學（先看這裡）</h3>
+<p>每題下方都有一個「AI 協助」框，附上可直接複製的 prompt。用 AI 學 Tailwind 的 4 個要領：</p>
+<ul>
+<li><strong>指定版本</strong>：說「請用 Tailwind CSS v4、Play CDN」，避免 AI 給到過時的 config 寫法。</li>
+<li><strong>用「需求」描述，讓 AI 給你 class</strong>：例如「元素要置中、白底、圓角、陰影，該用哪些 utility class？」</li>
+<li><strong>先要提示再要完整碼</strong>：加「先列出會用到的 class 清單並解釋，再讓我自己組」。</li>
+<li><strong>貼 HTML 請它優化</strong>：把你的 HTML 貼上，問「怎麼改成 RWD？」「這串 class 有沒有更簡潔的寫法？」</li>
+</ul>
+</div>
+
+<h2>基礎題 <span class="badge b-green">基礎</span></h2>
+
+<h3>練習 1：個人名片</h3>
+<p class="figref">Figma 參考樣式：<a href="https://www.figma.com/design/e87BnLqAVr9tTSyCTNP7TX/?node-id=25-7" target="_blank" rel="noopener">開啟「TW 01 名片」畫面</a></p>
+<p>做一張置中的名片：</p>
+<ul>
+<li>頁面背景灰色（<code>bg-gray-100</code>），名片用白底、圓角、陰影、內距。</li>
+<li>名片寬度最大 <code>max-w-sm</code>，水平置中（<code>mx-auto</code>）。</li>
+<li>內含：姓名（大字粗體）、職稱（灰字小字）、一個藍色按鈕「聯絡我」。</li>
+<li>按鈕 hover 時變深藍。</li>
+</ul>
+<div class="ai"><div class="t">AI 協助 · 可以這樣問</div>
+<pre><code>我在學 Tailwind CSS v4（Play CDN）。要做一張置中名片：
+頁面 bg-gray-100、名片白底＋圓角＋陰影＋內距、max-w-sm 水平置中，
+內含姓名(大字粗體)、職稱(灰字小字)、藍色按鈕「聯絡我」，按鈕 hover 變深藍。
+請先「列出會用到的 utility class 並解釋」，不要直接給完整 HTML。</code></pre>
+<p class="tip">追問：「水平置中除了 mx-auto 還有哪些做法？差在哪？」</p></div>
+
+<h3>練習 2：水平垂直置中的登入框</h3>
+<p class="figref">Figma 參考樣式：<a href="https://www.figma.com/design/e87BnLqAVr9tTSyCTNP7TX/?node-id=25-14" target="_blank" rel="noopener">開啟「TW 02 登入」畫面</a></p>
+<ul>
+<li>整個畫面高度滿版（<code>min-h-screen</code>），登入框在正中央。</li>
+<li>框內：標題、一個 <code>input</code>（有 border、圓角、<code>focus:ring</code>）、一個滿寬按鈕。</li>
+</ul>
+<div class="ai"><div class="t">AI 協助 · 可以這樣問</div>
+<pre><code>Tailwind v4：我要一個「整頁高度、登入框在正中央」的版面。
+請教我用 min-h-screen + flex + items-center + justify-center 做垂直水平置中，
+框內有標題、input(border+圓角+focus:ring)、滿寬按鈕(w-full)。
+先解釋這幾個置中相關 class 各自負責什麼，再讓我組。</code></pre>
+<p class="tip">focus:ring 沒反應時，貼上 input 那行問：「為什麼點下去沒有外框光暈？」</p></div>
+
+<h2>進階題 <span class="badge b-yellow">進階</span></h2>
+
+<h3>練習 3：響應式導覽列 + 卡片牆</h3>
+<p class="figref">Figma 參考樣式：<a href="https://www.figma.com/design/e87BnLqAVr9tTSyCTNP7TX/?node-id=25-21" target="_blank" rel="noopener">開啟「TW 03 響應式」畫面</a></p>
+<ul>
+<li>頂部導覽列：左邊 LOGO、右邊三個連結，兩端對齊、垂直置中。</li>
+<li>下方卡片牆：<strong>手機 1 欄、平板（md）2 欄、桌機（lg）3 欄</strong>，<code>gap-6</code>。</li>
+<li>每張卡片 hover 時陰影加深。</li>
+</ul>
+<div class="ai"><div class="t">AI 協助 · 可以這樣問</div>
+<pre><code>Tailwind v4 響應式：請教我 mobile-first 斷點觀念。
+我要一個導覽列(左 LOGO、右三連結，兩端對齊垂直置中)，
+下面卡片牆用 grid：手機 1 欄、md 2 欄、lg 3 欄、gap-6，卡片 hover 陰影加深。
+請先解釋「沒有前綴 = 手機，md:/lg: 往上加」，再列出 grid 相關 class。</code></pre>
+<p class="tip">追問：「grid-cols-1 md:grid-cols-2 lg:grid-cols-3 為什麼要從小寫到大？反過來寫會怎樣？」</p></div>
+
+<h3>練習 4：group-hover 互動卡片</h3>
+<p class="figref">Figma 參考樣式：<a href="https://www.figma.com/design/e87BnLqAVr9tTSyCTNP7TX/?node-id=25-41" target="_blank" rel="noopener">開啟「TW 04 group」畫面</a></p>
+<p>做一張卡片，滑鼠移到<strong>整張卡</strong>時：</p>
+<ul>
+<li>卡片陰影加深</li>
+<li>標題文字變色</li>
+<li>卡片內的「箭頭 →」向右移動一點（提示：<code>group-hover:translate-x-1</code>）</li>
+</ul>
+<div class="ai"><div class="t">AI 協助 · 可以這樣問</div>
+<pre><code>Tailwind v4：請教我 group / group-hover 的用法。
+我要一張卡片，滑鼠移到「整張卡」時：陰影加深、標題變色、內部箭頭 → 向右移(translate-x-1)。
+請先解釋：父層加 group、子層用 group-hover: 前綴的運作原理，
+以及為什麼是 hover 父層而不是子層自己。再讓我試寫。</code></pre>
+<p class="tip">進階：問「group 和 peer 差在哪？什麼情境該用哪個？」</p></div>
+
+<h2>挑戰題 <span class="badge b-red">挑戰</span></h2>
+
+<h3>練習 5：可切換的深色模式價目表</h3>
+<p class="figref">Figma 參考樣式：<a href="https://www.figma.com/design/e87BnLqAVr9tTSyCTNP7TX/?node-id=26-2" target="_blank" rel="noopener">開啟「TW 05 價目表」畫面（含淺/深色）</a></p>
+<ul>
+<li>用 <code>@theme</code> 自訂一個品牌色。</li>
+<li>做三欄式價目表（Free / Pro / Team），Pro 方案要用品牌色外框「突顯」。</li>
+<li>右上角一個按鈕可切換深色模式，整頁在深/淺色都要好看（善用 <code>dark:</code>）。</li>
+<li>桌機三欄、手機一欄（RWD）。</li>
+</ul>
+<div class="ai"><div class="t">AI 協助 · 可以這樣問（挑戰題建議分段問）</div>
+<pre><code>我要用 Tailwind v4（Play CDN）做「可切換深色模式的三欄價目表」，請分步驟帶我：
+步驟1：怎麼在 CDN 頁面用 @theme 自訂一個品牌色？
+步驟2：三欄價目表(Free/Pro/Team)，桌機 3 欄手機 1 欄，Pro 用品牌色外框突顯。
+步驟3：右上角按鈕切換深色模式(class 策略)，並用 dark: 讓深/淺色都好看。
+每步先解釋再給範例，讓我逐步完成。</code></pre>
+<p class="tip">深色模式切換牽涉一小段 JS（toggle html 的 class）。可單獨問：「請給我切換 dark class 的最小 JS。」</p></div>
+</div>
+<script>
+(() => {
+  const startSamples = {
+    1: String.raw`<body class="p-8">
+  <div>
+    <h2>王小明</h2>
+    <p>前端工程師</p>
+    <button>聯絡我</button>
+  </div>
+</body>`,
+    2: String.raw`<body>
+  <div>
+    <h1>會員登入</h1>
+    <input type="email" placeholder="Email" />
+    <button>登入</button>
+  </div>
+</body>`,
+    3: String.raw`<body class="bg-gray-100 p-8">
+  <nav>
+    <div>LOGO</div>
+    <div>
+      <a href="#">首頁</a>
+      <a href="#">產品</a>
+      <a href="#">聯絡</a>
+    </div>
+  </nav>
+
+  <div>
+    <div>卡片 1</div>
+    <div>卡片 2</div>
+    <div>卡片 3</div>
+    <div>卡片 4</div>
+    <div>卡片 5</div>
+    <div>卡片 6</div>
+  </div>
+</body>`,
+    4: String.raw`<body class="bg-gray-100 p-8 flex justify-center">
+  <a href="#">
+    <h3>閱讀更多文章</h3>
+    <p>探索前端開發的最新趨勢與技巧。</p>
+    <span>前往 <span>→</span></span>
+  </a>
+</body>`,
+    5: String.raw`<body>
+  <div>
+    <button>切換深/淺色</button>
+    <div>
+      <div>Free</div>
+      <div>Pro</div>
+      <div>Team</div>
+    </div>
+  </div>
+</body>`
+  };
+  const answerSamples = {
+    1: String.raw`<body class="bg-gray-100 p-8">
+  <div class="max-w-sm mx-auto bg-white rounded-xl shadow-lg p-6 text-center">
+    <h2 class="text-2xl font-bold text-gray-800">王小明</h2>
+    <p class="text-sm text-gray-500 mt-1 mb-4">前端工程師</p>
+    <button class="px-5 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-700 transition">
+      聯絡我
+    </button>
+  </div>
+</body>`,
+    2: String.raw`<body class="min-h-screen bg-gray-100 flex items-center justify-center p-4">
+  <div class="w-full max-w-sm bg-white rounded-xl shadow-lg p-8">
+    <h1 class="text-2xl font-bold text-gray-800 text-center mb-6">會員登入</h1>
+    <input type="email" placeholder="Email"
+           class="w-full border border-gray-300 rounded-lg px-4 py-2 mb-4
+                  focus:outline-none focus:ring-2 focus:ring-blue-400" />
+    <button class="w-full py-2.5 bg-blue-500 text-white rounded-lg font-medium
+                   hover:bg-blue-700 transition">
+      登入
+    </button>
+  </div>
+</body>`,
+    3: String.raw`<body class="bg-gray-100 p-8">
+  <nav class="flex items-center justify-between bg-white rounded-lg shadow px-6 py-4 mb-8">
+    <div class="text-xl font-bold text-blue-600">LOGO</div>
+    <div class="flex gap-6 text-gray-600">
+      <a href="#" class="hover:text-blue-600">首頁</a>
+      <a href="#" class="hover:text-blue-600">產品</a>
+      <a href="#" class="hover:text-blue-600">聯絡</a>
+    </div>
+  </nav>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div class="bg-white rounded-lg shadow p-6 hover:shadow-xl transition">卡片 1</div>
+    <div class="bg-white rounded-lg shadow p-6 hover:shadow-xl transition">卡片 2</div>
+    <div class="bg-white rounded-lg shadow p-6 hover:shadow-xl transition">卡片 3</div>
+    <div class="bg-white rounded-lg shadow p-6 hover:shadow-xl transition">卡片 4</div>
+    <div class="bg-white rounded-lg shadow p-6 hover:shadow-xl transition">卡片 5</div>
+    <div class="bg-white rounded-lg shadow p-6 hover:shadow-xl transition">卡片 6</div>
+  </div>
+</body>`,
+    4: String.raw`<body class="bg-gray-100 p-8 flex justify-center">
+  <a href="#" class="group block max-w-sm bg-white rounded-xl shadow p-6
+                     hover:shadow-xl transition">
+    <h3 class="text-lg font-bold text-gray-800 group-hover:text-blue-600 transition">
+      閱讀更多文章
+    </h3>
+    <p class="text-gray-500 mt-1">探索前端開發的最新趨勢與技巧。</p>
+    <span class="inline-flex items-center gap-1 mt-4 text-blue-600 font-medium">
+      前往
+      <span class="group-hover:translate-x-1 transition">→</span>
+    </span>
+  </a>
+</body>`,
+    5: String.raw`<style type="text/tailwindcss">
+  @custom-variant dark (&:where(.dark, .dark *));
+  @theme {
+    --color-brand: #6366f1;
+    --color-brand-dark: #4f46e5;
+  }
+</style>
+
+<body class="min-h-screen bg-gray-50 text-gray-900 dark:bg-gray-900 dark:text-gray-100 transition-colors p-8">
+  <div class="max-w-5xl mx-auto">
+    <div class="flex items-center justify-between mb-10">
+      <div>
+        <h1 class="text-3xl font-bold">選擇你的方案</h1>
+        <p class="text-gray-500 dark:text-gray-400 mt-1">隨時可升級或取消</p>
+      </div>
+      <button onclick="document.documentElement.classList.toggle('dark')"
+              class="px-4 py-2 rounded-lg bg-brand text-white hover:bg-brand-dark transition">
+        切換深/淺色
+      </button>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div class="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 p-8">Free</div>
+      <div class="bg-white dark:bg-gray-800 rounded-2xl border-2 border-brand p-8 shadow-xl md:-translate-y-2">Pro</div>
+      <div class="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 p-8">Team</div>
+    </div>
+  </div>
+</body>`
+  };
+  const wrap = document.querySelector('.wrap');
+  const exercises = [...wrap.querySelectorAll('h3')]
+    .filter((heading) => /^練習\s*\d+/.test(heading.textContent.trim()));
+  if (!exercises.length) return;
+
+  const tabs = document.createElement('section');
+  tabs.className = 'exercise-tabs';
+  tabs.setAttribute('aria-label', 'Tailwind 練習分頁');
+  tabs.innerHTML = '<div class="tab-list" role="tablist" aria-label="練習列表"></div><div class="tab-panels"></div>';
+  const tabList = tabs.querySelector('.tab-list');
+  const panels = tabs.querySelector('.tab-panels');
+  const firstSectionHeading = [...wrap.querySelectorAll('h2')]
+    .find((heading) => /基礎題|進階題|挑戰題/.test(heading.textContent));
+  firstSectionHeading.before(tabs);
+
+  exercises.forEach((heading, index) => {
+    const number = (heading.textContent.match(/\d+/) || [index + 1])[0];
+    const id = `exercise-${number}`;
+    const levelHeading = heading.previousElementSibling?.tagName === 'H2'
+      ? heading.previousElementSibling
+      : null;
+    const levelText = levelHeading?.textContent.trim().replace(/\s+/g, ' ');
+    const panel = document.createElement('article');
+    panel.className = `tab-panel${index === 0 ? ' is-active' : ''}`;
+    panel.id = `${id}-panel`;
+    panel.setAttribute('role', 'tabpanel');
+    panel.setAttribute('aria-labelledby', `${id}-tab`);
+    if (index !== 0) panel.hidden = true;
+
+    if (levelText) {
+      const label = document.createElement('div');
+      label.className = 'section-heading';
+      label.textContent = levelText;
+      panel.append(label);
+    }
+
+    let node = heading;
+    while (node) {
+      const next = node.nextElementSibling;
+      panel.append(node);
+      if (!next || next.tagName === 'H3' || next.tagName === 'H2') break;
+      node = next;
+    }
+
+    panel.querySelectorAll('.start').forEach((node) => node.remove());
+    if (startSamples[number]) {
+      const startReference = document.createElement('details');
+      startReference.className = 'code-reference';
+      startReference.innerHTML = '<summary>起始程式碼</summary><pre><code></code></pre>';
+      startReference.querySelector('code').textContent = startSamples[number];
+      panel.append(startReference);
+    }
+    if (answerSamples[number]) {
+      const codeReference = document.createElement('details');
+      codeReference.className = 'code-reference';
+      codeReference.open = true;
+      codeReference.innerHTML = '<summary>解答程式碼</summary><pre><code></code></pre>';
+      codeReference.querySelector('code').textContent = answerSamples[number];
+      panel.append(codeReference);
+    }
+    panels.append(panel);
+
+    const button = document.createElement('button');
+    button.className = 'tab-button';
+    button.id = `${id}-tab`;
+    button.type = 'button';
+    button.setAttribute('role', 'tab');
+    button.setAttribute('aria-controls', panel.id);
+    button.setAttribute('aria-selected', index === 0 ? 'true' : 'false');
+    button.textContent = `練習 ${number}`;
+    tabList.append(button);
+  });
+
+  [...wrap.querySelectorAll('h2')]
+    .filter((heading) => /基礎題|進階題|挑戰題/.test(heading.textContent))
+    .forEach((heading) => heading.remove());
+
+  tabList.addEventListener('click', (event) => {
+    const selected = event.target.closest('.tab-button');
+    if (!selected) return;
+    const targetPanel = document.getElementById(selected.getAttribute('aria-controls'));
+    [...tabList.children].forEach((button) => button.setAttribute('aria-selected', String(button === selected)));
+    [...panels.children].forEach((panel) => {
+      const active = panel === targetPanel;
+      panel.classList.toggle('is-active', active);
+      panel.hidden = !active;
+    });
+  });
+})();
+</script>
+</body>
+</html>

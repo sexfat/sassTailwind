@@ -1,0 +1,9 @@
+// Partial：設計 token（練習 7 用）
+$card-radius: 12px !default;
+$card-padding: 20px !default;
+
+$card-themes: (
+  'primary': #6366f1,
+  'success': #22c55e,
+  'danger':  #ef4444,
+) !default;
