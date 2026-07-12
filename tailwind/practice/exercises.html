@@ -55,12 +55,13 @@ a{color:var(--brand);}
   .tab-panels{padding:18px 16px 22px;}
 }
 </style>
+<link rel="stylesheet" href="../../assets/code-copy.css">
 </head>
 <body>
 <div class="wrap">
-<a class="nav-back" href="../講義.html">← 回 Tailwind 講義</a>
+<a class="nav-back" href="../guide.html">← 回 Tailwind 講義</a>
 <h1>Tailwind CSS 練習題</h1>
-<blockquote>每題都有一個 <code>起始檔</code> 供你動手，<code>解答/</code> 資料夾有完整答案。用瀏覽器（或 VS Code Live Server）打開 HTML 即可即時看效果。所有練習皆用 Play CDN，不需安裝。回 <a href="../講義.html">Tailwind 講義</a>。</blockquote>
+<blockquote>每題都有一個 <code>起始檔</code> 供你動手，<code>answers/</code> 資料夾有完整答案。用瀏覽器（或 VS Code Live Server）打開 HTML 即可即時看效果。所有練習皆用 Play CDN，不需安裝。回 <a href="../guide.html">Tailwind 講義</a>。</blockquote>
 
 <div class="intro-ai">
 <h3>怎麼用 AI 幫你學（先看這裡）</h3>
@@ -162,14 +163,14 @@ a{color:var(--brand);}
     <p>前端工程師</p>
     <button>聯絡我</button>
   </div>
-</body>`,
+</${'body'}>`,
     2: String.raw`<body>
   <div>
     <h1>會員登入</h1>
     <input type="email" placeholder="Email" />
     <button>登入</button>
   </div>
-</body>`,
+</${'body'}>`,
     3: String.raw`<body class="bg-gray-100 p-8">
   <nav>
     <div>LOGO</div>
@@ -188,14 +189,14 @@ a{color:var(--brand);}
     <div>卡片 5</div>
     <div>卡片 6</div>
   </div>
-</body>`,
+</${'body'}>`,
     4: String.raw`<body class="bg-gray-100 p-8 flex justify-center">
   <a href="#">
     <h3>閱讀更多文章</h3>
     <p>探索前端開發的最新趨勢與技巧。</p>
     <span>前往 <span>→</span></span>
   </a>
-</body>`,
+</${'body'}>`,
     5: String.raw`<body>
   <div>
     <button>切換深/淺色</button>
@@ -205,7 +206,7 @@ a{color:var(--brand);}
       <div>Team</div>
     </div>
   </div>
-</body>`
+</${'body'}>`
   };
   const answerSamples = {
     1: String.raw`<body class="bg-gray-100 p-8">
@@ -216,7 +217,7 @@ a{color:var(--brand);}
       聯絡我
     </button>
   </div>
-</body>`,
+</${'body'}>`,
     2: String.raw`<body class="min-h-screen bg-gray-100 flex items-center justify-center p-4">
   <div class="w-full max-w-sm bg-white rounded-xl shadow-lg p-8">
     <h1 class="text-2xl font-bold text-gray-800 text-center mb-6">會員登入</h1>
@@ -228,7 +229,7 @@ a{color:var(--brand);}
       登入
     </button>
   </div>
-</body>`,
+</${'body'}>`,
     3: String.raw`<body class="bg-gray-100 p-8">
   <nav class="flex items-center justify-between bg-white rounded-lg shadow px-6 py-4 mb-8">
     <div class="text-xl font-bold text-blue-600">LOGO</div>
@@ -247,7 +248,7 @@ a{color:var(--brand);}
     <div class="bg-white rounded-lg shadow p-6 hover:shadow-xl transition">卡片 5</div>
     <div class="bg-white rounded-lg shadow p-6 hover:shadow-xl transition">卡片 6</div>
   </div>
-</body>`,
+</${'body'}>`,
     4: String.raw`<body class="bg-gray-100 p-8 flex justify-center">
   <a href="#" class="group block max-w-sm bg-white rounded-xl shadow p-6
                      hover:shadow-xl transition">
@@ -260,14 +261,14 @@ a{color:var(--brand);}
       <span class="group-hover:translate-x-1 transition">→</span>
     </span>
   </a>
-</body>`,
+</${'body'}>`,
     5: String.raw`<style type="text/tailwindcss">
   @custom-variant dark (&:where(.dark, .dark *));
   @theme {
     --color-brand: #6366f1;
     --color-brand-dark: #4f46e5;
   }
-</style>
+</${'style'}>
 
 <body class="min-h-screen bg-gray-50 text-gray-900 dark:bg-gray-900 dark:text-gray-100 transition-colors p-8">
   <div class="max-w-5xl mx-auto">
@@ -288,7 +289,7 @@ a{color:var(--brand);}
       <div class="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 p-8">Team</div>
     </div>
   </div>
-</body>`
+</${'body'}>`
   };
   const wrap = document.querySelector('.wrap');
   const exercises = [...wrap.querySelectorAll('h3')]
@@ -304,6 +305,18 @@ a{color:var(--brand);}
   const firstSectionHeading = [...wrap.querySelectorAll('h2')]
     .find((heading) => /基礎題|進階題|挑戰題/.test(heading.textContent));
   firstSectionHeading.before(tabs);
+
+  const guardAnswerDetails = (details) => {
+    details.dataset.confirmRequired = 'true';
+    details.addEventListener('click', (event) => {
+      if (details.open || details.dataset.confirmed === 'true') return;
+      event.preventDefault();
+      const ok = window.confirm('確定要查看解答程式碼嗎？建議先自己完成再打開。');
+      if (!ok) return;
+      details.dataset.confirmed = 'true';
+      details.open = true;
+    });
+  };
 
   exercises.forEach((heading, index) => {
     const number = (heading.textContent.match(/\d+/) || [index + 1])[0];
@@ -345,9 +358,9 @@ a{color:var(--brand);}
     if (answerSamples[number]) {
       const codeReference = document.createElement('details');
       codeReference.className = 'code-reference';
-      codeReference.open = true;
       codeReference.innerHTML = '<summary>解答程式碼</summary><pre><code></code></pre>';
       codeReference.querySelector('code').textContent = answerSamples[number];
+      guardAnswerDetails(codeReference);
       panel.append(codeReference);
     }
     panels.append(panel);
@@ -380,5 +393,6 @@ a{color:var(--brand);}
   });
 })();
 </script>
+<script src="../../assets/code-copy.js"></script>
 </body>
 </html>

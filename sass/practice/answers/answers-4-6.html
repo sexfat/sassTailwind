@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Sass 解答：練習 1–3</title>
+<title>Sass 解答：練習 4–6</title>
 <style>
 :root{--bg:#f6f7f9;--text:#172033;--muted:#637083;--brand:#2457c5;--code-bg:#111827;--code-text:#e5e7eb;}
 *{box-sizing:border-box;}
@@ -16,68 +16,66 @@ pre{background:var(--code-bg);color:var(--code-text);padding:16px 18px;border-ra
 pre code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.86rem;line-height:1.6;}
 code{font-family:ui-monospace,Menlo,Consolas,monospace;}
 .nav-back{display:inline-block;margin-bottom:1em;color:var(--brand);text-decoration:none;font-size:.9rem;}
-.tag{display:inline-block;font-size:.72rem;background:#22c55e;color:#fff;padding:.12em .6em;border-radius:999px;margin-left:.5em;vertical-align:middle;}
+.tag{display:inline-block;font-size:.72rem;background:#f59e0b;color:#fff;padding:.12em .6em;border-radius:999px;margin-left:.5em;vertical-align:middle;}
 .answer-tabs{margin:1.4em 0 2em;border:1px solid #d9e0ea;background:#fff;border-radius:14px;box-shadow:0 10px 30px rgba(15,23,42,.06);overflow:hidden;}
-.tab-list{display:flex;gap:6px;padding:10px;background:#eef2ff;border-bottom:1px solid #d9e0ea;overflow-x:auto;scrollbar-width:thin;}
+.tab-list{display:flex;gap:6px;padding:10px;background:#fef3c7;border-bottom:1px solid #d9e0ea;overflow-x:auto;scrollbar-width:thin;}
 .tab-button{flex:0 0 auto;border:1px solid transparent;background:transparent;color:#475569;border-radius:10px;padding:9px 14px;font:600 .92rem/1.2 system-ui,-apple-system,"Segoe UI","Noto Sans TC",sans-serif;cursor:pointer;white-space:nowrap;transition:background .18s,color .18s,border-color .18s,box-shadow .18s;}
 .tab-button:hover{background:rgba(255,255,255,.72);color:var(--brand);}
 .tab-button:focus-visible{outline:3px solid rgba(36,87,197,.24);outline-offset:2px;}
-.tab-button[aria-selected="true"]{background:#fff;color:var(--brand);border-color:#c7d2fe;box-shadow:0 6px 16px rgba(36,87,197,.12);}
+.tab-button[aria-selected="true"]{background:#fff;color:var(--brand);border-color:#fde68a;box-shadow:0 6px 16px rgba(36,87,197,.12);}
 .tab-panels{padding:22px 24px 26px;}
 .tab-panel{display:none;}
 .tab-panel.is-active{display:block;}
 .tab-panel h2{margin-top:0;}
 @media (max-width:640px){.wrap{padding:28px 16px 56px;}.tab-list{padding:8px;}.tab-button{padding:8px 10px;font-size:.86rem;}.tab-panels{padding:18px 16px 22px;}}
 </style>
+<link rel="stylesheet" href="../../../assets/code-copy.css">
 </head>
 <body>
 <div class="wrap">
-<a class="nav-back" href="../練習題.html">← 回練習題</a>
-<h1>解答：練習 1–3 <span class="tag">基礎</span></h1>
-<p class="desc">對應原始檔：<code>解答/練習1-3.scss</code>　編譯：<code>sass 練習1-3.scss out.css</code></p>
+<a class="nav-back" href="../exercises.html">← 回練習題</a>
+<h1>解答：練習 4–6 <span class="tag">進階</span></h1>
+<p class="desc">對應原始檔：<code>answers/練習4-6.scss</code>　檔案開頭需 <code>@use 'sass:math';</code></p>
 
-<h2>練習 1：變數與運算</h2>
-<pre><code>$primary: #6366f1;
-$space: 8px;
+<h2>練習 4：響應式 Mixin</h2>
+<pre><code>@mixin respond($bp) {
+  @if $bp == mobile {
+    @media (max-width: 767px) { @content; }
+  } @else if $bp == tablet {
+    @media (max-width: 1023px) { @content; }
+  }
+}
 
-.btn {
-  background: $primary;
-  color: white;
-  padding: $space ($space * 3); // 8px 24px
-  border-radius: $space;
-  border: none;
-  cursor: pointer;
-}</code></pre>
+.container {
+  width: 1200px;
+  margin: 0 auto;
 
-<h2>練習 2：巢狀與 &amp;</h2>
-<pre><code>.nav {
-  display: flex;
-  gap: 16px;
-
-  &amp;__item {
-    color: #333;
-    cursor: pointer;
-
-    &amp;:hover {
-      color: $primary;
-    }
-
-    &amp;--active {
-      font-weight: bold;
-    }
+  @include respond(mobile) {
+    width: 100%;
   }
 }</code></pre>
 
-<h2>練習 3：Mixin</h2>
-<pre><code>@mixin flex($justify: center, $align: center) {
-  display: flex;
-  justify-content: $justify;
-  align-items: $align;
-}
+<h2>練習 5：迴圈生成間距工具類</h2>
+<pre><code>@for $i from 1 through 5 {
+  .m-#{$i} { margin: 4px * $i; }
+  .p-#{$i} { padding: 4px * $i; }
+}</code></pre>
 
-.header {
-  @include flex(space-between, center);
-  padding: 16px;
+<h2>練習 6：Map + @each</h2>
+<pre><code>$status: (
+  'info': #3b82f6,
+  'success': #22c55e,
+  'warning': #f59e0b,
+  'error': #ef4444,
+);
+
+@each $name, $color in $status {
+  .alert--#{$name} {
+    background: $color;
+    color: white;
+    padding: 12px;
+    border-radius: 6px;
+  }
 }</code></pre>
 </div>
 <script>
@@ -94,7 +92,7 @@ $space: 8px;
   answers[0].before(tabs);
 
   answers.forEach((heading, index) => {
-    const number = (heading.textContent.match(/\d+/) || [index + 1])[0];
+    const number = (heading.textContent.match(/\d+/) || [index + 4])[0];
     const panel = document.createElement('article');
     panel.className = `tab-panel${index === 0 ? ' is-active' : ''}`;
     panel.id = `answer-${number}-panel`;
@@ -135,5 +133,6 @@ $space: 8px;
   });
 })();
 </script>
+<script src="../../../assets/code-copy.js"></script>
 </body>
 </html>

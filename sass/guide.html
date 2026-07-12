@@ -54,6 +54,18 @@ a:hover { text-decoration: underline; }
   background: rgba(255,255,255,.12);
 }
 .home-link:hover { background: rgba(255,255,255,.2); text-decoration: none; }
+.practice-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  padding: 7px 13px;
+  border: 1px solid #fff;
+  border-radius: 8px;
+  color: #12336f;
+  background: #fff;
+  font-weight: 700;
+}
+.practice-link:hover { background: #eaf2ff; text-decoration: none; }
 .layout {
   display: grid;
   grid-template-columns: minmax(220px, 280px) minmax(0, 1fr);
@@ -75,8 +87,10 @@ a:hover { text-decoration: underline; }
 }
 .sidebar h2 { margin: 0 0 10px; font-size: 1rem; }
 .sidebar a { display: block; padding: 7px 8px; border-radius: 6px; color: #26364d; line-height: 1.35; }
-.sidebar a:hover { background: var(--surface-2); text-decoration: none; }
+.sidebar a:hover, .sidebar a.is-active { background: var(--surface-2); text-decoration: none; }
 .sidebar .home { margin-bottom: 10px; font-weight: 700; color: var(--brand); background: #eef4ff; }
+.sidebar .practice { margin-bottom: 10px; font-weight: 700; color: #fff; background: linear-gradient(135deg,#12336f,#0f766e); }
+.sidebar .practice:hover { background: linear-gradient(135deg,#17428d,#128b82); }
 .sidebar .h3 { padding-left: 20px; font-size: .92rem; color: var(--muted); }
 .content {
   min-width: 0;
@@ -175,9 +189,9 @@ hr { border: 0; border-top: 1px solid var(--border); margin: 30px 0; }
 </style>
 </head>
 <body>
-<header class="site-header"><div class="header-inner"><h1>Sass / SCSS 完整講義</h1><p>完整轉換自 sass/講義.md，保留 12 個章節、所有範例與重點提示。</p><div class="header-actions"><a class="home-link" href="../index.html">回課程首頁</a></div></div></header>
+<header class="site-header"><div class="header-inner"><h1>Sass / SCSS 完整講義</h1><p>完整轉換自 sass/講義.md，保留 12 個章節、所有範例與重點提示。</p><div class="header-actions"><a class="practice-link" href="practice/exercises.html">前往 Sass 練習題</a><a class="home-link" href="../index.html">回課程首頁</a></div></div></header>
 <div class="layout">
-<nav class="sidebar" aria-label="章節導覽"><h2>章節導覽</h2><a class="home" href="../index.html">回課程首頁</a><a class="h1" href="#sass--scss-完整講義">Sass / SCSS 完整講義</a>
+<nav class="sidebar" aria-label="章節導覽"><h2>章節導覽</h2><a class="practice" href="practice/exercises.html">前往 Sass 練習題</a><a class="home" href="../index.html">回課程首頁</a><a class="h1" href="#sass--scss-完整講義">Sass / SCSS 完整講義</a>
 <a class="h2" href="#目錄">目錄</a>
 <a class="h2" href="#1-什麼是-sass為什麼要用">1. 什麼是 Sass？為什麼要用</a>
 <a class="h3" href="#痛點原生-css-的限制">痛點：原生 CSS 的限制</a>
@@ -741,11 +755,11 @@ $buttons: (
 <hr>
 <h2 id="-重點速記">重點速記</h2>
 <ul><li>用 <code>$</code> 定義變數集中管理設計值。</li><li>巢狀不超過 3 層，善用 <code>&amp;</code> 寫狀態與 BEM。</li><li><strong>模組化用 <code>@use</code> / <code>@forward</code>，別再用 <code>@import</code></strong>。</li><li>重用邏輯優先用 <strong>mixin</strong>（可帶參數）；純共用無參數才考慮 <code>@extend</code>。</li><li>除法用 <code>math.div()</code>，顏色用 <code>color.adjust()</code>。</li><li>Map + <code>@each</code> = 自動生成設計系統。</li></ul>
-<p>接著到 <a href="practice/練習題.html">練習題</a> 動手做，並用 <code>examples/</code> 的檔案實際編譯觀察輸出。每一題都附了「AI 協助」示範怎麼問 AI。</p>
-<p style="margin-top:1.5em;"><a href="practice/練習題.html" style="display:inline-block;background:linear-gradient(135deg,#12336f,#0f766e);color:#fff;padding:14px 28px;border-radius:10px;font-weight:700;text-decoration:none;">前往 Sass 練習題 →</a></p>
+<p>接著到 <a href="practice/exercises.html">練習題</a> 動手做，並用 <code>examples/</code> 的檔案實際編譯觀察輸出。每一題都附了「AI 協助」示範怎麼問 AI。</p>
+<p style="margin-top:1.5em;"><a href="practice/exercises.html" style="display:inline-block;background:linear-gradient(135deg,#12336f,#0f766e);color:#fff;padding:14px 28px;border-radius:10px;font-weight:700;text-decoration:none;">前往 Sass 練習題 →</a></p>
 </main>
 </div>
-<div class="page-links"><div class="link-row"><a class="link-button" href="../index.html">回課程首頁</a><a class="link-button" href="../tailwind/講義.html">前往 Tailwind 講義</a></div></div>
+<div class="page-links"><div class="link-row"><a class="link-button" href="../index.html">回課程首頁</a><a class="link-button" href="../tailwind/guide.html">前往 Tailwind 講義</a></div></div>
 <footer><div class="footer-inner">Sass / SCSS 完整講義 | <a href="../index.html">回到 index.html</a></div></footer>
 
 <script>
@@ -761,6 +775,29 @@ $buttons: (
       });
     });
   });
+
+  var sectionLinks = Array.prototype.slice.call(document.querySelectorAll('.sidebar a[href^="#"]'));
+  var sections = sectionLinks
+    .map(function (link) {
+      var target = document.getElementById(decodeURIComponent(link.getAttribute('href').slice(1)));
+      return target ? { link: link, target: target } : null;
+    })
+    .filter(Boolean);
+
+  function updateActiveSection() {
+    var current = sections[0];
+    var marker = window.scrollY + 120;
+    sections.forEach(function (item) {
+      if (item.target.offsetTop <= marker) current = item;
+    });
+    sectionLinks.forEach(function (link) {
+      link.classList.toggle('is-active', current && link === current.link);
+    });
+  }
+
+  updateActiveSection();
+  window.addEventListener('scroll', updateActiveSection, { passive: true });
+  window.addEventListener('resize', updateActiveSection);
 })();
 </script>
 </body>

@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>練習 4｜group-hover 互動卡片（解答）</title>
   <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+<link rel="stylesheet" href="../../../assets/code-copy.css">
 </head>
 <body class="bg-gray-100 p-8 flex justify-center">
 
@@ -28,12 +29,19 @@
       document.body.style.alignItems = 'center';
       document.body.style.gap = '32px';
       const details = document.createElement('details');
-      details.open = true;
       details.style.cssText = 'width:min(900px,100%);background:#111827;color:#e5e7eb;border-radius:12px;overflow:hidden;text-align:left;';
       details.innerHTML = '<summary style="cursor:pointer;padding:12px 16px;font-weight:700;background:#0f172a;">本頁完整 HTML 程式碼</summary><pre style="margin:0;padding:16px;overflow:auto;font:13px/1.6 ui-monospace,Menlo,Consolas,monospace;"><code></code></pre>';
       details.querySelector('code').textContent = source;
+      details.addEventListener('click', (event) => {
+        if (details.open || details.dataset.confirmed === 'true') return;
+        event.preventDefault();
+        if (!window.confirm('確定要查看本頁完整解答程式碼嗎？')) return;
+        details.dataset.confirmed = 'true';
+        details.open = true;
+      });
       document.body.append(details);
     })();
   </script>
+<script src="../../../assets/code-copy.js"></script>
 </body>
 </html>

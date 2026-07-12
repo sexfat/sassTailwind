@@ -55,6 +55,7 @@ th{background:#eef2ff;}
   .tab-panels{padding:18px 16px 22px;}
 }
 </style>
+<link rel="stylesheet" href="assets/code-copy.css">
 </head>
 <body>
 <div class="wrap">
@@ -292,6 +293,18 @@ apply:
     .find((heading) => /基礎題|進階題|挑戰題/.test(heading.textContent));
   firstSectionHeading.before(tabs);
 
+  const guardAnswerDetails = (details) => {
+    details.dataset.confirmRequired = 'true';
+    details.addEventListener('click', (event) => {
+      if (details.open || details.dataset.confirmed === 'true') return;
+      event.preventDefault();
+      const ok = window.confirm('確定要查看解答規格嗎？建議先自己完成再打開。');
+      if (!ok) return;
+      details.dataset.confirmed = 'true';
+      details.open = true;
+    });
+  };
+
   exercises.forEach((heading, index) => {
     const number = (heading.textContent.match(/\d+/) || [index + 1])[0];
     const id = `exercise-${number}`;
@@ -325,9 +338,9 @@ apply:
     if (codeSamples[number]) {
       const codeReference = document.createElement('details');
       codeReference.className = 'code-reference';
-      codeReference.open = true;
       codeReference.innerHTML = '<summary>Figma MCP 操作參考 / 解答規格</summary><pre><code></code></pre>';
       codeReference.querySelector('code').textContent = codeSamples[number];
+      guardAnswerDetails(codeReference);
       panel.append(codeReference);
     }
     panels.append(panel);
@@ -360,5 +373,6 @@ apply:
   });
 })();
 </script>
+<script src="assets/code-copy.js"></script>
 </body>
 </html>

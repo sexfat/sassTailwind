@@ -23,7 +23,7 @@
 - **元件庫 + Design System Tokens**：<https://www.figma.com/design/e87BnLqAVr9tTSyCTNP7TX>
   - Sass 元件庫（Button / Card / Alert / Token 色板）、Tailwind 練習畫面稿（名片 / 登入 / 響應式 / group / 深色價目表）
   - Design System Tokens：Primitives → Semantic 別名（含 Light / Dark 模式）、Scale、文字/陰影樣式
-- **搭配練習**：[`Figma_DesignSystem_練習題.html`](Figma_DesignSystem_練習題.html)（7 題，每題附可貼給 AI 的 prompt）
+- **搭配練習**：[`figma-design-system-practice.html`](figma-design-system-practice.html)（7 題，每題附可貼給 AI 的 prompt）
 
 > 講義與練習有雙向連結：講義結尾可直接前往練習題，練習/解答頁也能回到講義。
 > 每一題練習都附「AI 協助」示範怎麼寫 prompt 請 AI 帶你做（而非直接給答案）。
@@ -65,9 +65,9 @@ sass sass/examples/01-variables.scss output.css
 sass --watch sass/examples:dist --style=expanded
 ```
 
-- **Sass 練習**：打開 `sass/practice/練習題.html`（或 `.md`），依題目動手寫，再對照 `sass/practice/解答/`。
-- **Tailwind 練習/範例**：直接用瀏覽器（或 Live Server）打開 `tailwind/practice/練習題.html`、`tailwind/examples/*.html` 即可，皆用 Play CDN，不需安裝。
-- **看講義**：用瀏覽器打開 `sass/講義.html`、`tailwind/講義.html`（含側邊章節導覽）。
+- **Sass 練習**：打開 `sass/practice/exercises.html`（或 `.md`），依題目動手寫，再對照 `sass/practice/answers/`。
+- **Tailwind 練習/範例**：直接用瀏覽器（或 Live Server）打開 `tailwind/practice/exercises.html`、`tailwind/examples/*.html` 即可，皆用 Play CDN，不需安裝。
+- **看講義**：用瀏覽器打開 `sass/guide.html`、`tailwind/guide.html`（含側邊章節導覽）。
 
 ---
 

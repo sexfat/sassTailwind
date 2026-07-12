@@ -1,0 +1,5 @@
+# Playwright CLI session snapshots (tool cache)
+.playwright-cli/
+
+# OS / editor
+.DS_Store

@@ -1,0 +1,47 @@
+.code-copy-wrap {
+  margin: 1em 0;
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--code-bg, #111827);
+}
+
+.code-copy-toolbar {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  background: #1f2937;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.code-copy-button {
+  appearance: none;
+  border: 1px solid #475569;
+  border-radius: 7px;
+  background: #334155;
+  color: #f8fafc;
+  cursor: pointer;
+  font: 700 0.78rem/1 system-ui, -apple-system, "Segoe UI", "Noto Sans TC", sans-serif;
+  padding: 7px 10px;
+  transition: background 0.18s, border-color 0.18s, transform 0.18s;
+}
+
+.code-copy-button:hover {
+  background: #475569;
+  border-color: #64748b;
+}
+
+.code-copy-button:active {
+  transform: translateY(1px);
+}
+
+.code-copy-button:focus-visible {
+  outline: 3px solid rgba(96, 165, 250, 0.45);
+  outline-offset: 2px;
+}
+
+.code-copy-wrap > pre {
+  margin: 0;
+  border-radius: 0;
+}
