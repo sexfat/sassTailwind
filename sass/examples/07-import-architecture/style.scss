@@ -1,0 +1,20 @@
+// ============================================
+// 範例 07：@import 傳統資料夾式架構
+// 參考：https://github.com/sexfat/sassProject
+// 編譯：sass sass/examples/07-import-architecture/style.scss out.css
+// ============================================
+
+// 共用設定（變數/設定要先載入，後面的檔案才用得到）
+@import 'var';
+@import 'base/setting';
+@import 'base/color';
+
+// 複用樣式 mixin
+@import 'mixin/mixin';
+
+// 組件 component
+@import 'component/btn';
+
+// layout
+@import 'layout/header';
+@import 'layout/footer';

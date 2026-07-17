@@ -1,0 +1,6 @@
+.header {
+  @include flex-center;
+  justify-content: space-between;
+  padding: $spacing;
+  background: $secondary;
+}

@@ -1,0 +1,14 @@
+// 按鈕元件（$primary、$spacing、$radius、flex-center 都來自更早被 @import 的檔案）
+.btn {
+  @include flex-center;
+  background: $primary;
+  color: white;
+  padding: $spacing * 0.5 $spacing;
+  border-radius: $radius;
+  border: none;
+  cursor: pointer;
+
+  &:hover {
+    background: darken($primary, 10%);
+  }
+}
