@@ -215,6 +215,7 @@ hr { border: 0; border-top: 1px solid var(--border); margin: 30px 0; }
 <a class="h3" href="#partials">Partials</a>
 <a class="h3" href="#use（現代做法取代舊的-import）"><code>@use</code>（現代做法，取代舊的 <code>@import</code>）</a>
 <a class="h3" href="#命名空間的關鍵規則只看檔名不看路徑">命名空間的關鍵規則：只看檔名，不看路徑</a>
+<a class="h3" href="#用-use-載入內建模組sass">用 <code>@use</code> 載入內建模組（<code>sass:*</code>）</a>
 <a class="h3" href="#forward轉發（做給別人用的樣式庫）"><code>@forward</code>：轉發（做給別人用的樣式庫）</a>
 <a class="h3" href="#-關於舊的-import">關於舊的 <code>@import</code></a>
 <a class="h2" href="#6-mixinmixin--include">6. Mixin：<code>@mixin</code> / <code>@include</code></a>
@@ -496,6 +497,35 @@ $primary: #3b82f6;
 .x { color: layout-btn.$color; }
 .y { color: component-btn.$color; }</code></pre></div>
 <aside class="callout note"><p><strong>實務建議</strong>：資料夾式架構（像第 13 章示範的 <code>base/</code>、<code>component/</code>、<code>layout/</code>）特別容易踩到這個地雷，尤其是不同資料夾常常都有 <code>_index.scss</code>、<code>_button.scss</code> 這種通用命名。養成習慣：只要用 <code>@use</code> 引入巢狀路徑的檔案，就直接用 <code>as</code> 給明確別名，不要依賴預設命名空間。</p></aside>
+<h3 id="用-use-載入內建模組sass">用 <code>@use</code> 載入內建模組（<code>sass:*</code>）</h3>
+<p><code>@use</code> 不只能載入你自己寫的 partial，也能載入 Sass <strong>內建模組</strong>，寫法完全一樣，只是路徑換成 <code>sass:模組名</code>：</p>
+<div class="code-wrap"><div class="code-toolbar"><span>scss</span><button type="button" class="copy-code">複製</button></div><pre><code class="language-scss">@use "sass:map";
+
+$theme: (
+  'primary': #3b82f6,
+  'radius': 8px,
+);
+
+.button {
+  background: map.get($theme, 'primary');   // 用「命名空間.函式()」呼叫
+  border-radius: map.get($theme, 'radius');
+}</code></pre></div>
+<p>內建模組的命名空間預設就是<strong>去掉 <code>sass:</code> 前綴後的模組名</strong>（<code>sass:map</code> → <code>map</code>），一樣可以用 <code>as</code> 改別名：</p>
+<div class="code-wrap"><div class="code-toolbar"><span>scss</span><button type="button" class="copy-code">複製</button></div><pre><code class="language-scss">@use "sass:math" as m;
+
+.col {
+  width: m.percentage(m.div(1, 3));
+}</code></pre></div>
+<p>常用的內建模組：</p>
+<div class="table-wrap"><table><thead><tr><th>模組</th><th>用途</th><th>常用函式</th></tr></thead><tbody><tr><td><code>sass:math</code></td><td>數學運算</td><td><code>math.div()</code>、<code>math.round()</code>、<code>math.percentage()</code></td></tr>
+<tr><td><code>sass:color</code></td><td>顏色處理</td><td><code>color.adjust()</code>、<code>color.scale()</code>、<code>color.mix()</code></td></tr>
+<tr><td><code>sass:map</code></td><td>Map 操作</td><td><code>map.get()</code>、<code>map.set()</code>、<code>map.merge()</code>、<code>map.keys()</code></td></tr>
+<tr><td><code>sass:list</code></td><td>List 操作</td><td><code>list.nth()</code>、<code>list.length()</code>、<code>list.append()</code></td></tr>
+<tr><td><code>sass:string</code></td><td>字串處理</td><td><code>string.length()</code>、<code>string.slice()</code>、<code>string.to-upper-case()</code></td></tr>
+<tr><td><code>sass:selector</code></td><td>選擇器操作</td><td><code>selector.nest()</code>、<code>selector.append()</code></td></tr>
+<tr><td><code>sass:meta</code></td><td>型別檢查、進階操作</td><td><code>meta.type-of()</code>、<code>meta.call()</code></td></tr>
+</tbody></table></div>
+<aside class="callout note"><p>每支檔案要用哪個內建模組的函式，就在檔案最上面 <code>@use</code> 該模組，跟載入自己的 partial 是同一套規則。第 8 章會示範更多內建函式的實際用法。</p></aside>
 <h3 id="forward轉發（做給別人用的樣式庫）"><code>@forward</code>：轉發（做給別人用的樣式庫）</h3>
 <p><code>@forward</code> 讓你把多個 partial 集中成一個入口再對外提供。</p>
 <div class="code-wrap"><div class="code-toolbar"><span>scss</span><button type="button" class="copy-code">複製</button></div><pre><code class="language-scss">// _index.scss（樣式庫入口）
@@ -591,7 +621,7 @@ $primary: #3b82f6;
 }</code></pre></div>
 <aside class="callout note"><p>注意：新版 Sass 除法要用 <code>math.div()</code>，需先 <code>@use 'sass:math';</code>。</p></aside>
 <h3 id="常用內建模組與函式">常用內建模組與函式</h3>
-<p>新版 Sass 內建函式分在不同模組，需先 <code>@use</code>：</p>
+<p>新版 Sass 內建函式分在不同模組，需先 <code>@use</code>（載入語法見第 5 章「用 <code>@use</code> 載入內建模組」）：</p>
 <div class="code-wrap"><div class="code-toolbar"><span>scss</span><button type="button" class="copy-code">複製</button></div><pre><code class="language-scss">@use 'sass:math';
 @use 'sass:color';
 @use 'sass:string';
