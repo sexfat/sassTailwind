@@ -21,3 +21,14 @@
 **影響範圍：**
 - `sass/`、`tailwind/` 下講義與練習相關檔案（git 以 rename 追蹤，保留歷史）
 - `.gitignore`、`assets/code-copy.css`、`assets/code-copy.js`
+
+---
+
+## 2026-07-19
+
+### 1. 解決本地與遠端 git 分岔
+**問題：** 本地與 `origin/master` 分岔，各有 1 個對方沒有的 commit（本地 `601cabf add`；遠端 `02633ae docs: 新增 @import 傳統架構單元並強調 @use 命名空間規則`），且兩個 commit 都改到 `sass/guide.html` 與 `sass/講義.md`，無法直接 push。
+**原因：** 遠端該 commit 是同一份「@import 傳統架構」教材工作的另一版本（把獨立的「架構-import版」檔案改成 `sass/examples/07-import-architecture/` 資料夾並整合進 guide.html），與本地版本並存造成分岔。
+**修正：** 依使用者決定以本地為準，用 `git push --force-with-lease origin master` 覆蓋遠端，遠端 master 改指向本地 `601cabf`。遠端原 `02633ae` 已不在 master 上，仍可從 reflog / GitHub 找回。
+**影響範圍：**
+- 遠端 `origin/master` — 由 `02633ae` 強制覆寫為 `601cabf`（本地內容未變動）
