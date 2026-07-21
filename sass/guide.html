@@ -214,7 +214,7 @@ hr { border: 0; border-top: 1px solid var(--border); margin: 30px 0; }
 <a class="h2" href="#5-partials-與模組化-use--forward">5. Partials 與模組化 <code>@use</code> / <code>@forward</code></a>
 <a class="h3" href="#partials">Partials</a>
 <a class="h3" href="#use（現代做法取代舊的-import）"><code>@use</code>（現代做法，取代舊的 <code>@import</code>）</a>
-<a class="h3" href="#命名空間的關鍵規則只看檔名不看路徑">命名空間的關鍵規則：只看檔名，不看路徑</a>
+<a class="h3" href="#命名空間-namespace">命名空間 Namespace</a>
 <a class="h3" href="#用-use-載入內建模組sass">用 <code>@use</code> 載入內建模組（<code>sass:*</code>）</a>
 <a class="h3" href="#forward轉發（做給別人用的樣式庫）"><code>@forward</code>：轉發（做給別人用的樣式庫）</a>
 <a class="h3" href="#-關於舊的-import">關於舊的 <code>@import</code></a>
@@ -243,12 +243,19 @@ hr { border: 0; border-top: 1px solid var(--border); margin: 30px 0; }
 <a class="h3" href="#實務案例資料夾式架構">實務案例：資料夾式架構</a>
 <a class="h3" href="#import-的缺點"><code>@import</code> 的缺點</a>
 <a class="h3" href="#從-import-遷移到-use">從 <code>@import</code> 遷移到 <code>@use</code></a>
+<a class="h2" href="#14-如何拆-sass-架構現代-use-版">14. 如何拆 Sass 架構（現代 <code>@use</code> 版）</a>
+<a class="h3" href="#核心原則一個檔案只負責一件事">核心原則：一個檔案只負責一件事</a>
+<a class="h3" href="#一個實用的目錄結構">一個實用的目錄結構</a>
+<a class="h3" href="#各層的分界線">各層的分界線</a>
+<a class="h3" href="#入口檔只做組裝">入口檔只做組裝</a>
+<a class="h3" href="#用-forward-做抽象層入口">用 <code>@forward</code> 做抽象層入口</a>
+<a class="h3" href="#常見錯誤">常見錯誤</a>
 <a class="h2" href="#-重點速記">重點速記</a></nav>
 <main class="content">
 <h1 id="sass--scss-完整講義">Sass / SCSS 完整講義</h1>
 <aside class="callout note"><p>Sass（Syntactically Awesome Style Sheets）是最成熟、使用最廣的 <strong>CSS 預處理器（CSS Preprocessor）</strong>。</p><p>它讓你用「變數、巢狀、函式、模組化」等程式語言的能力來寫 CSS，最後編譯成瀏覽器看得懂的純 CSS。</p></aside>
 <h2 id="目錄">目錄</h2>
-<ol><li><a href="#1-什麼是-sass為什麼要用">什麼是 Sass？為什麼要用</a></li><li><a href="#2-安裝與編譯">安裝與編譯</a></li><li><a href="#3-變數-variables">變數 Variables</a></li><li><a href="#4-巢狀-nesting-與--父選擇器">巢狀 Nesting 與 <code>&amp;</code> 父選擇器</a></li><li><a href="#5-partials-與模組化-use--forward">Partials 與模組化 <code>@use</code> / <code>@forward</code></a></li><li><a href="#6-mixinmixin--include">Mixin：<code>@mixin</code> / <code>@include</code></a></li><li><a href="#7-繼承-extend-與-placeholder">繼承 <code>@extend</code> 與 <code>%placeholder</code></a></li><li><a href="#8-函式-function-與內建函式">函式 <code>@function</code> 與內建函式</a></li><li><a href="#9-運算-operators">運算 Operators</a></li><li><a href="#10-控制流程-if--each--for--while">控制流程 <code>@if</code> / <code>@each</code> / <code>@for</code> / <code>@while</code></a></li><li><a href="#11-maps-與-lists">Maps 與 Lists</a></li><li><a href="#12-實戰整合元件化的思維">實戰整合：元件化的思維</a></li><li><a href="#13-import-與傳統-sass-專案架構"><code>@import</code> 與傳統 Sass 專案架構</a></li></ol>
+<ol><li><a href="#1-什麼是-sass為什麼要用">什麼是 Sass？為什麼要用</a></li><li><a href="#2-安裝與編譯">安裝與編譯</a></li><li><a href="#3-變數-variables">變數 Variables</a></li><li><a href="#4-巢狀-nesting-與--父選擇器">巢狀 Nesting 與 <code>&amp;</code> 父選擇器</a></li><li><a href="#5-partials-與模組化-use--forward">Partials 與模組化 <code>@use</code> / <code>@forward</code></a></li><li><a href="#6-mixinmixin--include">Mixin：<code>@mixin</code> / <code>@include</code></a></li><li><a href="#7-繼承-extend-與-placeholder">繼承 <code>@extend</code> 與 <code>%placeholder</code></a></li><li><a href="#8-函式-function-與內建函式">函式 <code>@function</code> 與內建函式</a></li><li><a href="#9-運算-operators">運算 Operators</a></li><li><a href="#10-控制流程-if--each--for--while">控制流程 <code>@if</code> / <code>@each</code> / <code>@for</code> / <code>@while</code></a></li><li><a href="#11-maps-與-lists">Maps 與 Lists</a></li><li><a href="#12-實戰整合元件化的思維">實戰整合：元件化的思維</a></li><li><a href="#13-import-與傳統-sass-專案架構"><code>@import</code> 與傳統 Sass 專案架構</a></li><li><a href="#14-如何拆-sass-架構現代-use-版">如何拆 Sass 架構（現代 <code>@use</code> 版）</a></li></ol>
 <hr>
 <h2 id="1-什麼是-sass為什麼要用">1. 什麼是 Sass？為什麼要用</h2>
 <h3 id="痛點原生-css-的限制">痛點：原生 CSS 的限制</h3>
@@ -465,24 +472,32 @@ $bg-color: (                      // map
 @use 'variables';
 @use 'mixins';
 @use 'buttons';</code></pre></div>
-<p><code>@use</code> 引入時會有 <strong>命名空間</strong>，預設是檔名：</p>
-<div class="code-wrap"><div class="code-toolbar"><span>scss</span><button type="button" class="copy-code">複製</button></div><pre><code class="language-scss">// _variables.scss
-$primary: #3b82f6;
+<h3 id="命名空間-namespace">命名空間 Namespace</h3>
+<p><code>@use</code> 引入的檔案<strong>不會把變數倒進全域</strong>，而是掛在一個 <strong>命名空間</strong> 底下，預設就是檔名（去掉底線與副檔名）。也就是說，<code>@use 'typography';</code> 之後，你<strong>必須</strong>寫 <code>typography.$variable</code> 才拿得到裡面的東西，直接寫 <code>$variable</code> 會編譯錯誤。</p>
+<div class="code-wrap"><div class="code-toolbar"><span>scss</span><button type="button" class="copy-code">複製</button></div><pre><code class="language-scss">// _typography.scss
+$font-size: 16px;
+$line-height: 1.5;
 
 // main.scss
-@use 'variables';
+@use 'typography';
 
-.button {
-  color: variables.$primary;   // 用「命名空間.變數」存取
+body {
+  font-size: typography.$font-size;    // 正確
+  line-height: typography.$line-height;
+  // font-size: $font-size;            // 錯誤：Undefined variable
 }</code></pre></div>
-<p>可以用 <code>as</code> 改別名，或 <code>as *</code> 拿掉命名空間：</p>
-<div class="code-wrap"><div class="code-toolbar"><span>scss</span><button type="button" class="copy-code">複製</button></div><pre><code class="language-scss">@use 'variables' as v;
-@use 'variables' as *;   // 之後可直接寫 $primary
+<h4>為什麼要這樣用？</h4>
+<p><strong>1. 避免命名衝突。</strong>這是最主要的理由。不同 partial 很容易取到同名變數，<code>$font-size</code> 在字體檔和按鈕檔各定義一份是很正常的事。舊的 <code>@import</code> 會把全部變數攤平在同一個全域空間，後載入的直接蓋掉前面的，而且<strong>不會有任何警告</strong>——你只會發現樣式莫名其妙跑掉。有了命名空間，兩者是 <code>typography.$font-size</code> 和 <code>button.$font-size</code>，天生分開，不可能互相覆蓋。</p>
+<p><strong>2. 看得出來源。</strong>讀到 <code>colors.$primary</code> 就知道這個值定義在 <code>_colors.scss</code>，不用全專案搜尋 <code>$primary</code> 在哪宣告。檔案一多的時候，這件事的價值會愈來愈明顯。</p>
+<p><strong>3. 明確依賴。</strong>每個檔案只看得到自己 <code>@use</code> 進來的模組。A 檔案 <code>@use 'colors'</code> 不會讓 B 檔案也自動拿到 colors 的變數——B 想用就得自己寫一行 <code>@use 'colors'</code>。依賴關係寫在檔案最上面，一目了然。</p>
+<p><strong>4. 只載入一次。</strong>同一個模組被 <code>@use</code> 十次，Sass 也只會編譯載入一次，不會像 <code>@import</code> 那樣重複輸出 CSS。</p>
+<h4>改別名與省略命名空間</h4>
+<p>命名空間太長的話，用 <code>as</code> 改一個短別名：</p>
+<div class="code-wrap"><div class="code-toolbar"><span>scss</span><button type="button" class="copy-code">複製</button></div><pre><code class="language-scss">@use 'typography' as t;
 
-.button { color: v.$primary; }</code></pre></div>
-<h3 id="命名空間的關鍵規則只看檔名不看路徑">命名空間的關鍵規則：只看檔名，不看路徑</h3>
-<p><code>@use</code> 的預設命名空間<strong>只取檔名（去掉底線與副檔名），會忽略前面的資料夾路徑</strong>：</p>
-<div class="code-wrap"><div class="code-toolbar"><span>scss</span><button type="button" class="copy-code">複製</button></div><pre><code class="language-scss">@use 'components/button';   // 命名空間預設是 button，不是 components/button</code></pre></div>
+body { font-size: t.$font-size; }</code></pre></div>
+<p>如果檔名有路徑，預設命名空間是<strong>最後一段檔名</strong>，會忽略前面的資料夾：</p>
+<div class="code-wrap"><div class="code-toolbar"><span>scss</span><button type="button" class="copy-code">複製</button></div><pre><code class="language-scss">@use 'abstracts/variables';   // 命名空間是 variables，不是 abstracts/variables</code></pre></div>
 <p>這代表<strong>兩個不同資料夾、但檔名相同的 partial</strong>，只要都用預設命名空間 <code>@use</code>，就會撞名：</p>
 <div class="code-wrap"><div class="code-toolbar"><span>scss</span><button type="button" class="copy-code">複製</button></div><pre><code class="language-scss">@use 'layout/button';       // 命名空間 → button
 @use 'component/button';    // 命名空間也是 button → 撞名！
@@ -496,7 +511,12 @@ $primary: #3b82f6;
 
 .x { color: layout-btn.$color; }
 .y { color: component-btn.$color; }</code></pre></div>
-<aside class="callout note"><p><strong>實務建議</strong>：資料夾式架構（像第 13 章示範的 <code>base/</code>、<code>component/</code>、<code>layout/</code>）特別容易踩到這個地雷，尤其是不同資料夾常常都有 <code>_index.scss</code>、<code>_button.scss</code> 這種通用命名。養成習慣：只要用 <code>@use</code> 引入巢狀路徑的檔案，就直接用 <code>as</code> 給明確別名，不要依賴預設命名空間。</p></aside>
+<aside class="callout note"><p><strong>實務建議</strong>：資料夾式架構（像第 14 章示範的 <code>base/</code>、<code>component/</code>、<code>layout/</code>）特別容易踩到這個地雷，尤其是不同資料夾常常都有 <code>_index.scss</code>、<code>_button.scss</code> 這種通用命名。養成習慣：只要用 <code>@use</code> 引入巢狀路徑的檔案，就直接用 <code>as</code> 給明確別名，不要依賴預設命名空間。</p></aside>
+<p>想完全省略命名空間，用 <code>as *</code>，之後可以直接寫 <code>$font-size</code>：</p>
+<div class="code-wrap"><div class="code-toolbar"><span>scss</span><button type="button" class="copy-code">複製</button></div><pre><code class="language-scss">@use 'typography' as *;
+
+body { font-size: $font-size; }   // 不用前綴</code></pre></div>
+<aside class="callout note"><p>但 <code>as *</code> 等於放棄了上面講的前三個好處：變數又回到全域、看不出來源、而且如果兩個 <code>as *</code> 的模組有同名變數，Sass 會直接報錯。<strong>建議只在兩種情況用</strong>：一是專案唯一的變數入口檔（確定不會撞名），二是自己寫的小型工具檔。其他情況保留命名空間，或用 <code>as</code> 取短別名。</p></aside>
 <h3 id="用-use-載入內建模組sass">用 <code>@use</code> 載入內建模組（<code>sass:*</code>）</h3>
 <p><code>@use</code> 不只能載入你自己寫的 partial，也能載入 Sass <strong>內建模組</strong>，寫法完全一樣，只是路徑換成 <code>sass:模組名</code>：</p>
 <div class="code-wrap"><div class="code-toolbar"><span>scss</span><button type="button" class="copy-code">複製</button></div><pre><code class="language-scss">@use "sass:map";
@@ -808,7 +828,7 @@ $buttons: (
 <p>這段會產生 <code>.btn--primary</code>、<code>.btn--success</code>、<code>.btn--danger</code>，每個都有對應 hover。<strong>改 map 就能一次調整整套設計</strong>——這就是 Sass 的價值。</p>
 <hr>
 <h2 id="13-import-與傳統-sass-專案架構">13. <code>@import</code> 與傳統 Sass 專案架構</h2>
-<aside class="callout note"><p>補充教材，架構參考自實際專案 <a href="https://github.com/sexfat/sassProject" target="_blank" rel="noopener">sexfat/sassProject</a>：一個用資料夾拆分、以 <code>@import</code> 組起來的傳統 Sass 專案。</p></aside>
+<aside class="callout note"><p>補充教材，架構參考自實際專案 <a href="https://github.com/sexfat/sassProject" target="_blank" rel="noopener">sexfat/sassProject</a>：一個用資料夾拆分、以 <code>@import</code> 組起來的傳統 Sass 專案。想看用 <code>@import</code> 完整拆分架構的獨立範例頁，見 <a href="架構-import版.html">架構-import版.html</a>；現代 <code>@use</code> 版的架構拆法則見<a href="#14-如何拆-sass-架構現代-use-版">第 14 章</a>。</p></aside>
 <h3 id="為什麼還要學-import">為什麼還要學 <code>@import</code>？</h3>
 <p>官方建議新專案改用 <code>@use</code> / <code>@forward</code>（見第 5 章），但<strong>舊專案、教學範例、許多既有的靜態網站</strong>仍大量使用 <code>@import</code> 把整個網站的 SCSS 拆成資料夾管理。看得懂這種架構，才有辦法維護或延伸別人寫好的舊專案。</p>
 <h3 id="基本語法">基本語法</h3>
@@ -891,8 +911,108 @@ $primary: #3b82f6;
 }</code></pre></div>
 <p>跟 <code>@import</code> 版本比起來，差別在於：<strong>每個變數、mixin 都清楚標示來自哪個命名空間</strong>，不再是「全域一大包」，也不用擔心前面提到的 <code>button</code> 撞名問題——就算 <code>component/_btn.scss</code> 跟未來新增的 <code>page/_btn.scss</code> 同名，只要各自 <code>@forward</code> 進不同資料夾的 <code>_index.scss</code>，最外層用 <code>component</code>／<code>page</code> 這種命名空間區分，就不會衝突。</p>
 <hr>
+<h2 id="14-如何拆-sass-架構現代-use-版">14. 如何拆 Sass 架構（現代 <code>@use</code> 版）</h2>
+<p>前面學的是語法，這一節談的是<strong>檔案怎麼擺</strong>。一個 <code>style.scss</code> 寫到兩千行，就算語法全用對了一樣難維護。</p>
+<p>參考範例：<a href="https://github.com/sexfat/sassProject/tree/master/sass" target="_blank" rel="noopener">sexfat/sassProject</a></p>
+<h3 id="核心原則一個檔案只負責一件事">核心原則：一個檔案只負責一件事</h3>
+<p>拆檔的判斷標準不是「行數多寡」，而是<strong>改動的理由</strong>。改主色會動到哪個檔案？改按鈕圓角會動到哪個檔案？如果答案是同一個，就該拆開。反過來說，如果一個東西永遠會一起改，硬拆成三個檔案只是增加跳檔案的成本。</p>
+<h3 id="一個實用的目錄結構">一個實用的目錄結構</h3>
+<div class="code-wrap"><div class="code-toolbar"><span>text</span><button type="button" class="copy-code">複製</button></div><pre><code>sass/
+├── _var.scss              # 全域變數：色票、字級、斷點
+├── base/                  # 全站基礎樣式
+│   ├── _setting.scss      # reset、box-sizing、全域預設
+│   ├── _color.scss        # 顏色定義
+│   └── _font.scss         # 字體與字級
+├── mixin/
+│   └── _mixin.scss        # 共用 mixin：RWD 斷點、置中、圓角
+├── component/             # 可重複使用的元件（不綁位置）
+│   ├── _btn.scss
+│   ├── _card.scss
+│   └── _title.scss
+├── layout/                # 版面區塊（綁位置，每頁都有）
+│   ├── _header.scss
+│   ├── _nav.scss
+│   ├── _footer.scss
+│   └── _banner.scss
+├── page/                  # 單一頁面專屬樣式
+│   ├── _index.scss
+│   └── _product.scss
+├── plugin/                # 第三方套件的樣式覆寫
+│   └── _swiper.scss
+└── style.scss             # 唯一入口，只做組裝</code></pre></div>
+<p>這是業界常見的 <strong>7-1 pattern</strong> 的簡化版。不用一開始就把七個資料夾全建好，<strong>從 <code>base</code> / <code>component</code> / <code>layout</code> 三個開始就夠了</strong>，專案長大再拆。</p>
+<h3 id="各層的分界線">各層的分界線</h3>
+<p>最容易搞混的是 <code>component</code>、<code>layout</code>、<code>page</code> 這三層，判斷方式：</p>
+<div class="table-wrap"><table><thead><tr><th>資料夾</th><th>判斷問題</th><th>例子</th></tr></thead><tbody>
+<tr><td><code>component</code></td><td>這東西<strong>搬到別頁還能用</strong>嗎？</td><td>按鈕、卡片、標籤、表單欄位</td></tr>
+<tr><td><code>layout</code></td><td>這是<strong>版面骨架</strong>、每頁都出現嗎？</td><td>header、nav、footer、sidebar</td></tr>
+<tr><td><code>page</code></td><td>這是<strong>某一頁獨有</strong>、別頁不會用嗎？</td><td>首頁的 hero 動畫、產品頁的比較表</td></tr>
+</tbody></table></div>
+<p>一個判斷技巧：<strong>component 不該決定自己的位置</strong>。按鈕元件負責長什麼樣（顏色、圓角、padding），但「靠右對齊、距離上方 20px」該由用它的 layout 或 page 決定。元件一旦寫死 <code>margin-left: 40px</code>，換個地方用就爆掉了。</p>
+<h3 id="入口檔只做組裝">入口檔只做組裝</h3>
+<p><code>style.scss</code> 是唯一會被編譯成 CSS 的檔案，它裡面<strong>不該有任何樣式</strong>，只負責決定載入順序：</p>
+<div class="code-wrap"><div class="code-toolbar"><span>scss</span><button type="button" class="copy-code">複製</button></div><pre><code class="language-scss">// style.scss —— 唯一入口，不寫樣式
+// 1. 抽象層：變數與 mixin（不產生 CSS）
+@use 'var';
+@use 'mixin/mixin';
+
+// 2. 基礎層
+@use 'base/setting';
+@use 'base/color';
+@use 'base/font';
+
+// 3. 元件層
+@use 'component/btn';
+@use 'component/card';
+@use 'component/title';
+
+// 4. 版面層
+@use 'layout/header';
+@use 'layout/nav';
+@use 'layout/footer';
+
+// 5. 頁面層
+@use 'page/index';
+@use 'page/product';
+
+// 6. 第三方覆寫（放最後，權重才蓋得過）
+@use 'plugin/swiper';</code></pre></div>
+<p><strong>順序是有意義的</strong>：由通用到專屬，由低權重到高權重。base 先出、plugin 覆寫最後出，這樣後面的規則才蓋得過前面的，不需要靠 <code>!important</code> 硬幹。</p>
+<h4>這裡沒寫命名空間，不會報錯嗎？</h4>
+<p>不會。<code>@use 'component/btn';</code> <strong>還是有命名空間</strong>（就是 <code>btn</code>，路徑最後一段），只是入口檔引入它的目的是要它<strong>吐出 CSS</strong>，不是要拿它的變數，所以那個命名空間從頭到尾沒被用到——這完全合法。命名空間只有在你<strong>引用成員</strong>時才必須寫出來。</p>
+<p>但有一個坑要注意：<strong>命名空間只取路徑最後一段，不同資料夾同檔名會直接撞車</strong>（例如 <code>base/color</code> 跟 <code>component/color</code> 都會變成命名空間 <code>color</code>）。完整的撞名錯誤示範與 <code>as</code> 解法見第 5 章「命名空間 Namespace」。</p>
+<p>同理，<code>@use 'page/index'</code> 的命名空間是 <code>index</code> 而不是 <code>page</code>。這也是為什麼<strong>檔名最好帶上語意</strong>（<code>_btn.scss</code>、<code>_card.scss</code>）而不是每個資料夾都放一個 <code>_color.scss</code>、<code>_style.scss</code>。</p>
+<p>編譯只要指向入口檔：</p>
+<div class="code-wrap"><div class="code-toolbar"><span>bash</span><button type="button" class="copy-code">複製</button></div><pre><code class="language-bash">sass sass/style.scss css/style.css --watch</code></pre></div>
+<p>其他檔案都是 partial（底線開頭），不會單獨編譯出 CSS。</p>
+<h3 id="用-forward-做抽象層入口">用 <code>@forward</code> 做抽象層入口</h3>
+<p>上面每個 partial 只要用到變數，都得自己寫一長串 <code>@use</code>：</p>
+<div class="code-wrap"><div class="code-toolbar"><span>scss</span><button type="button" class="copy-code">複製</button></div><pre><code class="language-scss">// component/_btn.scss
+@use '../var';
+@use '../mixin/mixin';
+@use '../base/color';</code></pre></div>
+<p>檔案一多會很煩。做法是用 <code>@forward</code> 把抽象層集中成一個入口：</p>
+<div class="code-wrap"><div class="code-toolbar"><span>scss</span><button type="button" class="copy-code">複製</button></div><pre><code class="language-scss">// abstracts/_index.scss
+@forward 'var';
+@forward 'mixin';
+@forward 'color';</code></pre></div>
+<p>之後每個元件只要一行：</p>
+<div class="code-wrap"><div class="code-toolbar"><span>scss</span><button type="button" class="copy-code">複製</button></div><pre><code class="language-scss">// component/_btn.scss
+@use '../abstracts' as a;   // 資料夾內有 _index.scss 可省略檔名
+
+.btn {
+  padding: a.$space-md;
+  background: a.$primary;
+  @include a.mobile { width: 100%; }
+}</code></pre></div>
+<h3 id="常見錯誤">常見錯誤</h3>
+<p><strong>1. 抽象層寫出 CSS。</strong><code>_var.scss</code>、<code>_mixin.scss</code> 應該只有變數與 mixin 定義，<strong>不該有任何選擇器</strong>。參考 repo 裡的 <code>_mixin.scss</code> 混了 <code>.box</code>、<code>.card</code> 這些實際樣式，那是教學示範方便，實務上要拆出去——否則每個 <code>@use</code> 它的檔案都會被塞進一堆不相干的 CSS。</p>
+<p><strong>2. 用 <code>@import</code> 而不是 <code>@use</code>。</strong>參考 repo 的 <code>style.scss</code> 用的是 <code>@import</code>，那是舊寫法（第 13 章有完整介紹）。<strong>新專案一律用 <code>@use</code> / <code>@forward</code></strong>，差別在於 <code>@import</code> 會把所有變數攤平到全域、同名變數靜默互相覆蓋，<code>@use</code> 有命名空間隔離（見第 5 章）。</p>
+<p><strong>3. 資料夾建太多。</strong>三個檔案的專案不需要七層目錄。結構是為了解決問題而存在，沒有問題就不要先造結構。</p>
+<p><strong>4. page 層肥大。</strong>如果 <code>_index.scss</code> 長到三百行，代表裡面有東西該被抽成 component。頁面層理想上只放「這頁獨有的排列與微調」。</p>
+<hr>
 <h2 id="-重點速記">重點速記</h2>
-<ul><li>用 <code>$</code> 定義變數集中管理設計值。</li><li>巢狀不超過 3 層，善用 <code>&amp;</code> 寫狀態與 BEM。</li><li><strong>模組化新專案用 <code>@use</code> / <code>@forward</code>，別再用 <code>@import</code></strong>；維護舊專案時才需要看懂資料夾式 <code>@import</code> 架構（第 13 章）。</li><li>重用邏輯優先用 <strong>mixin</strong>（可帶參數）；純共用無參數才考慮 <code>@extend</code>。</li><li>除法用 <code>math.div()</code>，顏色用 <code>color.adjust()</code>。</li><li>Map + <code>@each</code> = 自動生成設計系統。</li></ul>
+<ul><li>用 <code>$</code> 定義變數集中管理設計值。</li><li>巢狀不超過 3 層，善用 <code>&amp;</code> 寫狀態與 BEM。</li><li><strong>模組化新專案用 <code>@use</code> / <code>@forward</code>，別再用 <code>@import</code></strong>；維護舊專案時才需要看懂資料夾式 <code>@import</code> 架構（第 13 章）。</li><li>重用邏輯優先用 <strong>mixin</strong>（可帶參數）；純共用無參數才考慮 <code>@extend</code>。</li><li>除法用 <code>math.div()</code>，顏色用 <code>color.adjust()</code>。</li><li>Map + <code>@each</code> = 自動生成設計系統。</li><li>架構分層 <code>base</code> / <code>component</code> / <code>layout</code> / <code>page</code>，入口檔只組裝不寫樣式。</li></ul>
 <p>接著到 <a href="practice/exercises.html">練習題</a> 動手做，並用 <code>examples/</code> 的檔案實際編譯觀察輸出。每一題都附了「AI 協助」示範怎麼問 AI。</p>
 <p style="margin-top:1.5em;"><a href="practice/exercises.html" style="display:inline-block;background:linear-gradient(135deg,#12336f,#0f766e);color:#fff;padding:14px 28px;border-radius:10px;font-weight:700;text-decoration:none;">前往 Sass 練習題 →</a></p>
 </main>

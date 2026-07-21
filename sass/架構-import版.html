@@ -1,0 +1,350 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>如何拆 Sass 架構（@import 版）</title>
+<style>
+:root {
+  color-scheme: light;
+  --bg: #f6f7f9;
+  --surface: #ffffff;
+  --surface-2: #eef4ff;
+  --text: #172033;
+  --muted: #637083;
+  --border: #d9e0ea;
+  --brand: #2457c5;
+  --brand-2: #0f8b8d;
+  --accent: #b45309;
+  --code-bg: #111827;
+  --code-text: #e5e7eb;
+  --warning-bg: #fff7ed;
+  --warning-border: #fb923c;
+  --note-bg: #eff6ff;
+  --note-border: #60a5fa;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans TC", sans-serif;
+  line-height: 1.75;
+  color: var(--text);
+  background: var(--bg);
+}
+a { color: var(--brand); text-decoration: none; }
+a:hover { text-decoration: underline; }
+.site-header {
+  background: linear-gradient(135deg, #12336f, #0f766e);
+  color: #fff;
+  padding: 40px 24px;
+}
+.header-inner { max-width: 1120px; margin: 0 auto; }
+.header-inner h1 { margin: 0 0 12px; font-size: clamp(2rem, 5vw, 3.4rem); line-height: 1.15; letter-spacing: 0; }
+.header-inner p { max-width: 760px; margin: 0; color: #dbeafe; font-size: 1.08rem; }
+.header-actions { margin-top: 20px; display: flex; flex-wrap: wrap; gap: 10px; }
+.home-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  padding: 7px 13px;
+  border: 1px solid rgba(255,255,255,.38);
+  border-radius: 8px;
+  color: #fff;
+  background: rgba(255,255,255,.12);
+}
+.home-link:hover { background: rgba(255,255,255,.2); text-decoration: none; }
+.practice-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  padding: 7px 13px;
+  border: 1px solid #fff;
+  border-radius: 8px;
+  color: #12336f;
+  background: #fff;
+  font-weight: 700;
+}
+.practice-link:hover { background: #eaf2ff; text-decoration: none; }
+.layout {
+  display: grid;
+  grid-template-columns: minmax(220px, 280px) minmax(0, 1fr);
+  gap: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px;
+}
+.sidebar {
+  position: sticky;
+  top: 16px;
+  align-self: start;
+  max-height: calc(100vh - 32px);
+  overflow: auto;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 16px;
+}
+.sidebar h2 { margin: 0 0 10px; font-size: 1rem; }
+.sidebar a { display: block; padding: 7px 8px; border-radius: 6px; color: #26364d; line-height: 1.35; }
+.sidebar a:hover, .sidebar a.is-active { background: var(--surface-2); text-decoration: none; }
+.sidebar .home { margin-bottom: 10px; font-weight: 700; color: var(--brand); background: #eef4ff; }
+.sidebar .practice { margin-bottom: 10px; font-weight: 700; color: #fff; background: linear-gradient(135deg,#12336f,#0f766e); }
+.sidebar .practice:hover { background: linear-gradient(135deg,#17428d,#128b82); }
+.sidebar .h3 { padding-left: 20px; font-size: .92rem; color: var(--muted); }
+.content {
+  min-width: 0;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: clamp(20px, 4vw, 44px);
+}
+.content h1, .content h2, .content h3, .content h4 { line-height: 1.35; letter-spacing: 0; }
+.content h1 { margin-top: 0; font-size: clamp(1.9rem, 4vw, 2.8rem); }
+.content h2 { margin-top: 46px; padding-top: 14px; border-top: 1px solid var(--border); font-size: 1.7rem; }
+.content h3 { margin-top: 30px; font-size: 1.28rem; color: #183b78; }
+.content p, .content li { font-size: 1rem; }
+.content code:not(pre code) {
+  background: #eef2f7;
+  color: #9f1239;
+  padding: .12em .35em;
+  border-radius: 4px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+  font-size: .92em;
+}
+.table-wrap { overflow-x: auto; margin: 18px 0; }
+table { width: 100%; border-collapse: collapse; min-width: 560px; background: #fff; }
+th, td { border: 1px solid var(--border); padding: 10px 12px; text-align: left; vertical-align: top; }
+th { background: #eef2f7; font-weight: 700; }
+.callout {
+  margin: 20px 0;
+  padding: 14px 16px;
+  border-left: 5px solid var(--note-border);
+  border-radius: 8px;
+  background: var(--note-bg);
+}
+.callout.warning { border-left-color: var(--warning-border); background: var(--warning-bg); }
+.callout p { margin: 0 0 8px; }
+.callout p:last-child { margin-bottom: 0; }
+.code-wrap { margin: 18px 0 24px; border-radius: 8px; overflow: hidden; background: var(--code-bg); }
+.code-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 12px;
+  background: #0b1220;
+  color: #cbd5e1;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+  font-size: .82rem;
+}
+.copy-code {
+  border: 1px solid #475569;
+  border-radius: 6px;
+  background: #1f2937;
+  color: #e5e7eb;
+  padding: 4px 9px;
+  cursor: pointer;
+  font: inherit;
+}
+.copy-code:hover { background: #334155; }
+pre { margin: 0; padding: 16px; overflow-x: auto; color: var(--code-text); background: var(--code-bg); }
+pre code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; font-size: .94rem; line-height: 1.6; white-space: pre; }
+hr { border: 0; border-top: 1px solid var(--border); margin: 30px 0; }
+.page-links, footer {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px 28px;
+}
+.link-row { display: flex; flex-wrap: wrap; gap: 12px; }
+.link-button {
+  display: inline-flex;
+  align-items: center;
+  min-height: 42px;
+  padding: 8px 14px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--text);
+}
+.link-button:hover { background: var(--surface-2); text-decoration: none; }
+.footer-inner { border-top: 1px solid var(--border); padding-top: 18px; color: var(--muted); }
+@media (max-width: 860px) {
+  .layout { display: block; padding: 16px; }
+  .sidebar { position: static; max-height: none; margin-bottom: 16px; }
+  .content { padding: 20px; }
+  table { min-width: 520px; }
+}
+@media print {
+  body { background: #fff; color: #000; }
+  .site-header { background: #fff; color: #000; padding: 0 0 16px; }
+  .header-inner p { color: #333; }
+  .layout { display: block; max-width: none; padding: 0; }
+  .sidebar, .copy-code, .page-links { display: none !important; }
+  .content { border: 0; padding: 0; }
+  h1, h2, h3, section, .content > h2, .code-wrap, table, .callout { page-break-inside: avoid; break-inside: avoid; }
+  a { color: #000; text-decoration: none; }
+  pre { white-space: pre-wrap; border: 1px solid #999; }
+}
+</style>
+</head>
+<body>
+<header class="site-header"><div class="header-inner"><h1>如何拆 Sass 架構（<code>@import</code> 版）</h1><p>對應參考範例 sexfat/sassProject 的實際寫法。另有 @use / @forward 版本在主講義第 14 章。</p><div class="header-actions"><a class="practice-link" href="guide.html#14-如何拆-sass-架構現代-use-版">看 @use 版（主講義）</a><a class="home-link" href="../index.html">回課程首頁</a></div></div></header>
+<div class="layout">
+<nav class="sidebar" aria-label="章節導覽"><h2>章節導覽</h2><a class="practice" href="guide.html#14-如何拆-sass-架構現代-use-版">看 @use 版（主講義）</a><a class="home" href="../index.html">回課程首頁</a>
+<a class="h1" href="#如何拆-sass-架構import-版">如何拆 Sass 架構（<code>@import</code> 版）</a>
+<a class="h2" href="#核心原則一個檔案只負責一件事">核心原則：一個檔案只負責一件事</a>
+<a class="h2" href="#一個實用的目錄結構">一個實用的目錄結構</a>
+<a class="h2" href="#各層的分界線">各層的分界線</a>
+<a class="h2" href="#入口檔只做組裝">入口檔只做組裝</a>
+<a class="h2" href="#import-的全域作用域方便但危險"><code>@import</code> 的全域作用域</a>
+<a class="h2" href="#常見錯誤">常見錯誤</a>
+<a class="h2" href="#import-vs-use-快速對照"><code>@import</code> vs <code>@use</code> 快速對照</a></nav>
+<main class="content">
+<h1 id="如何拆-sass-架構import-版">如何拆 Sass 架構（<code>@import</code> 版）</h1>
+<aside class="callout warning"><p>這是架構單元的 <strong><code>@import</code> 版本</strong>，對應參考範例 <a href="https://github.com/sexfat/sassProject/tree/master/sass" target="_blank" rel="noopener">sexfat/sassProject</a> 的實際寫法。另有一份 <strong><code>@use</code> / <code>@forward</code> 版本</strong>在 <a href="guide.html#14-如何拆-sass-架構現代-use-版">主講義第 14 章</a>，兩者結構相同、差別只在引入語法。<code>@import</code> 是舊寫法、官方已宣布逐步淘汰，但因為現存專案與教材大量使用，這裡完整保留一份對照。新專案建議用 <code>@use</code> 版。</p></aside>
+<p>前面學的是語法，這一節談的是<strong>檔案怎麼擺</strong>。一個 <code>style.scss</code> 寫到兩千行，就算語法全用對了一樣難維護。</p>
+<h2 id="核心原則一個檔案只負責一件事">核心原則：一個檔案只負責一件事</h2>
+<p>拆檔的判斷標準不是「行數多寡」，而是<strong>改動的理由</strong>。改主色會動到哪個檔案？改按鈕圓角會動到哪個檔案？如果答案是同一個，就該拆開。反過來說，如果一個東西永遠會一起改，硬拆成三個檔案只是增加跳檔案的成本。</p>
+<h2 id="一個實用的目錄結構">一個實用的目錄結構</h2>
+<div class="code-wrap"><div class="code-toolbar"><span>text</span><button type="button" class="copy-code">複製</button></div><pre><code>sass/
+├── _var.scss              # 全域變數：色票、字級、斷點
+├── base/                  # 全站基礎樣式
+│   ├── _setting.scss      # reset、box-sizing、全域預設
+│   ├── _color.scss        # 顏色定義
+│   └── _font.scss         # 字體與字級
+├── mixin/
+│   └── _mixin.scss        # 共用 mixin：RWD 斷點、置中、圓角
+├── component/             # 可重複使用的元件（不綁位置）
+│   ├── _btn.scss
+│   ├── _card.scss
+│   └── _title.scss
+├── layout/                # 版面區塊（綁位置，每頁都有）
+│   ├── _header.scss
+│   ├── _nav.scss
+│   ├── _footer.scss
+│   └── _banner.scss
+├── page/                  # 單一頁面專屬樣式
+│   ├── _index.scss
+│   └── _product.scss
+├── plugin/                # 第三方套件的樣式覆寫
+│   └── _swiper.scss
+└── style.scss             # 唯一入口，只做組裝</code></pre></div>
+<p>這是業界常見的 <strong>7-1 pattern</strong> 的簡化版。不用一開始就把七個資料夾全建好，<strong>從 <code>base</code> / <code>component</code> / <code>layout</code> 三個開始就夠了</strong>，專案長大再拆。</p>
+<h2 id="各層的分界線">各層的分界線</h2>
+<p>最容易搞混的是 <code>component</code>、<code>layout</code>、<code>page</code> 這三層，判斷方式：</p>
+<div class="table-wrap"><table><thead><tr><th>資料夾</th><th>判斷問題</th><th>例子</th></tr></thead><tbody>
+<tr><td><code>component</code></td><td>這東西<strong>搬到別頁還能用</strong>嗎？</td><td>按鈕、卡片、標籤、表單欄位</td></tr>
+<tr><td><code>layout</code></td><td>這是<strong>版面骨架</strong>、每頁都出現嗎？</td><td>header、nav、footer、sidebar</td></tr>
+<tr><td><code>page</code></td><td>這是<strong>某一頁獨有</strong>、別頁不會用嗎？</td><td>首頁的 hero 動畫、產品頁的比較表</td></tr>
+</tbody></table></div>
+<p>一個判斷技巧：<strong>component 不該決定自己的位置</strong>。按鈕元件負責長什麼樣（顏色、圓角、padding），但「靠右對齊、距離上方 20px」該由用它的 layout 或 page 決定。元件一旦寫死 <code>margin-left: 40px</code>，換個地方用就爆掉了。</p>
+<h2 id="入口檔只做組裝">入口檔只做組裝</h2>
+<p><code>style.scss</code> 是唯一會被編譯成 CSS 的檔案，它裡面<strong>不該有任何樣式</strong>，只負責決定載入順序：</p>
+<div class="code-wrap"><div class="code-toolbar"><span>scss</span><button type="button" class="copy-code">複製</button></div><pre><code class="language-scss">// style.scss —— 唯一入口，不寫樣式
+// 1. 抽象層：變數與 mixin（不產生 CSS）
+@import 'var';
+@import 'mixin/mixin';
+
+// 2. 基礎層
+@import 'base/setting';
+@import 'base/color';
+@import 'base/font';
+
+// 3. 元件層
+@import 'component/btn';
+@import 'component/card';
+@import 'component/title';
+
+// 4. 版面層
+@import 'layout/header';
+@import 'layout/nav';
+@import 'layout/footer';
+
+// 5. 頁面層
+@import 'page/index';
+@import 'page/product';
+
+// 6. 第三方覆寫（放最後，權重才蓋得過）
+@import 'plugin/swiper';</code></pre></div>
+<p><strong>順序是有意義的</strong>：由通用到專屬，由低權重到高權重。base 先出、plugin 覆寫最後出，這樣後面的規則才蓋得過前面的，不需要靠 <code>!important</code> 硬幹。</p>
+<p>編譯只要指向入口檔：</p>
+<div class="code-wrap"><div class="code-toolbar"><span>bash</span><button type="button" class="copy-code">複製</button></div><pre><code class="language-bash">sass sass/style.scss css/style.css --watch</code></pre></div>
+<p>其他檔案都是 partial（底線開頭），不會單獨編譯出 CSS。</p>
+<h2 id="import-的全域作用域方便但危險"><code>@import</code> 的全域作用域：方便但危險</h2>
+<p><code>@import</code> 和 <code>@use</code> 最大的差別在這裡：<strong><code>@import</code> 沒有命名空間，所有變數和 mixin 都被攤平到同一個全域空間</strong>。</p>
+<p>好處是「方便」——只要某個 partial 在入口檔裡<strong>比較早被 <code>@import</code></strong>，後面的 partial 就能直接用它的變數，不用前綴、也不用再各自 import 一次：</p>
+<div class="code-wrap"><div class="code-toolbar"><span>scss</span><button type="button" class="copy-code">複製</button></div><pre><code class="language-scss">// _var.scss
+$primary: #3b82f6;
+
+// component/_btn.scss
+.btn {
+  background: $primary;   // 直接用，不用寫 var.$primary
+}</code></pre></div>
+<p>只要 <code>style.scss</code> 裡 <code>@import 'var'</code> 排在 <code>@import 'component/btn'</code> 前面，這就能編譯過。這也是為什麼參考 repo 的 <code>_btn.scss</code>、<code>_mixin.scss</code> 裡面直接寫 <code>$m</code>、<code>$primary</code> 都不用前綴。</p>
+<p>代價是<strong>全域污染</strong>：</p>
+<ul>
+<li><strong>同名變數會靜默互相覆蓋。</strong><code>$font-size</code> 在 <code>_font.scss</code> 定義一次、又在 <code>_btn.scss</code> 定義一次，後載入的直接蓋掉前面的，<strong>不會有任何錯誤或警告</strong>，你只會發現樣式莫名其妙跑掉。</li>
+<li><strong>看不出來源。</strong>讀到 <code>$primary</code> 不知道它定義在哪個檔案，只能全專案搜尋。</li>
+<li><strong>順序變成隱形地雷。</strong>某個 partial 能不能用某個變數，取決於它在入口檔的 <code>@import</code> 順序，排錯就是 Undefined variable。</li>
+</ul>
+<p>這正是 Sass 官方要用 <code>@use</code> 取代 <code>@import</code> 的原因（詳見主講義第 5 節）。<code>@use</code> 版本用命名空間把這些問題全部擋掉。</p>
+<h2 id="常見錯誤">常見錯誤</h2>
+<p><strong>1. 抽象層寫出 CSS。</strong><code>_var.scss</code>、<code>_mixin.scss</code> 應該只有變數與 mixin 定義，<strong>不該有任何選擇器</strong>。參考 repo 裡的 <code>_mixin.scss</code> 混了 <code>.box</code>、<code>.card</code> 這些實際樣式，那是教學示範方便，實務上要拆出去——否則它每次被 <code>@import</code> 都會輸出一堆不相干的 CSS。</p>
+<p><strong>2. 變數命名沒有前綴或命名規則。</strong>因為 <code>@import</code> 是全域的，最好自己約定命名規範（例如色彩一律 <code>$color-xxx</code>、間距一律 <code>$space-xxx</code>），降低撞名機率。這是用 <code>@import</code> 就得自己扛的紀律，換成 <code>@use</code> 則由命名空間自動處理。</p>
+<p><strong>3. 資料夾建太多。</strong>三個檔案的專案不需要七層目錄。結構是為了解決問題而存在，沒有問題就不要先造結構。</p>
+<p><strong>4. page 層肥大。</strong>如果 <code>_index.scss</code> 長到三百行，代表裡面有東西該被抽成 component。頁面層理想上只放「這頁獨有的排列與微調」。</p>
+<h2 id="import-vs-use-快速對照"><code>@import</code> vs <code>@use</code> 快速對照</h2>
+<div class="table-wrap"><table><thead><tr><th></th><th><code>@import</code>（舊）</th><th><code>@use</code> / <code>@forward</code>（新）</th></tr></thead><tbody>
+<tr><td>作用域</td><td>全域，攤平</td><td>有命名空間隔離</td></tr>
+<tr><td>引用變數</td><td>直接 <code>$primary</code></td><td><code>var.$primary</code></td></tr>
+<tr><td>同名變數</td><td>靜默覆蓋，難除錯</td><td>撞名直接報錯，擋在編譯期</td></tr>
+<tr><td>重複載入</td><td>會重複輸出 CSS</td><td>只載入一次</td></tr>
+<tr><td>官方狀態</td><td>逐步淘汰中</td><td>現行標準</td></tr>
+<tr><td>對應範例</td><td>本篇 / 參考 repo</td><td>主講義第 14 章</td></tr>
+</tbody></table></div>
+</main>
+</div>
+<div class="page-links"><div class="link-row"><a class="link-button" href="guide.html">回 Sass 主講義</a><a class="link-button" href="guide.html#14-如何拆-sass-架構現代-use-版">看 @use 版第 14 章</a></div></div>
+<footer><div class="footer-inner">如何拆 Sass 架構（@import 版） | <a href="guide.html">回 Sass 主講義</a></div></footer>
+
+<script>
+(function () {
+  document.querySelectorAll('.copy-code').forEach(function (button) {
+    button.addEventListener('click', function () {
+      var code = button.closest('.code-wrap').querySelector('code').textContent;
+      if (!navigator.clipboard) return;
+      navigator.clipboard.writeText(code).then(function () {
+        var old = button.textContent;
+        button.textContent = '已複製';
+        setTimeout(function () { button.textContent = old; }, 1200);
+      });
+    });
+  });
+
+  var sectionLinks = Array.prototype.slice.call(document.querySelectorAll('.sidebar a[href^="#"]'));
+  var sections = sectionLinks
+    .map(function (link) {
+      var target = document.getElementById(decodeURIComponent(link.getAttribute('href').slice(1)));
+      return target ? { link: link, target: target } : null;
+    })
+    .filter(Boolean);
+
+  function updateActiveSection() {
+    var current = sections[0];
+    var marker = window.scrollY + 120;
+    sections.forEach(function (item) {
+      if (item.target.offsetTop <= marker) current = item;
+    });
+    sectionLinks.forEach(function (link) {
+      link.classList.toggle('is-active', current && link === current.link);
+    });
+  }
+
+  updateActiveSection();
+  window.addEventListener('scroll', updateActiveSection, { passive: true });
+  window.addEventListener('resize', updateActiveSection);
+})();
+</script>
+</body>
+</html>
