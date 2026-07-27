@@ -1,0 +1,564 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tailwind CSS v4 完整速查表</title>
+<style>
+:root {
+  color-scheme: light;
+  --bg: #f6f7f9;
+  --surface: #ffffff;
+  --surface-2: #eef4ff;
+  --text: #172033;
+  --muted: #637083;
+  --border: #d9e0ea;
+  --brand: #2457c5;
+  --code-bg: #111827;
+  --code-text: #e5e7eb;
+  --note-bg: #eff6ff;
+  --note-border: #60a5fa;
+  --warning-bg: #fff7ed;
+  --warning-border: #fb923c;
+  --new-bg: #ecfdf5;
+  --new-border: #14b8a6;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans TC", sans-serif; line-height: 1.7; color: var(--text); background: var(--bg); }
+a { color: var(--brand); text-decoration: none; }
+a:hover { text-decoration: underline; }
+.site-header { background: linear-gradient(135deg, #12336f, #0f766e); color: #fff; padding: 36px 24px; }
+.header-inner { max-width: 1200px; margin: 0 auto; }
+.header-inner h1 { margin: 0 0 10px; font-size: clamp(1.8rem, 4vw, 2.8rem); line-height: 1.15; }
+.header-inner p { max-width: 780px; margin: 0; color: #dbeafe; }
+.header-actions { margin-top: 18px; display: flex; flex-wrap: wrap; gap: 10px; }
+.header-actions a { display: inline-flex; align-items: center; min-height: 40px; padding: 7px 13px; border: 1px solid rgba(255,255,255,.38); border-radius: 8px; color: #fff; background: rgba(255,255,255,.12); }
+.header-actions a:hover { background: rgba(255,255,255,.22); text-decoration: none; }
+.layout { display: grid; grid-template-columns: minmax(200px, 250px) minmax(0, 1fr); gap: 24px; max-width: 1280px; margin: 0 auto; padding: 24px; }
+.sidebar { position: sticky; top: 16px; align-self: start; max-height: calc(100vh - 32px); overflow: auto; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 14px; }
+.sidebar h2 { margin: 0 0 8px; font-size: .95rem; }
+.sidebar a { display: block; padding: 6px 8px; border-radius: 6px; color: #26364d; font-size: .92rem; line-height: 1.3; }
+.sidebar a:hover, .sidebar a.is-active { background: var(--surface-2); text-decoration: none; }
+.content { min-width: 0; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: clamp(18px, 3vw, 34px); }
+.content h2 { margin-top: 40px; padding-top: 14px; border-top: 1px solid var(--border); font-size: 1.5rem; scroll-margin-top: 16px; }
+.content h2:first-of-type { margin-top: 0; border-top: 0; padding-top: 0; }
+.content h3 { margin-top: 24px; font-size: 1.1rem; color: #183b78; }
+code { background: #eef2f7; color: #9f1239; padding: .1em .35em; border-radius: 4px; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: .9em; }
+td code, th code { white-space: nowrap; }
+.table-wrap { overflow-x: auto; margin: 14px 0 20px; }
+table { width: 100%; border-collapse: collapse; min-width: 520px; background: #fff; font-size: .95rem; }
+th, td { border: 1px solid var(--border); padding: 8px 11px; text-align: left; vertical-align: top; }
+th { background: #eef2f7; font-weight: 700; }
+tbody tr:nth-child(even) { background: #fafbfd; }
+.callout { margin: 16px 0; padding: 12px 15px; border-left: 5px solid var(--note-border); border-radius: 8px; background: var(--note-bg); }
+.callout.warning { border-left-color: var(--warning-border); background: var(--warning-bg); }
+.callout.new { border-left-color: var(--new-border); background: var(--new-bg); }
+.callout p { margin: 0 0 8px; }
+.callout p:last-child { margin-bottom: 0; }
+pre { margin: 14px 0 20px; padding: 14px 16px; background: var(--code-bg); color: var(--code-text); border-radius: 8px; overflow-x: auto; }
+pre code { background: none; color: inherit; padding: 0; font-size: .86rem; line-height: 1.6; white-space: pre; }
+.tag { display: inline-block; margin-left: 6px; padding: 1px 7px; border-radius: 999px; background: #14b8a6; color: #fff; font-size: .72rem; font-weight: 700; vertical-align: 2px; }
+.tag.v41 { background: #7c3aed; }
+.filter-bar { position: sticky; top: 0; z-index: 5; margin: -8px 0 18px; padding: 12px 0; background: var(--surface); }
+.filter-bar input { width: 100%; padding: 11px 14px; border: 1px solid var(--border); border-radius: 10px; font: inherit; background: #f8fafc; }
+.filter-bar input:focus { outline: 3px solid rgba(36,87,197,.22); outline-offset: 1px; border-color: var(--brand); background: #fff; }
+.filter-hint { margin: 6px 2px 0; font-size: .82rem; color: var(--muted); }
+.is-hidden { display: none !important; }
+.no-result { margin: 20px 0; padding: 14px; border: 1px dashed var(--border); border-radius: 8px; color: var(--muted); text-align: center; }
+footer { max-width: 1280px; margin: 0 auto; padding: 0 24px 32px; color: var(--muted); }
+.footer-inner { border-top: 1px solid var(--border); padding-top: 16px; }
+@media (max-width: 900px) {
+  .layout { display: block; padding: 16px; }
+  .sidebar { position: static; max-height: none; margin-bottom: 16px; }
+}
+@media print {
+  .sidebar, .filter-bar, .header-actions { display: none !important; }
+  body { background: #fff; }
+  .layout { display: block; max-width: none; padding: 0; }
+  .content { border: 0; padding: 0; }
+  table, .callout, pre { page-break-inside: avoid; }
+}
+</style>
+</head>
+<body>
+<header class="site-header"><div class="header-inner">
+<h1>Tailwind CSS v4 完整速查表</h1>
+<p>依官方分類整理的 v4 工具類與變體對照表，含 v3 → v4 重新命名清單與 v4 專屬的 CSS 語法（<code>@theme</code>、<code>@utility</code>、<code>@custom-variant</code>、container query）。</p>
+<div class="header-actions">
+<a href="guide.html">回 Tailwind 講義</a>
+<a href="guide.html#附錄常用速查表">講義版精簡速查表</a>
+<a href="practice/exercises.html" target="_blank" rel="noopener">練習題</a>
+<a href="../index.html">回課程首頁</a>
+</div>
+</div></header>
+
+<div class="layout">
+<nav class="sidebar" aria-label="分類導覽"><h2>分類導覽</h2>
+<a href="#通用規則">通用規則</a>
+<a href="#佈局-layout">佈局 Layout</a>
+<a href="#flexbox">Flexbox</a>
+<a href="#grid">Grid</a>
+<a href="#對齊與間距">對齊與間距</a>
+<a href="#間距-spacing">間距 Spacing</a>
+<a href="#尺寸-sizing">尺寸 Sizing</a>
+<a href="#文字-typography">文字 Typography</a>
+<a href="#背景-backgrounds">背景 Backgrounds</a>
+<a href="#邊框-borders">邊框 Borders</a>
+<a href="#效果-effects">效果 Effects</a>
+<a href="#濾鏡-filters">濾鏡 Filters</a>
+<a href="#表格-tables">表格 Tables</a>
+<a href="#過渡與動畫">過渡與動畫</a>
+<a href="#變形-transforms">變形 Transforms</a>
+<a href="#互動-interactivity">互動 Interactivity</a>
+<a href="#svg-與無障礙">SVG 與無障礙</a>
+<a href="#變體前綴-variants">變體前綴 Variants</a>
+<a href="#v4-css-語法">v4 CSS 語法</a>
+<a href="#v3--v4-重新命名對照">v3 → v4 重新命名對照</a>
+</nav>
+
+<main class="content">
+
+<div class="filter-bar">
+  <input type="search" id="filter" placeholder="輸入關鍵字過濾（例如 grid、hover、shadow、對齊）" aria-label="過濾速查表">
+  <p class="filter-hint">會即時隱藏不符合的表格列與分類；清空即還原。<span class="tag">v4</span> 表示 v4 新增，<span class="tag v41">4.1</span> 表示 v4.1 之後才有。</p>
+</div>
+
+<h2 id="通用規則">通用規則</h2>
+<div class="table-wrap"><table><thead><tr><th>規則</th><th>說明</th></tr></thead><tbody>
+<tr><td>命名公式</td><td><code>屬性-值</code>（<code>bg-blue-500</code>）；方向性屬性用 <code>屬性方向-值</code>（<code>pt-4</code>、<code>mx-auto</code>、<code>border-t</code>）。</td></tr>
+<tr><td>間距刻度</td><td><strong>1 = 0.25rem = 4px</strong>，所以 <code>p-4</code> = 16px、<code>gap-2</code> = 8px。</td></tr>
+<tr><td>動態刻度 <span class="tag">v4</span></td><td>刻度不再是固定清單，<code>p-13</code>、<code>mt-27</code>、<code>w-113</code> 這種沒列在文件裡的數字也能直接用。</td></tr>
+<tr><td>顏色透明度</td><td>任何顏色都能加 <code>/數字</code>：<code>bg-black/50</code>、<code>text-white/70</code>、<code>border-blue-500/25</code>。v3 的 <code>bg-opacity-*</code> 已移除。</td></tr>
+<tr><td>負值</td><td>class 前面加 <code>-</code>：<code>-mt-4</code>、<code>-translate-x-2</code>、<code>-z-10</code>。</td></tr>
+<tr><td>任意值</td><td><code>[值]</code>：<code>w-[73%]</code>、<code>top-[117px]</code>、<code>bg-[#1da1f2]</code>、<code>grid-cols-[1fr_2fr]</code>（空白用 <code>_</code>）。</td></tr>
+<tr><td>任意屬性</td><td><code>[屬性:值]</code>：<code>[mask-type:luminance]</code>、<code>[--my-var:2rem]</code>。</td></tr>
+<tr><td>讀取 theme 值</td><td><code>bg-(--my-color)</code>、<code>w-(--sidebar)</code>，或在 CSS 用 <code>var(--color-blue-500)</code>。</td></tr>
+<tr><td><code>!important</code> <span class="tag">v4</span></td><td>後綴驚嘆號：<code>bg-red-500!</code>（v3 是前綴 <code>!bg-red-500</code>）。</td></tr>
+<tr><td>前綴 prefix <span class="tag">v4</span></td><td>設定後寫成變體形式：<code>tw:flex tw:bg-red-500</code>。</td></tr>
+</tbody></table></div>
+
+<h2 id="佈局-layout">佈局 Layout</h2>
+<h3>顯示與可見性</h3>
+<div class="table-wrap"><table><thead><tr><th>Class</th><th>CSS / 說明</th></tr></thead><tbody>
+<tr><td><code>block</code> <code>inline-block</code> <code>inline</code></td><td>display 基本值</td></tr>
+<tr><td><code>flex</code> <code>inline-flex</code> <code>grid</code> <code>inline-grid</code></td><td>彈性／格線容器</td></tr>
+<tr><td><code>table</code> <code>table-row</code> <code>table-cell</code> <code>contents</code> <code>list-item</code></td><td>其他 display 值</td></tr>
+<tr><td><code>hidden</code></td><td><code>display: none</code>（元素不佔位）</td></tr>
+<tr><td><code>visible</code> <code>invisible</code> <code>collapse</code></td><td>visibility（<code>invisible</code> 隱藏但仍佔位）</td></tr>
+<tr><td><code>sr-only</code> <code>not-sr-only</code></td><td>視覺隱藏但螢幕閱讀器讀得到 / 還原</td></tr>
+</tbody></table></div>
+
+<h3>定位</h3>
+<div class="table-wrap"><table><thead><tr><th>Class</th><th>CSS / 說明</th></tr></thead><tbody>
+<tr><td><code>static</code> <code>relative</code> <code>absolute</code> <code>fixed</code> <code>sticky</code></td><td>position</td></tr>
+<tr><td><code>inset-0</code> <code>inset-x-0</code> <code>inset-y-4</code></td><td>四邊 / 左右 / 上下同時定位</td></tr>
+<tr><td><code>top-0</code> <code>right-4</code> <code>bottom-1/2</code> <code>left-full</code></td><td>單邊偏移（支援分數與 <code>auto</code>）</td></tr>
+<tr><td><code>start-0</code> <code>end-0</code></td><td>對應書寫方向的起訖邊（RTL 友善）</td></tr>
+<tr><td><code>z-0</code> <code>z-10</code> … <code>z-50</code> <code>z-auto</code> <code>-z-10</code></td><td>z-index</td></tr>
+</tbody></table></div>
+
+<h3>溢出、捲動與其他</h3>
+<div class="table-wrap"><table><thead><tr><th>Class</th><th>CSS / 說明</th></tr></thead><tbody>
+<tr><td><code>overflow-auto</code> <code>-hidden</code> <code>-clip</code> <code>-visible</code> <code>-scroll</code></td><td>溢出處理，另有 <code>overflow-x-*</code> / <code>overflow-y-*</code></td></tr>
+<tr><td><code>overscroll-auto</code> <code>-contain</code> <code>-none</code></td><td>捲動鏈行為</td></tr>
+<tr><td><code>float-left</code> <code>float-right</code> <code>float-none</code> <code>clear-both</code></td><td>浮動與清除</td></tr>
+<tr><td><code>object-contain</code> <code>-cover</code> <code>-fill</code> <code>-none</code> <code>-scale-down</code></td><td>圖片填滿方式</td></tr>
+<tr><td><code>object-center</code> <code>object-top</code> <code>object-left-bottom</code></td><td>圖片對齊位置</td></tr>
+<tr><td><code>aspect-square</code> <code>aspect-video</code> <code>aspect-auto</code> <code>aspect-[4/3]</code></td><td>長寬比</td></tr>
+<tr><td><code>box-border</code> <code>box-content</code></td><td>box-sizing（預設 border-box）</td></tr>
+<tr><td><code>isolate</code> <code>isolation-auto</code></td><td>建立新的堆疊脈絡</td></tr>
+<tr><td><code>columns-2</code> <code>columns-3</code> <code>columns-xs</code></td><td>多欄文字排版</td></tr>
+<tr><td><code>break-before-page</code> <code>break-after-avoid</code> <code>break-inside-avoid</code></td><td>分頁 / 分欄斷點</td></tr>
+<tr><td><code>container</code></td><td>寬度隨斷點階梯成長；v4 用 <code>@utility</code> 客製，不再有 config 的 center/padding 選項</td></tr>
+</tbody></table></div>
+
+<h2 id="flexbox">Flexbox</h2>
+<div class="table-wrap"><table><thead><tr><th>Class</th><th>CSS / 說明</th></tr></thead><tbody>
+<tr><td><code>flex</code> <code>inline-flex</code></td><td>建立彈性容器</td></tr>
+<tr><td><code>flex-row</code> <code>flex-row-reverse</code> <code>flex-col</code> <code>flex-col-reverse</code></td><td>主軸方向</td></tr>
+<tr><td><code>flex-wrap</code> <code>flex-wrap-reverse</code> <code>flex-nowrap</code></td><td>是否換行</td></tr>
+<tr><td><code>flex-1</code></td><td><code>flex: 1 1 0%</code>：平均分配剩餘空間（等分欄位首選）</td></tr>
+<tr><td><code>flex-auto</code> <code>flex-initial</code> <code>flex-none</code></td><td>依內容伸縮 / 只縮不長 / 不伸不縮</td></tr>
+<tr><td><code>grow</code> <code>grow-0</code></td><td>flex-grow（v3 的 <code>flex-grow</code> 已改名）</td></tr>
+<tr><td><code>shrink</code> <code>shrink-0</code></td><td>flex-shrink（v3 的 <code>flex-shrink</code> 已改名）</td></tr>
+<tr><td><code>basis-1/2</code> <code>basis-64</code> <code>basis-auto</code> <code>basis-full</code></td><td>flex-basis 起始尺寸</td></tr>
+<tr><td><code>order-1</code> <code>order-first</code> <code>order-last</code> <code>order-none</code></td><td>視覺排序</td></tr>
+</tbody></table></div>
+<div class="callout"><p>兩欄各半：<code>flex-1</code> + <code>flex-1</code>（可配 <code>gap</code>）；<code>w-1/2</code> + <code>gap-4</code> 會爆版，需要 <code>w-[calc(50%-0.5rem)]</code>。</p></div>
+
+<h2 id="grid">Grid</h2>
+<div class="table-wrap"><table><thead><tr><th>Class</th><th>CSS / 說明</th></tr></thead><tbody>
+<tr><td><code>grid</code> <code>inline-grid</code></td><td>建立格線容器</td></tr>
+<tr><td><code>grid-cols-1</code> … <code>grid-cols-12</code> <code>grid-cols-none</code></td><td>欄數（等寬 <code>1fr</code>）</td></tr>
+<tr><td><code>grid-cols-subgrid</code> <code>grid-rows-subgrid</code></td><td>沿用父格線的軌道</td></tr>
+<tr><td><code>grid-cols-[200px_1fr]</code></td><td>自訂軌道（空白用底線）</td></tr>
+<tr><td><code>grid-rows-3</code> <code>auto-rows-min</code> <code>auto-cols-fr</code></td><td>列數與隱式軌道尺寸</td></tr>
+<tr><td><code>grid-flow-row</code> <code>-col</code> <code>-dense</code></td><td>自動排列方向</td></tr>
+<tr><td><code>col-span-2</code> <code>col-span-full</code></td><td>跨欄</td></tr>
+<tr><td><code>col-start-2</code> <code>col-end-4</code> <code>row-span-2</code> <code>row-start-1</code></td><td>起訖位置</td></tr>
+<tr><td><code>gap-4</code> <code>gap-x-2</code> <code>gap-y-6</code></td><td>格線／彈性間距</td></tr>
+</tbody></table></div>
+
+<h2 id="對齊與間距">對齊（Flex / Grid 共用）</h2>
+<div class="table-wrap"><table><thead><tr><th>Class</th><th>CSS / 說明</th></tr></thead><tbody>
+<tr><td><code>justify-start</code> <code>-center</code> <code>-end</code> <code>-between</code> <code>-around</code> <code>-evenly</code></td><td>主軸（水平）分佈 justify-content</td></tr>
+<tr><td><code>items-start</code> <code>-center</code> <code>-end</code> <code>-baseline</code> <code>-stretch</code></td><td>交叉軸（垂直）對齊 align-items</td></tr>
+<tr><td><code>content-start</code> <code>-center</code> <code>-between</code> <code>-evenly</code></td><td>多行時整體對齊 align-content</td></tr>
+<tr><td><code>self-auto</code> <code>self-start</code> <code>self-center</code> <code>self-end</code> <code>self-stretch</code></td><td>單一子元素覆寫交叉軸對齊</td></tr>
+<tr><td><code>justify-items-center</code> <code>justify-self-end</code></td><td>Grid 內單格水平對齊</td></tr>
+<tr><td><code>place-items-center</code> <code>place-content-between</code> <code>place-self-center</code></td><td>同時設定兩軸（<code>grid place-items-center</code> 是最短的置中寫法）</td></tr>
+</tbody></table></div>
+
+<h2 id="間距-spacing">間距 Spacing</h2>
+<div class="table-wrap"><table><thead><tr><th>Class</th><th>CSS / 說明</th></tr></thead><tbody>
+<tr><td><code>p-4</code> <code>px-4</code> <code>py-2</code> <code>pt-1</code> <code>pr-2</code> <code>pb-3</code> <code>pl-4</code></td><td>padding（全 / 左右 / 上下 / 單邊）</td></tr>
+<tr><td><code>ps-4</code> <code>pe-4</code> <code>ms-4</code> <code>me-4</code></td><td>依書寫方向的起訖邊（RTL 友善）</td></tr>
+<tr><td><code>m-4</code> <code>mx-auto</code> <code>my-8</code> <code>mt-2</code> <code>-mt-4</code></td><td>margin，<code>mx-auto</code> 是水平置中經典寫法</td></tr>
+<tr><td><code>space-x-4</code> <code>space-y-2</code></td><td>子元素之間插入間距（不影響最外側）</td></tr>
+<tr><td><code>space-x-reverse</code> <code>space-y-reverse</code></td><td>配合 <code>flex-row-reverse</code> 使用</td></tr>
+<tr><td><code>gap-4</code></td><td>Flex/Grid 專用間距，優先於 <code>space-*</code></td></tr>
+</tbody></table></div>
+<div class="callout"><p>常用換算：<code>1</code>=4px、<code>2</code>=8px、<code>3</code>=12px、<code>4</code>=16px、<code>6</code>=24px、<code>8</code>=32px、<code>12</code>=48px、<code>16</code>=64px。另有 <code>0.5</code>=2px、<code>1.5</code>=6px、<code>2.5</code>=10px。</p></div>
+
+<h2 id="尺寸-sizing">尺寸 Sizing</h2>
+<div class="table-wrap"><table><thead><tr><th>Class</th><th>CSS / 說明</th></tr></thead><tbody>
+<tr><td><code>w-4</code> <code>w-64</code> <code>w-1/2</code> <code>w-1/3</code> <code>w-full</code> <code>w-auto</code></td><td>寬度：刻度 / 分數 / 100%</td></tr>
+<tr><td><code>w-screen</code> <code>w-dvw</code> <code>w-svw</code> <code>w-lvw</code></td><td>視窗寬（<code>dvw</code> 會跟著手機網址列變化）</td></tr>
+<tr><td><code>w-min</code> <code>w-max</code> <code>w-fit</code></td><td>依內容決定寬度</td></tr>
+<tr><td><code>h-*</code> <code>h-full</code> <code>h-screen</code> <code>h-dvh</code></td><td>高度，用法與寬度相同</td></tr>
+<tr><td><code>size-10</code> <code>size-full</code> <span class="tag">v4</span></td><td>同時設定寬高（等於 <code>w-10 h-10</code>）</td></tr>
+<tr><td><code>min-w-0</code> <code>min-h-screen</code> <code>max-w-full</code> <code>max-h-96</code></td><td>最小 / 最大尺寸（<code>min-w-0</code> 常用來修 flex 子元素不縮的問題）</td></tr>
+<tr><td><code>max-w-xs</code> <code>-sm</code> <code>-md</code> <code>-lg</code> <code>-xl</code> <code>-2xl</code> … <code>-7xl</code></td><td>容器刻度：20rem / 24 / 28 / 32 / 36 / 42 … 80rem</td></tr>
+<tr><td><code>max-w-3xs</code> <code>max-w-2xs</code> <span class="tag">v4</span></td><td>16rem / 18rem，比 <code>xs</code> 更小</td></tr>
+<tr><td><code>max-w-prose</code></td><td>約 65 字元寬，適合長文段落</td></tr>
+</tbody></table></div>
+
+<h2 id="文字-typography">文字 Typography</h2>
+<div class="table-wrap"><table><thead><tr><th>Class</th><th>CSS / 說明</th></tr></thead><tbody>
+<tr><td><code>text-xs</code> <code>-sm</code> <code>-base</code> <code>-lg</code> <code>-xl</code> <code>-2xl</code> … <code>-9xl</code></td><td>字級：0.75 / 0.875 / 1 / 1.125 / 1.25 / 1.5 … 8rem</td></tr>
+<tr><td><code>text-lg/7</code> <span class="tag">v4</span></td><td>字級同時指定行高（等於 <code>text-lg leading-7</code>）</td></tr>
+<tr><td><code>font-sans</code> <code>font-serif</code> <code>font-mono</code></td><td>字體家族</td></tr>
+<tr><td><code>font-thin</code> <code>-light</code> <code>-normal</code> <code>-medium</code> <code>-semibold</code> <code>-bold</code> <code>-extrabold</code> <code>-black</code></td><td>字重 100～900</td></tr>
+<tr><td><code>italic</code> <code>not-italic</code></td><td>斜體</td></tr>
+<tr><td><code>text-left</code> <code>-center</code> <code>-right</code> <code>-justify</code> <code>-start</code> <code>-end</code></td><td>對齊</td></tr>
+<tr><td><code>text-gray-600</code> <code>text-blue-500/70</code></td><td>文字顏色（可加透明度）</td></tr>
+<tr><td><code>leading-none</code> <code>-tight</code> <code>-snug</code> <code>-normal</code> <code>-relaxed</code> <code>-loose</code> <code>leading-7</code></td><td>行高</td></tr>
+<tr><td><code>tracking-tighter</code> <code>-tight</code> <code>-normal</code> <code>-wide</code> <code>-wider</code> <code>-widest</code></td><td>字距</td></tr>
+<tr><td><code>underline</code> <code>overline</code> <code>line-through</code> <code>no-underline</code></td><td>裝飾線</td></tr>
+<tr><td><code>decoration-blue-500</code> <code>decoration-2</code> <code>decoration-wavy</code> <code>underline-offset-4</code></td><td>裝飾線顏色 / 粗細 / 樣式 / 距離</td></tr>
+<tr><td><code>uppercase</code> <code>lowercase</code> <code>capitalize</code> <code>normal-case</code></td><td>大小寫轉換</td></tr>
+<tr><td><code>truncate</code></td><td>單行省略號（<code>overflow-hidden + text-ellipsis + whitespace-nowrap</code>）</td></tr>
+<tr><td><code>text-ellipsis</code> <code>text-clip</code></td><td>溢出顯示方式</td></tr>
+<tr><td><code>line-clamp-3</code> <code>line-clamp-none</code></td><td>限制顯示行數後加省略號</td></tr>
+<tr><td><code>whitespace-normal</code> <code>-nowrap</code> <code>-pre</code> <code>-pre-line</code> <code>-pre-wrap</code></td><td>空白與換行處理</td></tr>
+<tr><td><code>break-normal</code> <code>break-words</code> <code>break-all</code> <code>break-keep</code></td><td>斷詞規則</td></tr>
+<tr><td><code>wrap-break-word</code> <code>wrap-anywhere</code> <span class="tag v41">4.1</span></td><td>更精細的換行控制</td></tr>
+<tr><td><code>indent-8</code> <code>align-middle</code> <code>align-baseline</code></td><td>首行縮排 / 垂直對齊</td></tr>
+<tr><td><code>list-disc</code> <code>list-decimal</code> <code>list-none</code> <code>list-inside</code> <code>list-outside</code></td><td>清單樣式與位置</td></tr>
+<tr><td><code>tabular-nums</code> <code>slashed-zero</code> <code>oldstyle-nums</code></td><td>數字字形（表格對齊數字很好用）</td></tr>
+<tr><td><code>content-['—']</code></td><td>搭配 <code>before:</code> / <code>after:</code> 產生內容</td></tr>
+</tbody></table></div>
+
+<h2 id="背景-backgrounds">背景 Backgrounds</h2>
+<div class="table-wrap"><table><thead><tr><th>Class</th><th>CSS / 說明</th></tr></thead><tbody>
+<tr><td><code>bg-white</code> <code>bg-blue-500</code> <code>bg-black/50</code> <code>bg-transparent</code> <code>bg-current</code></td><td>背景顏色（<code>/50</code> 為透明度）</td></tr>
+<tr><td><code>bg-linear-to-r</code> <code>bg-linear-to-br</code> <span class="tag">v4</span></td><td>線性漸層方向（v3 的 <code>bg-gradient-to-r</code>）</td></tr>
+<tr><td><code>bg-linear-45</code> <code>bg-linear-[25deg,red,blue]</code> <span class="tag">v4</span></td><td>任意角度漸層</td></tr>
+<tr><td><code>bg-radial</code> <code>bg-conic</code> <code>bg-conic-180</code> <span class="tag">v4</span></td><td>放射狀 / 圓錐漸層</td></tr>
+<tr><td><code>from-indigo-500</code> <code>via-purple-400</code> <code>to-pink-500</code></td><td>漸層色停點</td></tr>
+<tr><td><code>from-10%</code> <code>via-30%</code> <code>to-90%</code></td><td>色停位置</td></tr>
+<tr><td><code>bg-cover</code> <code>bg-contain</code> <code>bg-auto</code></td><td>背景圖尺寸</td></tr>
+<tr><td><code>bg-center</code> <code>bg-top</code> <code>bg-left-bottom</code></td><td>背景圖位置</td></tr>
+<tr><td><code>bg-no-repeat</code> <code>bg-repeat-x</code> <code>bg-repeat-round</code></td><td>重複方式</td></tr>
+<tr><td><code>bg-fixed</code> <code>bg-local</code> <code>bg-scroll</code></td><td>捲動時的附著方式</td></tr>
+<tr><td><code>bg-clip-text</code> <code>bg-clip-padding</code> <code>bg-origin-border</code></td><td>裁切 / 起始範圍（<code>bg-clip-text</code> + 漸層 = 漸層文字）</td></tr>
+<tr><td><code>bg-[url('/img/hero.jpg')]</code></td><td>背景圖片</td></tr>
+</tbody></table></div>
+
+<h2 id="邊框-borders">邊框 Borders</h2>
+<div class="table-wrap"><table><thead><tr><th>Class</th><th>CSS / 說明</th></tr></thead><tbody>
+<tr><td><code>border</code> <code>border-0</code> <code>border-2</code> <code>border-4</code> <code>border-8</code></td><td>邊框粗細（<code>border</code> = 1px）</td></tr>
+<tr><td><code>border-t</code> <code>border-r-2</code> <code>border-x</code> <code>border-s</code></td><td>單邊 / 兩側粗細</td></tr>
+<tr><td><code>border-gray-300</code> <code>border-blue-500/40</code></td><td>邊框顏色（v4 預設色為 <code>currentColor</code>）</td></tr>
+<tr><td><code>border-solid</code> <code>-dashed</code> <code>-dotted</code> <code>-double</code> <code>-hidden</code> <code>-none</code></td><td>線條樣式</td></tr>
+<tr><td><code>rounded-xs</code> <code>-sm</code> <code>-md</code> <code>-lg</code> <code>-xl</code> <code>-2xl</code> <code>-3xl</code> <code>-4xl</code> <code>-full</code></td><td>圓角：0.125 / 0.25 / 0.375 / 0.5 / 0.75 / 1 / 1.5 / 2rem / 圓形</td></tr>
+<tr><td><code>rounded-t-lg</code> <code>rounded-br-xl</code> <code>rounded-s-md</code></td><td>單邊 / 單角圓角</td></tr>
+<tr><td><code>divide-y</code> <code>divide-x-2</code> <code>divide-gray-200</code></td><td>子元素之間自動加分隔線</td></tr>
+<tr><td><code>outline</code> <code>outline-2</code> <code>outline-offset-2</code> <code>outline-blue-500</code></td><td>外框線（不佔空間，適合 focus）</td></tr>
+<tr><td><code>outline-hidden</code> <span class="tag">v4</span></td><td>移除外框但保留無障礙行為（v3 的 <code>outline-none</code>）</td></tr>
+<tr><td><code>ring</code> <code>ring-2</code> <code>ring-blue-500</code> <code>ring-offset-2</code> <code>ring-inset</code></td><td>環狀外框（<code>ring</code> 在 v4 = 1px）</td></tr>
+</tbody></table></div>
+
+<h2 id="效果-effects">效果 Effects</h2>
+<div class="table-wrap"><table><thead><tr><th>Class</th><th>CSS / 說明</th></tr></thead><tbody>
+<tr><td><code>shadow-2xs</code> <code>-xs</code> <code>-sm</code> <code>-md</code> <code>-lg</code> <code>-xl</code> <code>-2xl</code> <code>-none</code></td><td>投影（v4 整體往下位移一階，見改名對照）</td></tr>
+<tr><td><code>shadow-blue-500/30</code></td><td>投影顏色</td></tr>
+<tr><td><code>inset-shadow-sm</code> <code>inset-ring-2</code> <span class="tag">v4</span></td><td>內陰影與內環</td></tr>
+<tr><td><code>text-shadow-sm</code> <code>text-shadow-lg</code> <span class="tag v41">4.1</span></td><td>文字陰影</td></tr>
+<tr><td><code>opacity-0</code> <code>opacity-50</code> <code>opacity-100</code></td><td>透明度</td></tr>
+<tr><td><code>mix-blend-multiply</code> <code>-screen</code> <code>-overlay</code> <code>bg-blend-*</code></td><td>混合模式</td></tr>
+<tr><td><code>mask-t-from-50%</code> <code>mask-radial-at-center</code> <span class="tag v41">4.1</span></td><td>遮罩（漸層淡出、形狀遮罩）</td></tr>
+</tbody></table></div>
+
+<h2 id="濾鏡-filters">濾鏡 Filters</h2>
+<div class="table-wrap"><table><thead><tr><th>Class</th><th>CSS / 說明</th></tr></thead><tbody>
+<tr><td><code>blur-xs</code> <code>-sm</code> <code>-md</code> <code>-lg</code> <code>-xl</code> <code>-2xl</code> <code>-3xl</code> <code>blur-none</code></td><td>模糊 4 / 8 / 12 / 16 / 24 / 40 / 64px</td></tr>
+<tr><td><code>brightness-50</code> <code>brightness-125</code></td><td>亮度</td></tr>
+<tr><td><code>contrast-50</code> <code>contrast-150</code></td><td>對比</td></tr>
+<tr><td><code>grayscale</code> <code>grayscale-0</code> <code>sepia</code> <code>invert</code></td><td>灰階 / 復古 / 反相</td></tr>
+<tr><td><code>saturate-150</code> <code>hue-rotate-90</code> <code>-hue-rotate-30</code></td><td>飽和度 / 色相旋轉</td></tr>
+<tr><td><code>drop-shadow-md</code> <code>drop-shadow-blue-500/50</code></td><td>依圖形輪廓的陰影（PNG／SVG 用）</td></tr>
+<tr><td><code>backdrop-blur-md</code> <code>backdrop-brightness-50</code> <code>backdrop-saturate-150</code></td><td>背景濾鏡（毛玻璃效果）</td></tr>
+</tbody></table></div>
+
+<h2 id="表格-tables">表格 Tables</h2>
+<div class="table-wrap"><table><thead><tr><th>Class</th><th>CSS / 說明</th></tr></thead><tbody>
+<tr><td><code>border-collapse</code> <code>border-separate</code></td><td>框線合併方式</td></tr>
+<tr><td><code>border-spacing-2</code> <code>border-spacing-x-4</code></td><td>分離模式下的格線間距</td></tr>
+<tr><td><code>table-auto</code> <code>table-fixed</code></td><td>欄寬計算方式</td></tr>
+<tr><td><code>caption-top</code> <code>caption-bottom</code></td><td>表格標題位置</td></tr>
+</tbody></table></div>
+
+<h2 id="過渡與動畫">過渡與動畫</h2>
+<div class="table-wrap"><table><thead><tr><th>Class</th><th>CSS / 說明</th></tr></thead><tbody>
+<tr><td><code>transition</code> <code>transition-colors</code> <code>-opacity</code> <code>-shadow</code> <code>-transform</code> <code>-all</code> <code>-none</code></td><td>要過渡的屬性</td></tr>
+<tr><td><code>duration-150</code> <code>duration-300</code> <code>duration-700</code></td><td>時間（毫秒）</td></tr>
+<tr><td><code>ease-linear</code> <code>ease-in</code> <code>ease-out</code> <code>ease-in-out</code></td><td>加速曲線</td></tr>
+<tr><td><code>delay-100</code> <code>delay-500</code></td><td>延遲</td></tr>
+<tr><td><code>animate-spin</code> <code>animate-ping</code> <code>animate-pulse</code> <code>animate-bounce</code> <code>animate-none</code></td><td>內建動畫</td></tr>
+<tr><td><code>starting:opacity-0</code> <span class="tag">v4</span></td><td>搭配 <code>@starting-style</code> 做進場動畫</td></tr>
+<tr><td><code>transition-discrete</code> <span class="tag">v4</span></td><td>讓 <code>display</code> 這類離散屬性也能過渡</td></tr>
+</tbody></table></div>
+
+<h2 id="變形-transforms">變形 Transforms</h2>
+<div class="table-wrap"><table><thead><tr><th>Class</th><th>CSS / 說明</th></tr></thead><tbody>
+<tr><td><code>scale-95</code> <code>scale-105</code> <code>scale-x-50</code></td><td>縮放</td></tr>
+<tr><td><code>rotate-45</code> <code>-rotate-12</code></td><td>旋轉</td></tr>
+<tr><td><code>translate-x-4</code> <code>-translate-y-2</code> <code>translate-x-1/2</code></td><td>位移</td></tr>
+<tr><td><code>skew-x-6</code> <code>skew-y-3</code></td><td>傾斜</td></tr>
+<tr><td><code>origin-center</code> <code>origin-top-left</code></td><td>變形原點</td></tr>
+<tr><td><code>rotate-x-45</code> <code>rotate-y-30</code> <code>translate-z-8</code> <span class="tag">v4</span></td><td>3D 變形</td></tr>
+<tr><td><code>perspective-normal</code> <code>perspective-origin-center</code> <code>transform-3d</code> <code>backface-hidden</code> <span class="tag">v4</span></td><td>3D 場景設定</td></tr>
+<tr><td><code>transform-none</code> <code>transform-gpu</code> <code>transform-cpu</code></td><td>取消變形 / 指定運算方式</td></tr>
+</tbody></table></div>
+
+<h2 id="互動-interactivity">互動 Interactivity</h2>
+<div class="table-wrap"><table><thead><tr><th>Class</th><th>CSS / 說明</th></tr></thead><tbody>
+<tr><td><code>cursor-pointer</code> <code>cursor-not-allowed</code> <code>cursor-wait</code> <code>cursor-grab</code></td><td>滑鼠游標</td></tr>
+<tr><td><code>pointer-events-none</code> <code>pointer-events-auto</code></td><td>是否接收滑鼠事件</td></tr>
+<tr><td><code>select-none</code> <code>select-text</code> <code>select-all</code></td><td>文字可否選取</td></tr>
+<tr><td><code>resize</code> <code>resize-y</code> <code>resize-none</code></td><td>可否拖曳改變大小</td></tr>
+<tr><td><code>appearance-none</code></td><td>移除瀏覽器預設外觀（自訂 select / checkbox）</td></tr>
+<tr><td><code>accent-blue-600</code> <code>caret-pink-500</code></td><td>表單元件主色 / 游標顏色</td></tr>
+<tr><td><code>scroll-smooth</code> <code>scroll-mt-16</code> <code>scroll-p-4</code></td><td>平滑捲動與捲動邊距（錨點被固定頁首擋住時很有用）</td></tr>
+<tr><td><code>snap-x</code> <code>snap-mandatory</code> <code>snap-center</code> <code>snap-always</code></td><td>捲動吸附（輪播）</td></tr>
+<tr><td><code>touch-pan-y</code> <code>touch-pinch-zoom</code> <code>touch-none</code></td><td>觸控手勢</td></tr>
+<tr><td><code>will-change-transform</code> <code>will-change-auto</code></td><td>提示瀏覽器預先最佳化</td></tr>
+<tr><td><code>field-sizing-content</code> <span class="tag">v4</span></td><td>輸入框高度隨內容自動長大</td></tr>
+<tr><td><code>color-scheme-dark</code> <span class="tag v41">4.1</span></td><td>指定原生控制項的深淺配色</td></tr>
+</tbody></table></div>
+
+<h2 id="svg-與無障礙">SVG 與無障礙</h2>
+<div class="table-wrap"><table><thead><tr><th>Class</th><th>CSS / 說明</th></tr></thead><tbody>
+<tr><td><code>fill-current</code> <code>fill-blue-500</code> <code>fill-none</code></td><td>SVG 填色</td></tr>
+<tr><td><code>stroke-current</code> <code>stroke-gray-400</code> <code>stroke-2</code></td><td>SVG 描邊顏色與粗細</td></tr>
+<tr><td><code>sr-only</code> <code>not-sr-only</code></td><td>只給螢幕閱讀器 / 還原顯示</td></tr>
+<tr><td><code>forced-color-adjust-auto</code> <code>-none</code></td><td>高對比模式下的顏色處理</td></tr>
+</tbody></table></div>
+
+<h2 id="變體前綴-variants">變體前綴 Variants</h2>
+<h3>響應式與容器查詢</h3>
+<div class="table-wrap"><table><thead><tr><th>前綴</th><th>生效條件</th></tr></thead><tbody>
+<tr><td>（無前綴）</td><td>所有尺寸（Mobile First 的手機版）</td></tr>
+<tr><td><code>sm:</code> <code>md:</code> <code>lg:</code> <code>xl:</code> <code>2xl:</code></td><td>≥ 40rem(640px) / 48rem(768) / 64rem(1024) / 80rem(1280) / 96rem(1536)</td></tr>
+<tr><td><code>max-md:</code> <code>max-lg:</code></td><td>該斷點<strong>以下</strong>才生效</td></tr>
+<tr><td><code>md:max-xl:</code></td><td>區間：768px ～ 1279px</td></tr>
+<tr><td><code>min-[900px]:</code> <code>max-[420px]:</code></td><td>任意斷點</td></tr>
+<tr><td><code>@container</code> + <code>@sm:</code> <code>@lg:</code> <span class="tag">v4</span></td><td>容器查詢：依<strong>父容器</strong>寬度而非視窗寬度</td></tr>
+<tr><td><code>@max-md:</code> <code>@min-[400px]:</code> <span class="tag">v4</span></td><td>容器查詢的上限與任意值</td></tr>
+</tbody></table></div>
+
+<h3>狀態與互動</h3>
+<div class="table-wrap"><table><thead><tr><th>前綴</th><th>說明</th></tr></thead><tbody>
+<tr><td><code>hover:</code> <code>focus:</code> <code>focus-visible:</code> <code>focus-within:</code> <code>active:</code> <code>visited:</code> <code>target:</code></td><td>基本互動狀態</td></tr>
+<tr><td><code>disabled:</code> <code>enabled:</code> <code>checked:</code> <code>indeterminate:</code> <code>required:</code> <code>optional:</code></td><td>表單狀態</td></tr>
+<tr><td><code>valid:</code> <code>invalid:</code> <code>user-valid:</code> <code>user-invalid:</code> <code>placeholder-shown:</code> <code>autofill:</code> <code>read-only:</code></td><td>驗證與輸入狀態（<code>user-*</code> 只在使用者互動後才判定）</td></tr>
+<tr><td><code>first:</code> <code>last:</code> <code>only:</code> <code>odd:</code> <code>even:</code> <code>empty:</code></td><td>結構性選取</td></tr>
+<tr><td><code>nth-3:</code> <code>nth-last-2:</code> <code>nth-of-type-2:</code> <span class="tag">v4</span></td><td>指定第幾個子元素</td></tr>
+<tr><td><code>first-of-type:</code> <code>last-of-type:</code></td><td>同型別中的第一個 / 最後一個</td></tr>
+<tr><td><code>open:</code></td><td><code>&lt;details&gt;</code>、<code>&lt;dialog&gt;</code> 展開時</td></tr>
+<tr><td><code>inert:</code> <span class="tag">v4</span></td><td>帶 <code>inert</code> 屬性（不可互動）的元素</td></tr>
+</tbody></table></div>
+
+<h3>關聯選取</h3>
+<div class="table-wrap"><table><thead><tr><th>前綴</th><th>說明</th></tr></thead><tbody>
+<tr><td><code>group</code> + <code>group-hover:</code> <code>group-focus:</code> <code>group-open:</code></td><td>依<strong>父層</strong>狀態改變子元素</td></tr>
+<tr><td><code>group/name</code> + <code>group-hover/name:</code></td><td>多層 group 時用名稱指定是哪一層</td></tr>
+<tr><td><code>peer</code> + <code>peer-checked:</code> <code>peer-focus:</code> <code>peer-invalid:</code></td><td>依<strong>前面的兄弟元素</strong>狀態改變</td></tr>
+<tr><td><code>has-[:checked]:</code> <code>has-[img]:</code> <span class="tag">v4</span></td><td>「內部包含某元素／狀態」時才套用</td></tr>
+<tr><td><code>not-hover:</code> <code>not-supports-[display:grid]:</code> <span class="tag">v4</span></td><td>條件反轉</td></tr>
+<tr><td><code>in-focus:</code> <span class="tag">v4</span></td><td>任一祖先處於該狀態時（免加 <code>group</code>）</td></tr>
+</tbody></table></div>
+
+<h3>偽元素與環境</h3>
+<div class="table-wrap"><table><thead><tr><th>前綴</th><th>說明</th></tr></thead><tbody>
+<tr><td><code>before:</code> <code>after:</code></td><td>偽元素（需搭配 <code>content-['']</code>）</td></tr>
+<tr><td><code>placeholder:</code> <code>file:</code> <code>marker:</code> <code>selection:</code> <code>first-line:</code> <code>first-letter:</code> <code>backdrop:</code></td><td>各種偽元素</td></tr>
+<tr><td><code>details-content:</code> <span class="tag">v4</span></td><td><code>&lt;details&gt;</code> 展開後的內容區</td></tr>
+<tr><td><code>dark:</code></td><td>深色模式</td></tr>
+<tr><td><code>motion-safe:</code> <code>motion-reduce:</code></td><td>依使用者的動畫偏好</td></tr>
+<tr><td><code>contrast-more:</code> <code>contrast-less:</code></td><td>依對比偏好</td></tr>
+<tr><td><code>print:</code></td><td>列印時</td></tr>
+<tr><td><code>portrait:</code> <code>landscape:</code></td><td>直向 / 橫向</td></tr>
+<tr><td><code>rtl:</code> <code>ltr:</code></td><td>書寫方向</td></tr>
+<tr><td><code>aria-checked:</code> <code>aria-[sort=ascending]:</code></td><td>依 ARIA 屬性</td></tr>
+<tr><td><code>data-active:</code> <code>data-[state=open]:</code></td><td>依 data 屬性（元件庫常用）</td></tr>
+<tr><td><code>supports-[backdrop-filter]:</code></td><td>依瀏覽器支援度</td></tr>
+<tr><td><code>[&amp;>*]:mt-2</code> <code>[&amp;_p]:text-sm</code></td><td>任意選擇器變體</td></tr>
+<tr><td><code>*:</code> <code>**:</code> <span class="tag">v4</span></td><td>直接子元素 / 所有後代（<code>*:rounded-lg</code>）</td></tr>
+</tbody></table></div>
+<div class="callout"><p>變體可以疊加，順序由外而內：<code>dark:md:hover:focus:bg-blue-600</code>。</p></div>
+
+<h2 id="v4-css-語法">v4 CSS 語法</h2>
+<div class="table-wrap"><table><thead><tr><th>語法</th><th>用途</th></tr></thead><tbody>
+<tr><td><code>@import "tailwindcss";</code></td><td>唯一必要的引入（取代 v3 的三行 <code>@tailwind</code>）</td></tr>
+<tr><td><code>@theme { --color-brand: #6366f1; }</code></td><td>定義設計 token，自動產生 <code>bg-brand</code> / <code>text-brand</code> 等工具類</td></tr>
+<tr><td><code>@theme { --breakpoint-3xl: 120rem; }</code></td><td>新增斷點，產生 <code>3xl:</code> 前綴</td></tr>
+<tr><td><code>@theme inline { … }</code></td><td>token 值直接內聯展開，適合引用其他變數時</td></tr>
+<tr><td><code>@custom-variant dark (&amp;:where(.dark, .dark *));</code></td><td>自訂變體（此例＝手動切換深色模式）</td></tr>
+<tr><td><code>@utility tab-4 { tab-size: 4; }</code></td><td>自訂工具類（取代 v3 的 <code>@layer utilities</code>）</td></tr>
+<tr><td><code>@apply px-4 py-2 rounded-lg;</code></td><td>把工具類組合成語意化 class（建議少用，優先元件化）</td></tr>
+<tr><td><code>@source "../node_modules/ui-lib";</code></td><td>手動加入要掃描的來源（v4 預設自動偵測）</td></tr>
+<tr><td><code>@reference "../app.css";</code></td><td>在 Vue/Svelte 的 <code>&lt;style&gt;</code> 內使用 <code>@apply</code> 前先引用主樣式</td></tr>
+<tr><td><code>@config "../tailwind.config.js";</code></td><td>相容模式：沿用 v3 設定檔</td></tr>
+<tr><td><code>var(--color-blue-500)</code></td><td>在自訂 CSS 直接取用 theme 值（v3 的 <code>theme()</code> 函式仍可用但不建議）</td></tr>
+</tbody></table></div>
+<pre><code>@import "tailwindcss";
+
+@theme {
+  --color-brand: oklch(0.62 0.19 264);   /* bg-brand / text-brand / border-brand */
+  --font-display: "Noto Sans TC", sans-serif;
+  --spacing-18: 4.5rem;                  /* p-18 / m-18 / gap-18 */
+  --breakpoint-3xl: 120rem;              /* 3xl: 前綴 */
+}
+
+@custom-variant dark (&amp;:where(.dark, .dark *));
+
+@utility content-auto {
+  content-visibility: auto;
+}</code></pre>
+<div class="callout new"><p>v4 的預設色票改用 <strong>oklch</strong> 色彩空間，在廣色域螢幕上更鮮豔；語法本身沒變，<code>bg-blue-500</code> 照用。</p></div>
+
+<h2 id="v3--v4-重新命名對照">v3 → v4 重新命名對照</h2>
+<div class="table-wrap"><table><thead><tr><th>v3</th><th>v4</th></tr></thead><tbody>
+<tr><td><code>shadow-sm</code></td><td><code>shadow-xs</code></td></tr>
+<tr><td><code>shadow</code></td><td><code>shadow-sm</code></td></tr>
+<tr><td><code>drop-shadow-sm</code> / <code>drop-shadow</code></td><td><code>drop-shadow-xs</code> / <code>drop-shadow-sm</code></td></tr>
+<tr><td><code>blur-sm</code> / <code>blur</code></td><td><code>blur-xs</code> / <code>blur-sm</code></td></tr>
+<tr><td><code>rounded-sm</code> / <code>rounded</code></td><td><code>rounded-xs</code> / <code>rounded-sm</code></td></tr>
+<tr><td><code>outline-none</code></td><td><code>outline-hidden</code></td></tr>
+<tr><td><code>ring</code>（3px）</td><td><code>ring</code>（1px）；要 3px 寫 <code>ring-3</code></td></tr>
+<tr><td><code>bg-opacity-50</code> <code>text-opacity-70</code></td><td><code>bg-black/50</code> <code>text-white/70</code></td></tr>
+<tr><td><code>flex-grow</code> / <code>flex-shrink</code></td><td><code>grow</code> / <code>shrink</code></td></tr>
+<tr><td><code>overflow-ellipsis</code></td><td><code>text-ellipsis</code></td></tr>
+<tr><td><code>bg-gradient-to-r</code></td><td><code>bg-linear-to-r</code></td></tr>
+<tr><td><code>decoration-slice</code></td><td><code>box-decoration-slice</code></td></tr>
+<tr><td><code>!bg-red-500</code></td><td><code>bg-red-500!</code></td></tr>
+<tr><td><code>tailwind.config.js</code></td><td>CSS 裡的 <code>@theme</code>（或用 <code>@config</code> 相容）</td></tr>
+<tr><td><code>@tailwind base/components/utilities</code></td><td><code>@import "tailwindcss";</code></td></tr>
+<tr><td><code>@layer utilities { … }</code></td><td><code>@utility 名稱 { … }</code></td></tr>
+</tbody></table></div>
+<div class="callout warning"><p>升級舊專案可以先跑官方工具：<code>npx @tailwindcss/upgrade</code>，它會自動改寫大部分上表的內容。</p></div>
+
+<div class="no-result is-hidden" id="noResult">找不到符合的項目，換個關鍵字試試（可搜 class 名稱或中文說明）。</div>
+
+</main>
+</div>
+
+<footer><div class="footer-inner">
+Tailwind CSS v4 完整速查表 ｜ <a href="guide.html">回 Tailwind 講義</a> ｜ <a href="practice/exercises.html" target="_blank" rel="noopener">練習題</a> ｜ <a href="../index.html">課程首頁</a>
+<p>本表整理自 Tailwind CSS v4 官方文件的分類；工具類會隨小版本增加，最終以 <a href="https://tailwindcss.com/docs" target="_blank" rel="noopener">tailwindcss.com/docs</a> 為準。</p>
+</div></footer>
+
+<script>
+(function () {
+  var input = document.getElementById('filter');
+  var noResult = document.getElementById('noResult');
+  var sections = Array.prototype.slice.call(document.querySelectorAll('.content h2'));
+
+  function blockOf(heading) {
+    var nodes = [];
+    var node = heading.nextElementSibling;
+    while (node && node.tagName !== 'H2') { nodes.push(node); node = node.nextElementSibling; }
+    return nodes;
+  }
+  var blocks = sections.map(function (h) { return { heading: h, nodes: blockOf(h) }; });
+
+  function applyFilter(q) {
+    q = q.trim().toLowerCase();
+    var anyVisible = false;
+
+    blocks.forEach(function (block) {
+      var blockVisible = false;
+
+      block.nodes.forEach(function (node) {
+        var rows = node.querySelectorAll ? node.querySelectorAll('tbody tr') : [];
+        if (rows.length) {
+          var tableVisible = false;
+          Array.prototype.forEach.call(rows, function (row) {
+            var hit = !q || row.textContent.toLowerCase().indexOf(q) !== -1;
+            row.classList.toggle('is-hidden', !hit);
+            if (hit) tableVisible = true;
+          });
+          node.classList.toggle('is-hidden', !tableVisible);
+          if (tableVisible) blockVisible = true;
+        } else {
+          var hit = !q || node.textContent.toLowerCase().indexOf(q) !== -1;
+          // 說明區塊（callout/pre/h3）在有查詢時只在自身命中才顯示
+          node.classList.toggle('is-hidden', q ? !hit : false);
+          if (hit && q) blockVisible = true;
+        }
+      });
+
+      if (!q) blockVisible = true;
+      if (!blockVisible && block.heading.textContent.toLowerCase().indexOf(q) !== -1) {
+        blockVisible = true;
+        block.nodes.forEach(function (node) { node.classList.remove('is-hidden'); });
+        block.nodes.forEach(function (node) {
+          Array.prototype.forEach.call(node.querySelectorAll ? node.querySelectorAll('tbody tr') : [], function (row) {
+            row.classList.remove('is-hidden');
+          });
+        });
+      }
+
+      block.heading.classList.toggle('is-hidden', !blockVisible);
+      if (blockVisible) anyVisible = true;
+    });
+
+    noResult.classList.toggle('is-hidden', anyVisible);
+  }
+
+  input.addEventListener('input', function () { applyFilter(input.value); });
+  input.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') { input.value = ''; applyFilter(''); }
+  });
+
+  var links = Array.prototype.slice.call(document.querySelectorAll('.sidebar a[href^="#"]'));
+  var targets = links.map(function (link) {
+    var el = document.getElementById(decodeURIComponent(link.getAttribute('href').slice(1)));
+    return el ? { link: link, el: el } : null;
+  }).filter(Boolean);
+
+  function updateActive() {
+    var marker = window.scrollY + 140;
+    var current = targets[0];
+    targets.forEach(function (item) { if (item.el.offsetTop <= marker) current = item; });
+    links.forEach(function (link) { link.classList.toggle('is-active', current && link === current.link); });
+  }
+  updateActive();
+  window.addEventListener('scroll', updateActive, { passive: true });
+})();
+</script>
+</body>
+</html>
