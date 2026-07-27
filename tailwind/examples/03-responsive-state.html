@@ -5,43 +5,109 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>範例 03｜RWD 與狀態變體</title>
   <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+  <style>
+    .code-view { margin-top: 12px; border: 1px solid #cbd5e1; border-radius: 10px; overflow: hidden; background: #f8fafc; }
+    .code-view > summary { cursor: pointer; padding: 8px 12px; font-size: .85rem; font-weight: 700; color: #0f766e; list-style: none; }
+    .code-view > summary::before { content: "▸ "; }
+    .code-view[open] > summary::before { content: "▾ "; }
+    .code-view > summary:hover { background: #f1f5f9; }
+    .code-view pre { margin: 0; padding: 14px 16px; background: #111827; color: #e5e7eb; overflow-x: auto; }
+    .code-view code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: .82rem; line-height: 1.6; white-space: pre; }
+  </style>
+<link rel="stylesheet" href="../../assets/code-copy.css">
 </head>
 <body class="bg-gray-100 p-8">
 
-  <h1 class="text-3xl font-bold text-gray-800 mb-6">03 響應式 + 狀態</h1>
+  <!-- 講義對照導覽 -->
+  <nav class="mb-6 flex flex-wrap items-center gap-3 rounded-lg border border-gray-200 bg-white px-4 py-3 shadow-sm">
+    <a href="../guide.html#6-響應式設計-rwd斷點" class="font-semibold text-blue-600 hover:underline">← 回講義：6. 響應式設計 RWD</a>
+    <a href="../guide.html#7-狀態變體hover--focus--group--peer" class="font-semibold text-blue-600 hover:underline">7. 狀態變體</a>
+    <span class="text-sm text-gray-400">範例 03 / 05</span>
+    <span class="ml-auto flex gap-2 text-sm">
+      <a href="02-flex-grid.html" class="rounded-md border border-gray-200 px-3 py-1 text-gray-600 hover:bg-gray-50">← 上一個</a>
+      <a href="../practice/exercises.html" class="rounded-md border border-gray-200 px-3 py-1 text-gray-600 hover:bg-gray-50" target="_blank" rel="noopener">練習題</a>
+      <a href="04-darkmode-theme.html" class="rounded-md border border-gray-200 px-3 py-1 text-gray-600 hover:bg-gray-50">下一個範例 →</a>
+    </span>
+  </nav>
+
+  <h1 class="text-3xl font-bold text-gray-800 mb-2">03 響應式 + 狀態</h1>
+  <p class="text-gray-500 mb-6">對應講義第 6、7 章。每一區塊都附「動手改」提示與可展開複製的程式碼，改完存檔重整瀏覽器就能看到差異。</p>
 
   <!-- RWD：手機1欄 / 平板2欄 / 桌機4欄。拉動視窗寬度觀察 -->
   <section class="mb-8">
-    <h2 class="text-xl font-semibold mb-3">
+    <h2 class="text-xl font-semibold mb-1">
       RWD：<span class="text-blue-600">grid-cols-1 md:grid-cols-2 lg:grid-cols-4</span>
       <span class="text-sm text-gray-500">（拉寬/縮窄視窗看變化）</span>
     </h2>
+    <p class="text-sm text-gray-500 mb-3">
+      對應講義：<a href="../guide.html#6-響應式設計-rwd斷點" class="text-blue-600 hover:underline">6. 響應式設計 RWD（斷點）</a>　·
+      動手改：加一個 <code class="bg-gray-200 px-1 rounded">sm:grid-cols-2</code>，再把 <code class="bg-gray-200 px-1 rounded">lg:grid-cols-4</code> 改成
+      <code class="bg-gray-200 px-1 rounded">xl:grid-cols-4</code>，觀察斷點是「該尺寸以上」才生效。
+    </p>
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
       <div class="bg-blue-500 text-white p-6 rounded-lg text-center">1</div>
       <div class="bg-blue-500 text-white p-6 rounded-lg text-center">2</div>
       <div class="bg-blue-500 text-white p-6 rounded-lg text-center">3</div>
       <div class="bg-blue-500 text-white p-6 rounded-lg text-center">4</div>
     </div>
+    <details class="code-view">
+      <summary>看／複製這一區的程式碼</summary>
+      <pre><code>  RWD：&lt;span class=&quot;text-blue-600&quot;&gt;grid-cols-1 md:grid-cols-2 lg:grid-cols-4&lt;/span&gt;
+  &lt;span class=&quot;text-sm text-gray-500&quot;&gt;（拉寬/縮窄視窗看變化）&lt;/span&gt;
+&lt;/h2&gt;
+&lt;div class=&quot;grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4&quot;&gt;
+  &lt;div class=&quot;bg-blue-500 text-white p-6 rounded-lg text-center&quot;&gt;1&lt;/div&gt;
+  &lt;div class=&quot;bg-blue-500 text-white p-6 rounded-lg text-center&quot;&gt;2&lt;/div&gt;
+  &lt;div class=&quot;bg-blue-500 text-white p-6 rounded-lg text-center&quot;&gt;3&lt;/div&gt;
+  &lt;div class=&quot;bg-blue-500 text-white p-6 rounded-lg text-center&quot;&gt;4&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+    </details>
   </section>
 
   <!-- 狀態變體 hover / focus / active -->
   <section class="mb-8">
-    <h2 class="text-xl font-semibold mb-3">hover / focus / active</h2>
+    <h2 class="text-xl font-semibold mb-1">hover / focus / active</h2>
+    <p class="text-sm text-gray-500 mb-3">
+      對應講義：<a href="../guide.html#7-狀態變體hover--focus--group--peer" class="text-blue-600 hover:underline">7. 狀態變體：hover / focus / group / peer</a>　·
+      動手改：把 <code class="bg-gray-200 px-1 rounded">hover:bg-blue-700</code> 換成 <code class="bg-gray-200 px-1 rounded">hover:bg-rose-600</code>，
+      再加上 <code class="bg-gray-200 px-1 rounded">disabled:opacity-50</code> 並在按鈕加 <code class="bg-gray-200 px-1 rounded">disabled</code> 屬性試試。
+    </p>
     <button class="px-5 py-2.5 bg-blue-500 text-white rounded-lg font-medium
                    hover:bg-blue-700 focus:ring-4 focus:ring-blue-300
                    active:scale-95 transition">
       把滑鼠移過來、點下去、Tab 聚焦試試
     </button>
+    <details class="code-view">
+      <summary>看／複製這一區的程式碼</summary>
+      <pre><code>&lt;button class=&quot;px-5 py-2.5 bg-blue-500 text-white rounded-lg font-medium
+               hover:bg-blue-700 focus:ring-4 focus:ring-blue-300
+               active:scale-95 transition&quot;&gt;
+  把滑鼠移過來、點下去、Tab 聚焦試試
+&lt;/button&gt;</code></pre>
+    </details>
   </section>
 
   <!-- group：整卡 hover 連動 -->
   <section>
-    <h2 class="text-xl font-semibold mb-3">group-hover</h2>
+    <h2 class="text-xl font-semibold mb-1">group-hover</h2>
+    <p class="text-sm text-gray-500 mb-3">
+      對應講義：<a href="../guide.html#group依「父層狀態」改變子元素" class="text-blue-600 hover:underline">7. 狀態變體 › group</a>　·
+      動手改：拿掉父層的 <code class="bg-gray-200 px-1 rounded">group</code>，看子元素是否還會連動；
+      再照 <a href="../guide.html#peer依「兄弟元素狀態」改變" class="text-blue-600 hover:underline">peer 段落</a> 加一組 input + 錯誤訊息。
+    </p>
     <a href="#" class="group block max-w-sm p-5 bg-white rounded-lg shadow hover:shadow-xl transition">
       <h3 class="text-lg font-bold text-gray-800 group-hover:text-blue-600">卡片標題</h3>
       <p class="text-gray-500 group-hover:text-gray-700">滑到整張卡片，標題與內文都會變色。</p>
     </a>
+    <details class="code-view">
+      <summary>看／複製這一區的程式碼</summary>
+      <pre><code>&lt;a href=&quot;#&quot; class=&quot;group block max-w-sm p-5 bg-white rounded-lg shadow hover:shadow-xl transition&quot;&gt;
+  &lt;h3 class=&quot;text-lg font-bold text-gray-800 group-hover:text-blue-600&quot;&gt;卡片標題&lt;/h3&gt;
+  &lt;p class=&quot;text-gray-500 group-hover:text-gray-700&quot;&gt;滑到整張卡片，標題與內文都會變色。&lt;/p&gt;
+&lt;/a&gt;</code></pre>
+    </details>
   </section>
 
+<script src="../../assets/code-copy.js"></script>
 </body>
 </html>

@@ -14,8 +14,30 @@
       --color-brand-dark: #4f46e5;
     }
   </style>
+  <style>
+    .code-view { margin-top: 12px; border: 1px solid #cbd5e1; border-radius: 10px; overflow: hidden; background: #f8fafc; }
+    .code-view > summary { cursor: pointer; padding: 8px 12px; font-size: .85rem; font-weight: 700; color: #0f766e; list-style: none; }
+    .code-view > summary::before { content: "▸ "; }
+    .code-view[open] > summary::before { content: "▾ "; }
+    .code-view > summary:hover { background: #f1f5f9; }
+    .code-view pre { margin: 0; padding: 14px 16px; background: #111827; color: #e5e7eb; overflow-x: auto; }
+    .code-view code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: .82rem; line-height: 1.6; white-space: pre; }
+  </style>
+<link rel="stylesheet" href="../../assets/code-copy.css">
 </head>
 <body class="bg-white text-gray-900 dark:bg-gray-900 dark:text-gray-100 p-8 transition-colors">
+
+  <!-- 講義對照導覽 -->
+  <nav class="mb-6 flex flex-wrap items-center gap-3 rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 px-4 py-3">
+    <a href="../guide.html#8-深色模式-dark-mode" class="font-semibold text-blue-600 dark:text-blue-400 hover:underline">← 回講義：8. 深色模式 Dark Mode</a>
+    <a href="../guide.html#9-自訂主題theme" class="font-semibold text-blue-600 dark:text-blue-400 hover:underline">9. 自訂主題</a>
+    <span class="text-sm text-gray-400">範例 04 / 05</span>
+    <span class="ml-auto flex gap-2 text-sm">
+      <a href="03-responsive-state.html" class="rounded-md border border-gray-200 dark:border-gray-700 px-3 py-1 hover:bg-gray-100 dark:hover:bg-gray-700">← 上一個</a>
+      <a href="../practice/exercises.html" class="rounded-md border border-gray-200 dark:border-gray-700 px-3 py-1 hover:bg-gray-100 dark:hover:bg-gray-700" target="_blank" rel="noopener">練習題</a>
+      <a href="05-component-card.html" class="rounded-md border border-gray-200 dark:border-gray-700 px-3 py-1 hover:bg-gray-100 dark:hover:bg-gray-700">下一個範例 →</a>
+    </span>
+  </nav>
 
   <div class="flex items-center justify-between mb-6">
     <h1 class="text-3xl font-bold">04 深色模式 + 自訂主題</h1>
@@ -27,24 +49,52 @@
 
   <!-- 深色模式：用 dark: 前綴 -->
   <section class="mb-8">
-    <h2 class="text-xl font-semibold mb-3">dark: 前綴</h2>
+    <h2 class="text-xl font-semibold mb-1">dark: 前綴</h2>
+    <p class="text-sm text-gray-500 dark:text-gray-400 mb-3">
+      對應講義：<a href="../guide.html#8-深色模式-dark-mode" class="text-blue-600 dark:text-blue-400 hover:underline">8. 深色模式 Dark Mode</a>　·
+      動手改：把 <code class="bg-gray-200 dark:bg-gray-700 px-1 rounded">dark:bg-gray-800</code> 換成 <code class="bg-gray-200 dark:bg-gray-700 px-1 rounded">dark:bg-slate-900</code>，
+      並看本檔 <code class="bg-gray-200 dark:bg-gray-700 px-1 rounded">&lt;style type="text/tailwindcss"&gt;</code> 裡的 <code class="bg-gray-200 dark:bg-gray-700 px-1 rounded">@custom-variant dark</code>（手動切換策略）。
+    </p>
     <div class="p-6 rounded-lg border border-gray-200 dark:border-gray-700
                 bg-gray-50 dark:bg-gray-800">
       <p class="text-gray-600 dark:text-gray-300">
         這個區塊會依深/淺色模式改變背景與文字顏色。點右上角按鈕切換。
       </p>
     </div>
+    <details class="code-view">
+      <summary>看／複製這一區的程式碼</summary>
+      <pre><code>&lt;div class=&quot;p-6 rounded-lg border border-gray-200 dark:border-gray-700
+            bg-gray-50 dark:bg-gray-800&quot;&gt;
+  &lt;p class=&quot;text-gray-600 dark:text-gray-300&quot;&gt;
+    這個區塊會依深/淺色模式改變背景與文字顏色。點右上角按鈕切換。
+  &lt;/p&gt;
+&lt;/div&gt;</code></pre>
+    </details>
   </section>
 
   <!-- 自訂主題色 bg-brand -->
   <section>
-    <h2 class="text-xl font-semibold mb-3">自訂品牌色（@theme 定義的 bg-brand）</h2>
+    <h2 class="text-xl font-semibold mb-1">自訂品牌色（@theme 定義的 bg-brand）</h2>
+    <p class="text-sm text-gray-500 dark:text-gray-400 mb-3">
+      對應講義：<a href="../guide.html#用-css-的-theme" class="text-blue-600 dark:text-blue-400 hover:underline">9. 自訂主題 › @theme</a>　·
+      動手改：在上方 <code class="bg-gray-200 dark:bg-gray-700 px-1 rounded">@theme</code> 裡新增
+      <code class="bg-gray-200 dark:bg-gray-700 px-1 rounded">--color-accent: #f97316;</code>，就能直接用 <code class="bg-gray-200 dark:bg-gray-700 px-1 rounded">bg-accent</code>。
+    </p>
     <div class="flex gap-3">
       <span class="px-4 py-2 rounded-lg bg-brand text-white">bg-brand</span>
       <span class="px-4 py-2 rounded-lg bg-brand-dark text-white">bg-brand-dark</span>
       <span class="px-4 py-2 rounded-lg border-2 border-brand text-brand">border-brand</span>
     </div>
+    <details class="code-view">
+      <summary>看／複製這一區的程式碼</summary>
+      <pre><code>&lt;div class=&quot;flex gap-3&quot;&gt;
+  &lt;span class=&quot;px-4 py-2 rounded-lg bg-brand text-white&quot;&gt;bg-brand&lt;/span&gt;
+  &lt;span class=&quot;px-4 py-2 rounded-lg bg-brand-dark text-white&quot;&gt;bg-brand-dark&lt;/span&gt;
+  &lt;span class=&quot;px-4 py-2 rounded-lg border-2 border-brand text-brand&quot;&gt;border-brand&lt;/span&gt;
+&lt;/div&gt;</code></pre>
+    </details>
   </section>
 
+<script src="../../assets/code-copy.js"></script>
 </body>
 </html>

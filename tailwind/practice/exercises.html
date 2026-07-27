@@ -30,6 +30,9 @@ a{color:var(--brand);}
 .ai .tip{font-size:.82rem;color:#4b5563;margin:.5em 0 0;}
 .figref{margin:.6em 0 .2em;font-size:.88rem;background:#f0f9ff;border:1px solid #bae6fd;border-radius:8px;padding:8px 12px;}
 .figref a{font-weight:600;}
+.fig-icon{width:13px;height:19px;flex:0 0 auto;vertical-align:-4px;margin-right:6px;}
+.ref{margin:.4em 0 .2em;font-size:.88rem;background:#ecfdf5;border:1px solid #99f6e4;border-radius:8px;padding:8px 12px;}
+.ref a{font-weight:600;}
 .exercise-tabs{margin:1.6em 0 2em;border:1px solid var(--border);background:var(--surface);border-radius:14px;box-shadow:0 10px 30px rgba(15,23,42,.06);overflow:hidden;}
 .tab-list{display:flex;gap:6px;padding:10px;background:#ccfbf1;border-bottom:1px solid var(--border);overflow-x:auto;scrollbar-width:thin;}
 .tab-button{flex:0 0 auto;border:1px solid transparent;background:transparent;color:#475569;border-radius:10px;padding:9px 14px;font:600 .92rem/1.2 system-ui,-apple-system,"Segoe UI","Noto Sans TC",sans-serif;cursor:pointer;white-space:nowrap;transition:background .18s,color .18s,border-color .18s,box-shadow .18s;}
@@ -60,8 +63,9 @@ a{color:var(--brand);}
 <body>
 <div class="wrap">
 <a class="nav-back" href="../guide.html">← 回 Tailwind 講義</a>
+<a class="nav-back" href="../cheatsheet.html" style="margin-left:14px;">v4 完整速查表</a>
 <h1>Tailwind CSS 練習題</h1>
-<blockquote>每題都有一個 <code>起始檔</code> 供你動手，<code>answers/</code> 資料夾有完整答案。用瀏覽器（或 VS Code Live Server）打開 HTML 即可即時看效果。所有練習皆用 Play CDN，不需安裝。回 <a href="../guide.html">Tailwind 講義</a>。</blockquote>
+<blockquote>每題都有一個 <code>起始檔</code> 供你動手，<code>answers/</code> 資料夾有完整答案。用瀏覽器（或 VS Code Live Server）打開 HTML 即可即時看效果。所有練習皆用 Play CDN，不需安裝；建議先裝 VS Code 擴充 <a href="https://marketplace.visualstudio.com/items?itemName=bradlc.vscode-tailwindcss" target="_blank" rel="noopener">Tailwind CSS IntelliSense</a>，寫 class 會有自動補全與顏色預覽。每題都標了「對應講義章節」與「參考範例」，卡住時先回去看該章節與範例。回 <a href="../guide.html">Tailwind 講義</a>、<a href="../guide.html#範例對照表">範例對照表</a>。</blockquote>
 
 <div class="intro-ai">
 <h3>怎麼用 AI 幫你學（先看這裡）</h3>
@@ -77,7 +81,8 @@ a{color:var(--brand);}
 <h2>基礎題 <span class="badge b-green">基礎</span></h2>
 
 <h3>練習 1：個人名片</h3>
-<p class="figref">Figma 參考樣式：<a href="https://www.figma.com/design/e87BnLqAVr9tTSyCTNP7TX/?node-id=25-7" target="_blank" rel="noopener">開啟「TW 01 名片」畫面</a></p>
+<p class="figref"><svg class="fig-icon" viewBox="0 0 38 57" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Figma"><path fill="#1abcfe" d="M19 28.5a9.5 9.5 0 1 1 19 0 9.5 9.5 0 0 1-19 0z"/><path fill="#0acf83" d="M0 47.5A9.5 9.5 0 0 1 9.5 38H19v9.5a9.5 9.5 0 1 1-19 0z"/><path fill="#ff7262" d="M19 0h9.5a9.5 9.5 0 1 1 0 19H19V0z"/><path fill="#f24e1e" d="M0 9.5A9.5 9.5 0 0 1 9.5 0H19v19H9.5A9.5 9.5 0 0 1 0 9.5z"/><path fill="#a259ff" d="M0 28.5A9.5 9.5 0 0 1 9.5 19H19v19H9.5A9.5 9.5 0 0 1 0 28.5z"/></svg>Figma 參考樣式：<a href="https://www.figma.com/design/e87BnLqAVr9tTSyCTNP7TX/?node-id=25-7" target="_blank" rel="noopener">開啟「TW 01 名片」畫面</a></p>
+<p class="ref">對應講義：<a href="../guide.html#4-核心工具類速查">4. 核心工具類速查</a>　·　參考範例：<a href="../examples/01-basics.html">01-basics.html</a></p>
 <p>做一張置中的名片：</p>
 <ul>
 <li>頁面背景灰色（<code>bg-gray-100</code>），名片用白底、圓角、陰影、內距。</li>
@@ -93,7 +98,8 @@ a{color:var(--brand);}
 <p class="tip">追問：「水平置中除了 mx-auto 還有哪些做法？差在哪？」</p></div>
 
 <h3>練習 2：水平垂直置中的登入框</h3>
-<p class="figref">Figma 參考樣式：<a href="https://www.figma.com/design/e87BnLqAVr9tTSyCTNP7TX/?node-id=25-14" target="_blank" rel="noopener">開啟「TW 02 登入」畫面</a></p>
+<p class="figref"><svg class="fig-icon" viewBox="0 0 38 57" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Figma"><path fill="#1abcfe" d="M19 28.5a9.5 9.5 0 1 1 19 0 9.5 9.5 0 0 1-19 0z"/><path fill="#0acf83" d="M0 47.5A9.5 9.5 0 0 1 9.5 38H19v9.5a9.5 9.5 0 1 1-19 0z"/><path fill="#ff7262" d="M19 0h9.5a9.5 9.5 0 1 1 0 19H19V0z"/><path fill="#f24e1e" d="M0 9.5A9.5 9.5 0 0 1 9.5 0H19v19H9.5A9.5 9.5 0 0 1 0 9.5z"/><path fill="#a259ff" d="M0 28.5A9.5 9.5 0 0 1 9.5 19H19v19H9.5A9.5 9.5 0 0 1 0 28.5z"/></svg>Figma 參考樣式：<a href="https://www.figma.com/design/e87BnLqAVr9tTSyCTNP7TX/?node-id=25-14" target="_blank" rel="noopener">開啟「TW 02 登入」畫面</a></p>
+<p class="ref">對應講義：<a href="../guide.html#5-flexbox-與-grid-佈局">5. Flexbox 與 Grid 佈局</a>、<a href="../guide.html#7-狀態變體hover--focus--group--peer">7. 狀態變體</a>　·　參考範例：<a href="../examples/02-flex-grid.html">02-flex-grid.html</a>（水平垂直置中區塊）</p>
 <ul>
 <li>整個畫面高度滿版（<code>min-h-screen</code>），登入框在正中央。</li>
 <li>框內：標題、一個 <code>input</code>（有 border、圓角、<code>focus:ring</code>）、一個滿寬按鈕。</li>
@@ -108,7 +114,8 @@ a{color:var(--brand);}
 <h2>進階題 <span class="badge b-yellow">進階</span></h2>
 
 <h3>練習 3：響應式導覽列 + 卡片牆</h3>
-<p class="figref">Figma 參考樣式：<a href="https://www.figma.com/design/e87BnLqAVr9tTSyCTNP7TX/?node-id=25-21" target="_blank" rel="noopener">開啟「TW 03 響應式」畫面</a></p>
+<p class="figref"><svg class="fig-icon" viewBox="0 0 38 57" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Figma"><path fill="#1abcfe" d="M19 28.5a9.5 9.5 0 1 1 19 0 9.5 9.5 0 0 1-19 0z"/><path fill="#0acf83" d="M0 47.5A9.5 9.5 0 0 1 9.5 38H19v9.5a9.5 9.5 0 1 1-19 0z"/><path fill="#ff7262" d="M19 0h9.5a9.5 9.5 0 1 1 0 19H19V0z"/><path fill="#f24e1e" d="M0 9.5A9.5 9.5 0 0 1 9.5 0H19v19H9.5A9.5 9.5 0 0 1 0 9.5z"/><path fill="#a259ff" d="M0 28.5A9.5 9.5 0 0 1 9.5 19H19v19H9.5A9.5 9.5 0 0 1 0 28.5z"/></svg>Figma 參考樣式：<a href="https://www.figma.com/design/e87BnLqAVr9tTSyCTNP7TX/?node-id=25-21" target="_blank" rel="noopener">開啟「TW 03 響應式」畫面</a></p>
+<p class="ref">對應講義：<a href="../guide.html#5-flexbox-與-grid-佈局">5. Flexbox 與 Grid</a>、<a href="../guide.html#6-響應式設計-rwd斷點">6. 響應式設計 RWD</a>　·　參考範例：<a href="../examples/02-flex-grid.html">02-flex-grid.html</a>、<a href="../examples/03-responsive-state.html">03-responsive-state.html</a></p>
 <ul>
 <li>頂部導覽列：左邊 LOGO、右邊三個連結，兩端對齊、垂直置中。</li>
 <li>下方卡片牆：<strong>手機 1 欄、平板（md）2 欄、桌機（lg）3 欄</strong>，<code>gap-6</code>。</li>
@@ -122,7 +129,8 @@ a{color:var(--brand);}
 <p class="tip">追問：「grid-cols-1 md:grid-cols-2 lg:grid-cols-3 為什麼要從小寫到大？反過來寫會怎樣？」</p></div>
 
 <h3>練習 4：group-hover 互動卡片</h3>
-<p class="figref">Figma 參考樣式：<a href="https://www.figma.com/design/e87BnLqAVr9tTSyCTNP7TX/?node-id=25-41" target="_blank" rel="noopener">開啟「TW 04 group」畫面</a></p>
+<p class="figref"><svg class="fig-icon" viewBox="0 0 38 57" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Figma"><path fill="#1abcfe" d="M19 28.5a9.5 9.5 0 1 1 19 0 9.5 9.5 0 0 1-19 0z"/><path fill="#0acf83" d="M0 47.5A9.5 9.5 0 0 1 9.5 38H19v9.5a9.5 9.5 0 1 1-19 0z"/><path fill="#ff7262" d="M19 0h9.5a9.5 9.5 0 1 1 0 19H19V0z"/><path fill="#f24e1e" d="M0 9.5A9.5 9.5 0 0 1 9.5 0H19v19H9.5A9.5 9.5 0 0 1 0 9.5z"/><path fill="#a259ff" d="M0 28.5A9.5 9.5 0 0 1 9.5 19H19v19H9.5A9.5 9.5 0 0 1 0 28.5z"/></svg>Figma 參考樣式：<a href="https://www.figma.com/design/e87BnLqAVr9tTSyCTNP7TX/?node-id=25-41" target="_blank" rel="noopener">開啟「TW 04 group」畫面</a></p>
+<p class="ref">對應講義：<a href="../guide.html#group依「父層狀態」改變子元素">7. 狀態變體 › group</a>　·　參考範例：<a href="../examples/03-responsive-state.html">03-responsive-state.html</a>、<a href="../examples/05-component-card.html">05-component-card.html</a></p>
 <p>做一張卡片，滑鼠移到<strong>整張卡</strong>時：</p>
 <ul>
 <li>卡片陰影加深</li>
@@ -139,7 +147,8 @@ a{color:var(--brand);}
 <h2>挑戰題 <span class="badge b-red">挑戰</span></h2>
 
 <h3>練習 5：可切換的深色模式價目表</h3>
-<p class="figref">Figma 參考樣式：<a href="https://www.figma.com/design/e87BnLqAVr9tTSyCTNP7TX/?node-id=26-2" target="_blank" rel="noopener">開啟「TW 05 價目表」畫面（含淺/深色）</a></p>
+<p class="figref"><svg class="fig-icon" viewBox="0 0 38 57" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Figma"><path fill="#1abcfe" d="M19 28.5a9.5 9.5 0 1 1 19 0 9.5 9.5 0 0 1-19 0z"/><path fill="#0acf83" d="M0 47.5A9.5 9.5 0 0 1 9.5 38H19v9.5a9.5 9.5 0 1 1-19 0z"/><path fill="#ff7262" d="M19 0h9.5a9.5 9.5 0 1 1 0 19H19V0z"/><path fill="#f24e1e" d="M0 9.5A9.5 9.5 0 0 1 9.5 0H19v19H9.5A9.5 9.5 0 0 1 0 9.5z"/><path fill="#a259ff" d="M0 28.5A9.5 9.5 0 0 1 9.5 19H19v19H9.5A9.5 9.5 0 0 1 0 28.5z"/></svg>Figma 參考樣式：<a href="https://www.figma.com/design/e87BnLqAVr9tTSyCTNP7TX/?node-id=26-2" target="_blank" rel="noopener">開啟「TW 05 價目表」畫面（含淺/深色）</a></p>
+<p class="ref">對應講義：<a href="../guide.html#8-深色模式-dark-mode">8. 深色模式</a>、<a href="../guide.html#9-自訂主題theme">9. 自訂主題</a>、<a href="../guide.html#6-響應式設計-rwd斷點">6. RWD</a>　·　參考範例：<a href="../examples/04-darkmode-theme.html">04-darkmode-theme.html</a>、<a href="../examples/05-component-card.html">05-component-card.html</a></p>
 <ul>
 <li>用 <code>@theme</code> 自訂一個品牌色。</li>
 <li>做三欄式價目表（Free / Pro / Team），Pro 方案要用品牌色外框「突顯」。</li>

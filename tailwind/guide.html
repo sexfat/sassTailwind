@@ -124,6 +124,11 @@ th { background: #eef2f7; font-weight: 700; }
   background: var(--note-bg);
 }
 .callout.warning { border-left-color: var(--warning-border); background: var(--warning-bg); }
+.callout.example { border-left-color: #0f8b8d; background: #ecfdf5; }
+.callout.example strong { color: #0f5d5e; }
+.callout.v3 { border-left-color: #94a3b8; background: #f1f5f9; }
+.callout.v3 .v3-tag { display: inline-block; margin-bottom: 6px; padding: 2px 8px; border-radius: 999px; background: #64748b; color: #fff; font-size: .78rem; font-weight: 700; }
+.callout.v3 p:not(.v3-tag) { color: #475569; }
 .callout p { margin: 0 0 8px; }
 .callout p:last-child { margin-bottom: 0; }
 .code-wrap { margin: 18px 0 24px; border-radius: 8px; overflow: hidden; background: var(--code-bg); }
@@ -189,10 +194,11 @@ hr { border: 0; border-top: 1px solid var(--border); margin: 30px 0; }
 </style>
 </head>
 <body>
-<header class="site-header"><div class="header-inner"><h1>Tailwind CSS 完整講義</h1><p>完整轉換自 tailwind/講義.md，保留 11 個章節、所有範例與重點提示。</p><div class="header-actions"><a class="practice-link" href="practice/exercises.html">前往 Tailwind 練習題</a><a class="home-link" href="../index.html">回課程首頁</a></div></div></header>
+<header class="site-header"><div class="header-inner"><h1>Tailwind CSS 完整講義</h1><p>完整轉換自 tailwind/講義.md，保留 11 個章節、所有範例與重點提示。</p><div class="header-actions"><a class="practice-link" href="practice/exercises.html" target="_blank" rel="noopener">前往 Tailwind 練習題</a><a class="home-link" href="cheatsheet.html">v4 完整速查表</a><a class="home-link" href="final-project/exercises.html">最後切版練習</a><a class="home-link" href="../index.html">回課程首頁</a></div></div></header>
 <div class="layout">
-<nav class="sidebar" aria-label="章節導覽"><h2>章節導覽</h2><a class="practice" href="practice/exercises.html">前往 Tailwind 練習題</a><a class="home" href="../index.html">回課程首頁</a><a class="h1" href="#tailwind-css-完整講義">Tailwind CSS 完整講義</a>
+<nav class="sidebar" aria-label="章節導覽"><h2>章節導覽</h2><a class="practice" href="practice/exercises.html" target="_blank" rel="noopener">前往 Tailwind 練習題</a><a class="home" href="cheatsheet.html">v4 完整速查表</a><a class="practice" href="final-project/exercises.html">最終切版練習</a><a class="home" href="../index.html">回課程首頁</a><a class="h1" href="#tailwind-css-完整講義">Tailwind CSS 完整講義</a>
 <a class="h2" href="#目錄">目錄</a>
+<a class="h2" href="#範例對照表">範例對照表</a>
 <a class="h2" href="#1-什麼是-utility-first">1. 什麼是 Utility-First？</a>
 <a class="h3" href="#為什麼這樣比較好">為什麼這樣比較好？</a>
 <a class="h3" href="#常見疑慮「html-會不會很醜很長」">常見疑慮：「HTML 會不會很醜很長？」</a>
@@ -211,29 +217,40 @@ hr { border: 0; border-top: 1px solid var(--border); margin: 30px 0; }
 <a class="h3" href="#任意值（arbitrary-values）">任意值（Arbitrary values）</a>
 <a class="h2" href="#5-flexbox-與-grid-佈局">5. Flexbox 與 Grid 佈局</a>
 <a class="h3" href="#flexbox">Flexbox</a>
+<a class="h3" href="#用-flex-做多欄flex-1-vs-w-12">用 Flex 做多欄：flex-1 vs w-1/2</a>
 <a class="h3" href="#grid">Grid</a>
 <a class="h2" href="#6-響應式設計-rwd斷點">6. 響應式設計 RWD（斷點）</a>
 <a class="h2" href="#7-狀態變體hover--focus--group--peer">7. 狀態變體：hover / focus / group / peer</a>
 <a class="h3" href="#group依「父層狀態」改變子元素"><code>group</code>：依「父層狀態」改變子元素</a>
 <a class="h3" href="#peer依「兄弟元素狀態」改變"><code>peer</code>：依「兄弟元素狀態」改變</a>
 <a class="h2" href="#8-深色模式-dark-mode">8. 深色模式 Dark Mode</a>
-<a class="h2" href="#9-自訂主題v4-theme-與-v3-config">9. 自訂主題（v4 <code>@theme</code> 與 v3 config）</a>
-<a class="h3" href="#v4用-css-的-theme（推薦）">v4：用 CSS 的 <code>@theme</code>（推薦）</a>
-<a class="h3" href="#v3用-tailwindconfigjs">v3：用 <code>tailwind.config.js</code></a>
+<a class="h2" href="#9-自訂主題theme">9. 自訂主題（<code>@theme</code>）</a>
+<a class="h3" href="#用-css-的-theme">用 CSS 的 <code>@theme</code></a>
 <a class="h2" href="#10-重複樣式的處理apply-與元件抽取">10. 重複樣式的處理：<code>@apply</code> 與元件抽取</a>
 <a class="h3" href="#做法-a元件化（首選）">做法 A：元件化（首選）</a>
 <a class="h3" href="#做法-bapply-抽出自訂-class">做法 B：<code>@apply</code> 抽出自訂 class</a>
 <a class="h2" href="#11-推薦工具與最佳實踐">11. 推薦工具與最佳實踐</a>
 <a class="h3" href="#必裝工具">必裝工具</a>
 <a class="h3" href="#最佳實踐">最佳實踐</a>
+<a class="h2" href="#附錄常用速查表">附錄：常用工具類速查表</a>
 <a class="h2" href="#-重點速記">重點速記</a></nav>
 <main class="content">
 <h1 id="tailwind-css-完整講義">Tailwind CSS 完整講義</h1>
 <aside class="callout note"><p>Tailwind CSS 是一套 <strong>Utility-First（工具優先）</strong> 的 CSS 框架。</p><p>它不給你「元件」，而是給你一堆小的、單一用途的 class（例如 <code>flex</code>、<code>pt-4</code>、<code>text-center</code>），讓你直接在 HTML 裡「組合」出樣式，幾乎不用自己寫 CSS。</p></aside>
 <h2 id="目錄">目錄</h2>
-<ol><li><a href="#1-什麼是-utility-first">什麼是 Utility-First？</a></li><li><a href="#2-與傳統-css--bootstrap-的差異">與傳統 CSS / Bootstrap 的差異</a></li><li><a href="#3-安裝與環境cdn--cli--vite">安裝與環境（CDN / CLI / Vite）</a></li><li><a href="#4-核心工具類速查">核心工具類速查</a></li><li><a href="#5-flexbox-與-grid-佈局">Flexbox 與 Grid 佈局</a></li><li><a href="#6-響應式設計-rwd斷點">響應式設計 RWD（斷點）</a></li><li><a href="#7-狀態變體hover--focus--group--peer">狀態變體：hover / focus / group / peer</a></li><li><a href="#8-深色模式-dark-mode">深色模式 Dark Mode</a></li><li><a href="#9-自訂主題v4-theme-與-v3-config">自訂主題（v4 <code>@theme</code> 與 v3 config）</a></li><li><a href="#10-重複樣式的處理apply-與元件抽取">重複樣式的處理：<code>@apply</code> 與元件抽取</a></li><li><a href="#11-推薦工具與最佳實踐">推薦工具與最佳實踐</a></li></ol>
+<ol><li><a href="#1-什麼是-utility-first">什麼是 Utility-First？</a></li><li><a href="#2-與傳統-css--bootstrap-的差異">與傳統 CSS / Bootstrap 的差異</a></li><li><a href="#3-安裝與環境cdn--cli--vite">安裝與環境（CDN / CLI / Vite）</a></li><li><a href="#4-核心工具類速查">核心工具類速查</a></li><li><a href="#5-flexbox-與-grid-佈局">Flexbox 與 Grid 佈局</a></li><li><a href="#6-響應式設計-rwd斷點">響應式設計 RWD（斷點）</a></li><li><a href="#7-狀態變體hover--focus--group--peer">狀態變體：hover / focus / group / peer</a></li><li><a href="#8-深色模式-dark-mode">深色模式 Dark Mode</a></li><li><a href="#9-自訂主題theme">自訂主題（<code>@theme</code>）</a></li><li><a href="#10-重複樣式的處理apply-與元件抽取">重複樣式的處理：<code>@apply</code> 與元件抽取</a></li><li><a href="#11-推薦工具與最佳實踐">推薦工具與最佳實踐</a></li><li><a href="#附錄常用速查表">附錄：常用工具類速查表</a></li></ol>
+<h2 id="範例對照表">範例對照表</h2>
+<p><code>examples/</code> 的每個檔案都對應到下面的章節，直接用瀏覽器打開就能看效果；檔案裡每一區塊也都有「對應講義」連結與「動手改」提示，可以邊看章節邊改 class。</p>
+<div class="table-wrap"><table><thead><tr><th>範例檔</th><th>對應章節</th><th>練習重點</th></tr></thead><tbody>
+<tr><td><a href="examples/01-basics.html">01-basics.html</a></td><td><a href="#1-什麼是-utility-first">1. Utility-First</a>、<a href="#4-核心工具類速查">4. 核心工具類速查</a></td><td>間距、文字、顏色深淺、任意值</td></tr>
+<tr><td><a href="examples/02-flex-grid.html">02-flex-grid.html</a></td><td><a href="#5-flexbox-與-grid-佈局">5. Flexbox 與 Grid 佈局</a></td><td>justify / items、grid-cols、經典置中</td></tr>
+<tr><td><a href="examples/03-responsive-state.html">03-responsive-state.html</a></td><td><a href="#6-響應式設計-rwd斷點">6. RWD 斷點</a>、<a href="#7-狀態變體hover--focus--group--peer">7. 狀態變體</a></td><td>斷點前綴、hover/focus/active、group</td></tr>
+<tr><td><a href="examples/04-darkmode-theme.html">04-darkmode-theme.html</a></td><td><a href="#8-深色模式-dark-mode">8. 深色模式</a>、<a href="#9-自訂主題theme">9. 自訂主題</a></td><td><code>dark:</code> 切換、<code>@theme</code> 自訂品牌色</td></tr>
+<tr><td><a href="examples/05-component-card.html">05-component-card.html</a></td><td>綜合 <a href="#4-核心工具類速查">4</a>～<a href="#10-重複樣式的處理apply-與元件抽取">10</a> 章</td><td>卡片牆實戰：RWD + group + 元件抽取</td></tr>
+</tbody></table></div>
 <hr>
 <h2 id="1-什麼是-utility-first">1. 什麼是 Utility-First？</h2>
+<aside class="callout example"><p><strong>對應範例</strong>：<a href="examples/01-basics.html">01-basics.html</a>　—　打開後對照這裡的寫法，看工具類組合出來的實際畫面。</p></aside>
 <p>傳統寫法：先想一個 class 名稱，再到 CSS 檔寫規則。</p>
 <div class="code-wrap"><div class="code-toolbar"><span>html</span><button type="button" class="copy-code">複製</button></div><pre><code class="language-html">&lt;div class=&quot;card&quot;&gt;...&lt;/div&gt;</code></pre></div>
 <div class="code-wrap"><div class="code-toolbar"><span>css</span><button type="button" class="copy-code">複製</button></div><pre><code class="language-css">.card {
@@ -259,12 +276,12 @@ hr { border: 0; border-top: 1px solid var(--border); margin: 30px 0; }
 <aside class="callout note"><p>一句話：<strong>Bootstrap 給你組好的家具，Tailwind 給你標準化的積木。</strong></p></aside>
 <hr>
 <h2 id="3-安裝與環境cdn--cli--vite">3. 安裝與環境（CDN / CLI / Vite）</h2>
-<aside class="callout note"><p>本教材以 <strong>Tailwind CSS v4</strong> 為主（官方最新），並標註 v3 差異。</p></aside>
+<aside class="callout note"><p>本教材<strong>一律以 Tailwind CSS v4 教學與練習</strong>（官方最新版），所有範例與練習題都是 v4 寫法。</p><p>灰色的「<strong>v3 補充</strong>」區塊只是給需要維護舊專案的人參考，<strong>第一次學可以直接略過</strong>。</p></aside>
 <h3 id="方法-aplay-cdn（練習／demo-最快不需安裝）">方法 A：Play CDN（練習／Demo 最快，不需安裝）</h3>
 <p>在 HTML <code>&lt;head&gt;</code> 加一行，即可使用所有工具類。<strong>僅適合學習與雛形，不建議上線</strong>（檔案較大、無法完整客製）。</p>
 <div class="code-wrap"><div class="code-toolbar"><span>html</span><button type="button" class="copy-code">複製</button></div><pre><code class="language-html">&lt;!-- Tailwind v4 瀏覽器版 --&gt;
 &lt;script src=&quot;https://unpkg.com/@tailwindcss/browser@4&quot;&gt;&lt;/script&gt;</code></pre></div>
-<aside class="callout note"><p>v3 的 Play CDN 是 <code>&lt;script src=&quot;https://cdn.tailwindcss.com&quot;&gt;&lt;/script&gt;</code>。</p></aside>
+<aside class="callout v3"><p class="v3-tag">v3 補充</p><p>v3 的 Play CDN 是 <code>&lt;script src=&quot;https://cdn.tailwindcss.com&quot;&gt;&lt;/script&gt;</code>，本教材不使用。</p></aside>
 <p>本教材 <code>examples/</code> 內的 HTML 都用這種方式，直接用瀏覽器打開就能看效果。</p>
 <h3 id="方法-btailwind-cli">方法 B：Tailwind CLI</h3>
 <div class="code-wrap"><div class="code-toolbar"><span>bash</span><button type="button" class="copy-code">複製</button></div><pre><code class="language-bash">npm install tailwindcss @tailwindcss/cli
@@ -286,9 +303,10 @@ export default {
 };</code></pre></div>
 <p><code>src/style.css</code>：</p>
 <div class="code-wrap"><div class="code-toolbar"><span>css</span><button type="button" class="copy-code">複製</button></div><pre><code class="language-css">@import &quot;tailwindcss&quot;;</code></pre></div>
-<aside class="callout note"><p><strong>v3 差異</strong>：v3 需要 <code>tailwind.config.js</code> 設定 <code>content</code> 掃描路徑，並在 CSS 用 <code>@tailwind base; @tailwind components; @tailwind utilities;</code>。<strong>v4 大幅簡化</strong>：一行 <code>@import &quot;tailwindcss&quot;;</code>，會自動偵測要掃描的檔案。</p></aside>
+<aside class="callout v3"><p class="v3-tag">v3 補充</p><p>v3 需要 <code>tailwind.config.js</code> 設定 <code>content</code> 掃描路徑，並在 CSS 寫 <code>@tailwind base; @tailwind components; @tailwind utilities;</code>。v4 簡化成一行 <code>@import &quot;tailwindcss&quot;;</code>，會自動偵測要掃描的檔案——<strong>照 v4 寫就好</strong>。</p></aside>
 <hr>
 <h2 id="4-核心工具類速查">4. 核心工具類速查</h2>
+<aside class="callout example"><p><strong>對應範例</strong>：<a href="examples/01-basics.html">01-basics.html</a>　—　間距／文字／顏色深淺三個區塊各附「動手改」提示，改完重整就能看到差異。</p></aside>
 <p>工具類命名有固定規則，記住規則就能舉一反三。</p>
 <h3 id="間距（spacing）—-最常用">間距（Spacing）— 最常用</h3>
 <p>數字是「間距刻度」，<strong>1 = 0.25rem = 4px</strong>，所以 <code>p-4</code> = 16px。</p>
@@ -327,6 +345,7 @@ export default {
 <div class="code-wrap"><div class="code-toolbar"><span>html</span><button type="button" class="copy-code">複製</button></div><pre><code class="language-html">&lt;div class=&quot;top-[117px] bg-[#1da1f2] w-[73%] text-[13px]&quot;&gt;...&lt;/div&gt;</code></pre></div>
 <hr>
 <h2 id="5-flexbox-與-grid-佈局">5. Flexbox 與 Grid 佈局</h2>
+<aside class="callout example"><p><strong>對應範例</strong>：<a href="examples/02-flex-grid.html">02-flex-grid.html</a>　—　導覽列（Flex）、三欄卡片（Grid）、水平垂直置中三個可直接改的實作。</p></aside>
 <h3 id="flexbox">Flexbox</h3>
 <div class="code-wrap"><div class="code-toolbar"><span>html</span><button type="button" class="copy-code">複製</button></div><pre><code class="language-html">&lt;div class=&quot;flex items-center justify-between gap-4&quot;&gt;
   &lt;div&gt;左&lt;/div&gt;
@@ -339,6 +358,29 @@ export default {
 <tr><td><code>justify-center</code></td><td>主軸置中</td></tr>
 <tr><td><code>flex-wrap</code></td><td>允許換行</td></tr>
 <tr><td><code>flex-1</code></td><td>佔滿剩餘空間</td></tr></tbody></table></div>
+<h3 id="用-flex-做多欄flex-1-vs-w-12">用 Flex 做多欄：<code>flex-1</code> vs <code>w-1/2</code></h3>
+<p>同樣是「兩欄各半」，有兩種寫法，差別在<strong>誰決定寬度</strong>：</p>
+<div class="code-wrap"><div class="code-toolbar"><span>html</span><button type="button" class="copy-code">複製</button></div><pre><code class="language-html">&lt;!-- A. flex-1：平均分配「剩下的空間」--&gt;
+&lt;div class=&quot;flex gap-4&quot;&gt;
+  &lt;div class=&quot;flex-1&quot;&gt;左&lt;/div&gt;
+  &lt;div class=&quot;flex-1&quot;&gt;右&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- B. w-1/2：各自寫死父層寬度的 50% --&gt;
+&lt;div class=&quot;flex gap-4&quot;&gt;
+  &lt;div class=&quot;w-1/2&quot;&gt;左&lt;/div&gt;
+  &lt;div class=&quot;w-1/2&quot;&gt;右&lt;/div&gt;
+&lt;/div&gt;</code></pre></div>
+<div class="table-wrap"><table><thead><tr><th></th><th><code>flex-1</code></th><th><code>w-1/2</code>、<code>w-1/3</code></th></tr></thead><tbody>
+<tr><td>寬度怎麼算</td><td>剩餘空間平均分（gap 已先扣掉）</td><td>父層寬度的固定比例</td></tr>
+<tr><td>加了 <code>gap</code></td><td>沒問題，自動變窄</td><td><strong>會超出一列</strong>（50% + 50% + gap &gt; 100%）</td></tr>
+<tr><td>內容很長時</td><td>會一起被壓縮，欄寬仍相等</td><td>寬度不變，內容自己換行或溢出</td></tr>
+<tr><td>適合</td><td>等分欄位、自適應版面（最常用）</td><td>需要精確比例、或搭配 <code>flex-wrap</code> 換行</td></tr>
+</tbody></table></div>
+<aside class="callout warning"><p><code>w-1/2</code> 搭 <code>gap-4</code> 會擠爆版面。真的要用比例又要間距，改用 <code>w-[calc(50%-0.5rem)]</code>，或直接用 <code>flex-1</code>／<code>grid</code>。</p></aside>
+<p>不等比例（左 2 右 1）：<code>flex-[2]</code> + <code>flex-1</code>，或 <code>w-2/3</code> + <code>w-1/3</code>。</p>
+<p>經典三欄 1 : 2 : 1（左右側欄 + 中間主內容）：<code>flex-1</code> + <code>flex-[2]</code> + <code>flex-1</code>，或 <code>w-1/4</code> + <code>w-1/2</code> + <code>w-1/4</code>（後者不要加 <code>gap</code>，改用內距）。</p>
+<p>手機一欄、桌機多欄：<code>flex flex-col md:flex-row</code>。</p>
 <h3 id="grid">Grid</h3>
 <div class="code-wrap"><div class="code-toolbar"><span>html</span><button type="button" class="copy-code">複製</button></div><pre><code class="language-html">&lt;div class=&quot;grid grid-cols-3 gap-4&quot;&gt;
   &lt;div&gt;1&lt;/div&gt;&lt;div&gt;2&lt;/div&gt;&lt;div&gt;3&lt;/div&gt;
@@ -353,6 +395,7 @@ export default {
 &lt;/div&gt;</code></pre></div>
 <hr>
 <h2 id="6-響應式設計-rwd斷點">6. 響應式設計 RWD（斷點）</h2>
+<aside class="callout example"><p><strong>對應範例</strong>：<a href="examples/03-responsive-state.html">03-responsive-state.html</a>　—　打開後拉寬／縮窄視窗，觀察 1 欄 → 2 欄 → 4 欄的切換點。</p></aside>
 <p>Tailwind 是 <strong>Mobile First</strong>：<strong>沒加前綴的樣式是手機版</strong>，加斷點前綴才是「該尺寸(含)以上」套用。</p>
 <div class="table-wrap"><table><thead><tr><th>前綴</th><th>生效寬度</th><th>對應裝置</th></tr></thead><tbody><tr><td>（無）</td><td>全部</td><td>手機</td></tr>
 <tr><td><code>sm:</code></td><td>≥ 640px</td><td>大手機 / 直立平板</td></tr>
@@ -367,6 +410,8 @@ export default {
 <aside class="callout note"><p>常見錯誤：想在「手機」套樣式卻寫 <code>sm:</code>。記住——<strong>手機版不用前綴</strong>，<code>sm:</code> 是 640px 以上。</p></aside>
 <hr>
 <h2 id="7-狀態變體hover--focus--group--peer">7. 狀態變體：hover / focus / group / peer</h2>
+<aside class="callout example"><p><strong>對應範例</strong>：<a href="examples/03-responsive-state.html">03-responsive-state.html</a>（hover / focus / active 與 group-hover 區塊）、
+<a href="examples/05-component-card.html">05-component-card.html</a>（整張卡片連動）。</p></aside>
 <p>用「變體前綴 <code>:</code>」在特定狀態套樣式。</p>
 <div class="code-wrap"><div class="code-toolbar"><span>html</span><button type="button" class="copy-code">複製</button></div><pre><code class="language-html">&lt;button class=&quot;bg-blue-500 hover:bg-blue-700 focus:ring-2 active:scale-95&quot;&gt;
   按鈕
@@ -384,17 +429,20 @@ export default {
 &lt;p class=&quot;hidden peer-invalid:block text-red-500&quot;&gt;Email 格式錯誤&lt;/p&gt;</code></pre></div>
 <hr>
 <h2 id="8-深色模式-dark-mode">8. 深色模式 Dark Mode</h2>
+<aside class="callout example"><p><strong>對應範例</strong>：<a href="examples/04-darkmode-theme.html">04-darkmode-theme.html</a>　—　右上角按鈕可手動切換深／淺色，檔案裡就有 <code>@custom-variant dark</code> 的完整寫法。</p></aside>
 <p>用 <code>dark:</code> 前綴指定深色模式下的樣式。</p>
 <div class="code-wrap"><div class="code-toolbar"><span>html</span><button type="button" class="copy-code">複製</button></div><pre><code class="language-html">&lt;div class=&quot;bg-white text-gray-900 dark:bg-gray-800 dark:text-white&quot;&gt;
   自動或手動切換深淺色
 &lt;/div&gt;</code></pre></div>
 <ul><li><strong>預設</strong>：跟隨作業系統設定（<code>prefers-color-scheme</code>）。</li><li><strong>手動切換</strong>：在 <code>&lt;html&gt;</code> 加/移除 <code>class=&quot;dark&quot;</code>（需設定 selector 策略），用 JS 切換：</li></ul>
 <div class="code-wrap"><div class="code-toolbar"><span>js</span><button type="button" class="copy-code">複製</button></div><pre><code class="language-js">document.documentElement.classList.toggle('dark');</code></pre></div>
-<aside class="callout note"><p>v4 設定手動策略：在 CSS 加 <code>@custom-variant dark (&amp;:where(.dark, .dark *));</code>。</p><p>v3 則在 <code>tailwind.config.js</code> 設 <code>darkMode: 'class'</code>。</p></aside>
+<aside class="callout note"><p>設定手動切換策略：在 CSS 加 <code>@custom-variant dark (&amp;:where(.dark, .dark *));</code>。</p></aside>
+<aside class="callout v3"><p class="v3-tag">v3 補充</p><p>v3 是在 <code>tailwind.config.js</code> 設 <code>darkMode: 'class'</code>。</p></aside>
 <hr>
-<h2 id="9-自訂主題v4-theme-與-v3-config">9. 自訂主題（v4 <code>@theme</code> 與 v3 config）</h2>
-<h3 id="v4用-css-的-theme（推薦）">v4：用 CSS 的 <code>@theme</code>（推薦）</h3>
-<p>v4 把設定搬進 CSS，用 <code>@theme</code> 定義設計 token，會自動生成對應工具類。</p>
+<h2 id="9-自訂主題theme">9. 自訂主題（<code>@theme</code>）</h2>
+<aside class="callout example"><p><strong>對應範例</strong>：<a href="examples/04-darkmode-theme.html">04-darkmode-theme.html</a>　—　<code>@theme</code> 定義 <code>--color-brand</code> 後直接使用 <code>bg-brand</code>，可自行再加一組顏色試試。</p></aside>
+<h3 id="用-css-的-theme">用 CSS 的 <code>@theme</code></h3>
+<p>v4 把設定搬進 CSS，用 <code>@theme</code> 定義設計 token，會自動生成對應工具類。<strong>這就是本教材唯一使用的客製方式。</strong></p>
 <div class="code-wrap"><div class="code-toolbar"><span>css</span><button type="button" class="copy-code">複製</button></div><pre><code class="language-css">@import &quot;tailwindcss&quot;;
 
 @theme {
@@ -405,8 +453,8 @@ export default {
   --breakpoint-3xl: 1920px;      /* 新增 3xl: 斷點 */
 }</code></pre></div>
 <div class="code-wrap"><div class="code-toolbar"><span>html</span><button type="button" class="copy-code">複製</button></div><pre><code class="language-html">&lt;button class=&quot;bg-brand hover:bg-brand-dark font-display p-18&quot;&gt;品牌按鈕&lt;/button&gt;</code></pre></div>
-<h3 id="v3用-tailwindconfigjs">v3：用 <code>tailwind.config.js</code></h3>
-<div class="code-wrap"><div class="code-toolbar"><span>js</span><button type="button" class="copy-code">複製</button></div><pre><code class="language-js">module.exports = {
+<aside class="callout v3"><p class="v3-tag">v3 補充</p><p>v3 沒有 <code>@theme</code>，客製要寫在 <code>tailwind.config.js</code>：</p></aside>
+<div class="code-wrap"><div class="code-toolbar"><span>js（v3 舊寫法，僅供參考）</span><button type="button" class="copy-code">複製</button></div><pre><code class="language-js">module.exports = {
   content: ['./src/**/*.{html,js}'],
   theme: {
     extend: {
@@ -417,9 +465,10 @@ export default {
     },
   },
 };</code></pre></div>
-<aside class="callout note"><p><code>extend</code> 是「新增」；直接寫在 <code>theme</code> 底下會「覆蓋」預設值，通常用 <code>extend</code>。</p></aside>
+<aside class="callout v3"><p class="v3-tag">v3 補充</p><p>config 裡的 <code>extend</code> 是「新增」；直接寫在 <code>theme</code> 底下會「覆蓋」預設值，所以通常用 <code>extend</code>。v4 的 <code>@theme</code> 預設就是「新增」，不會蓋掉內建刻度。</p></aside>
 <hr>
 <h2 id="10-重複樣式的處理apply-與元件抽取">10. 重複樣式的處理：<code>@apply</code> 與元件抽取</h2>
+<aside class="callout example"><p><strong>對應範例</strong>：<a href="examples/05-component-card.html">05-component-card.html</a>　—　三張卡片的 class 完全重複，正好拿來練習把按鈕抽成 <code>.btn-primary</code>。</p></aside>
 <p>當同一組工具類到處重複（例如按鈕），有兩種做法：</p>
 <h3 id="做法-a元件化（首選）">做法 A：元件化（首選）</h3>
 <p>用 React/Vue 把它包成元件，<code>class</code> 只寫一次：</p>
@@ -445,17 +494,110 @@ export default {
 <hr>
 <h2 id="11-推薦工具與最佳實踐">11. 推薦工具與最佳實踐</h2>
 <h3 id="必裝工具">必裝工具</h3>
-<ul><li><strong>Tailwind CSS IntelliSense</strong>（VS Code 擴充）：class 自動補全、hover 顯示對應 CSS、顏色預覽。<strong>強烈建議必裝</strong>。</li><li><strong>Prettier + <code>prettier-plugin-tailwindcss</code></strong>：自動把 class 依官方順序排序，維持整潔。</li><li><strong>官方 Playground</strong>（play.tailwindcss.com）：線上即時試玩、看編譯結果。</li></ul>
+<ul><li><strong><a href="https://marketplace.visualstudio.com/items?itemName=bradlc.vscode-tailwindcss" target="_blank" rel="noopener">Tailwind CSS IntelliSense</a></strong>（VS Code 擴充，擴充 ID <code>bradlc.vscode-tailwindcss</code>）：class 自動補全、hover 顯示對應 CSS、顏色預覽、錯誤 class 提示。<strong>強烈建議必裝</strong>。</li><li><strong>Prettier + <code>prettier-plugin-tailwindcss</code></strong>：自動把 class 依官方順序排序，維持整潔。</li><li><strong>官方 Playground</strong>（<a href="https://play.tailwindcss.com" target="_blank" rel="noopener">play.tailwindcss.com</a>）：線上即時試玩、看編譯結果。</li></ul>
+<p>安裝 IntelliSense：VS Code 左側 Extensions（<code>Cmd/Ctrl + Shift + X</code>）搜尋「Tailwind CSS IntelliSense」，或用命令列：</p>
+<div class="code-wrap"><div class="code-toolbar"><span>bash</span><button type="button" class="copy-code">複製</button></div><pre><code class="language-bash">code --install-extension bradlc.vscode-tailwindcss</code></pre></div>
+<aside class="callout note"><p>用 Play CDN 的練習檔（本教材的 <code>examples/</code>、<code>practice/</code>）補全可能不會啟動——擴充是靠專案裡的 Tailwind 設定檔判斷要不要啟用。在專案根目錄放一個只有一行 <code>@import &quot;tailwindcss&quot;;</code> 的 <code>tailwind.css</code>（v4 寫法）即可喚醒它，這個檔案不影響 Play CDN 的執行。</p><p>再加上這段 VS Code 設定，讓補全在 <code>class=&quot;…&quot;</code> 字串內也會跳出來：</p></aside>
+<div class="code-wrap"><div class="code-toolbar"><span>json（.vscode/settings.json）</span><button type="button" class="copy-code">複製</button></div><pre><code class="language-json">{
+  &quot;tailwindCSS.includeLanguages&quot;: { &quot;html&quot;: &quot;html&quot; },
+  &quot;tailwindCSS.emmetCompletions&quot;: true,
+  &quot;editor.quickSuggestions&quot;: { &quot;strings&quot;: true },
+
+  // VS Code 內建 CSS 檢查不認識 v4 的 @theme / @utility / @custom-variant，
+  // 會出現 &quot;Unknown at rule&quot; 黃色警告，關掉即可（不影響編譯）
+  &quot;css.lint.unknownAtRules&quot;: &quot;ignore&quot;,
+  &quot;scss.lint.unknownAtRules&quot;: &quot;ignore&quot;
+}</code></pre></div>
+<aside class="callout warning"><p><strong>常見困擾</strong>：在 CSS 或 <code>&lt;style type=&quot;text/tailwindcss&quot;&gt;</code> 裡寫 <code>@theme</code>、<code>@apply</code>、<code>@utility</code> 時，編輯器出現黃色波浪線「Unknown at rule @theme」。</p><p>那是 VS Code 內建的 CSS 檢查器不認得 Tailwind 的自訂語法，<strong>程式碼本身沒有錯、也能正常編譯</strong>。加上上面那兩行 <code>unknownAtRules</code> 設定就不會再跳警告。</p></aside>
 <h3 id="最佳實踐">最佳實踐</h3>
 <ol><li><strong>善用設計刻度</strong>：優先用 <code>p-4</code>、<code>text-lg</code> 這種刻度，少用 <code>p-[13px]</code> 任意值，維持一致性。</li><li><strong>Mobile First</strong>：先寫手機版（無前綴），再往上加 <code>md:</code>、<code>lg:</code>。</li><li><strong>重複就抽元件</strong>，而不是狂複製 class。</li><li><strong>class 排序交給 Prettier</strong>，不用手動整理。</li><li><strong>不確定 class 名稱</strong>：靠 IntelliSense 或查官方文件，不要硬背全部。</li></ol>
 <hr>
+<h2 id="附錄常用速查表">附錄：常用工具類速查表</h2>
+<aside class="callout example"><p><strong>完整版</strong>：<a href="cheatsheet.html">Tailwind CSS v4 完整速查表</a>　—　涵蓋所有分類、全部變體前綴、v4 CSS 語法與 v3 → v4 改名對照，並附關鍵字即時過濾。這裡只收課堂最常用的部分。</p></aside>
+
+<h3 id="速查間距與尺寸">間距與尺寸</h3>
+<div class="table-wrap"><table><thead><tr><th>Class</th><th>說明</th></tr></thead><tbody>
+<tr><td><code>p-4</code> <code>px-4</code> <code>py-2</code> <code>pt-1</code></td><td>padding（全 / 左右 / 上下 / 單邊）；<strong>1 = 4px</strong>，<code>p-4</code> = 16px</td></tr>
+<tr><td><code>m-4</code> <code>mx-auto</code> <code>mt-8</code> <code>-mt-2</code></td><td>margin，<code>mx-auto</code> 水平置中，前面加 <code>-</code> 是負值</td></tr>
+<tr><td><code>gap-4</code> <code>space-y-2</code></td><td>Flex/Grid 間距 / 子元素之間的間距</td></tr>
+<tr><td><code>w-full</code> <code>w-1/2</code> <code>w-64</code> <code>size-10</code></td><td>寬度 100% / 50% / 16rem；<code>size-*</code> 同時設寬高</td></tr>
+<tr><td><code>h-screen</code> <code>min-h-screen</code> <code>max-w-md</code></td><td>視窗高 / 最小滿版高 / 最大寬度</td></tr>
+</tbody></table></div>
+
+<h3 id="速查文字與顏色">文字與顏色</h3>
+<div class="table-wrap"><table><thead><tr><th>Class</th><th>說明</th></tr></thead><tbody>
+<tr><td><code>text-sm</code> <code>text-lg</code> <code>text-2xl</code></td><td>字級（xs / sm / base / lg / xl / 2xl…9xl）</td></tr>
+<tr><td><code>font-medium</code> <code>font-bold</code></td><td>字重</td></tr>
+<tr><td><code>text-center</code> <code>text-right</code></td><td>對齊</td></tr>
+<tr><td><code>leading-relaxed</code> <code>tracking-wide</code></td><td>行高 / 字距</td></tr>
+<tr><td><code>truncate</code> <code>line-clamp-3</code></td><td>單行省略 / 限制三行</td></tr>
+<tr><td><code>text-gray-600</code> <code>bg-blue-500</code> <code>border-gray-300</code></td><td>顏色公式 <code>屬性-色系-深淺</code>（50 最淺 → 950 最深）</td></tr>
+<tr><td><code>bg-black/50</code> <code>text-white/70</code></td><td>顏色透明度（v3 的 <code>bg-opacity-*</code> 已移除）</td></tr>
+</tbody></table></div>
+
+<h3 id="速查佈局">佈局：Flex / Grid / 定位</h3>
+<div class="table-wrap"><table><thead><tr><th>Class</th><th>說明</th></tr></thead><tbody>
+<tr><td><code>flex</code> <code>flex-col</code> <code>flex-wrap</code></td><td>彈性容器 / 直向排列 / 允許換行</td></tr>
+<tr><td><code>items-center</code> <code>justify-between</code> <code>justify-center</code></td><td>交叉軸對齊 / 主軸兩端 / 主軸置中</td></tr>
+<tr><td><code>flex-1</code> <code>flex-[2]</code> <code>shrink-0</code></td><td>等分剩餘空間 / 兩倍比例 / 不縮小</td></tr>
+<tr><td><code>grid</code> <code>grid-cols-3</code> <code>col-span-2</code></td><td>格線容器 / 三欄 / 跨兩欄</td></tr>
+<tr><td><code>flex items-center justify-center</code></td><td>水平垂直置中（或 <code>grid place-items-center</code>）</td></tr>
+<tr><td><code>relative</code> <code>absolute</code> <code>fixed</code> <code>sticky</code></td><td>定位方式</td></tr>
+<tr><td><code>inset-0</code> <code>top-4</code> <code>z-10</code></td><td>四邊定位 / 單邊偏移 / 層級</td></tr>
+<tr><td><code>hidden</code> <code>block</code> <code>inline-block</code></td><td>display（<code>hidden</code> 不佔位）</td></tr>
+<tr><td><code>overflow-hidden</code> <code>overflow-auto</code></td><td>溢出處理</td></tr>
+</tbody></table></div>
+
+<h3 id="速查外觀">外觀：邊框、圓角、陰影、效果</h3>
+<div class="table-wrap"><table><thead><tr><th>Class</th><th>說明</th></tr></thead><tbody>
+<tr><td><code>border</code> <code>border-2</code> <code>border-t</code></td><td>邊框粗細 / 單邊</td></tr>
+<tr><td><code>rounded-sm</code> <code>rounded-lg</code> <code>rounded-2xl</code> <code>rounded-full</code></td><td>圓角（v4 的 <code>rounded-sm</code> = v3 的 <code>rounded</code>）</td></tr>
+<tr><td><code>shadow-sm</code> <code>shadow-md</code> <code>shadow-xl</code></td><td>陰影（v4 的 <code>shadow-sm</code> = v3 的 <code>shadow</code>）</td></tr>
+<tr><td><code>opacity-50</code> <code>blur-sm</code> <code>backdrop-blur-md</code></td><td>透明度 / 模糊 / 毛玻璃</td></tr>
+<tr><td><code>transition</code> <code>duration-300</code> <code>ease-out</code></td><td>過渡效果</td></tr>
+<tr><td><code>scale-105</code> <code>rotate-45</code> <code>translate-x-2</code></td><td>變形</td></tr>
+<tr><td><code>bg-linear-to-r from-indigo-500 to-pink-500</code></td><td>漸層（v3 是 <code>bg-gradient-to-r</code>）</td></tr>
+</tbody></table></div>
+
+<h3 id="速查變體">變體前綴</h3>
+<div class="table-wrap"><table><thead><tr><th>前綴</th><th>說明</th></tr></thead><tbody>
+<tr><td>（無）<code>sm:</code> <code>md:</code> <code>lg:</code> <code>xl:</code> <code>2xl:</code></td><td>手機 / 640 / 768 / 1024 / 1280 / 1536px 以上</td></tr>
+<tr><td><code>max-md:</code></td><td>該斷點以下才生效</td></tr>
+<tr><td><code>hover:</code> <code>focus:</code> <code>active:</code> <code>disabled:</code></td><td>互動狀態</td></tr>
+<tr><td><code>group</code> + <code>group-hover:</code></td><td>依父層狀態改變子元素</td></tr>
+<tr><td><code>peer</code> + <code>peer-focus:</code> <code>peer-invalid:</code></td><td>依前面兄弟元素的狀態改變</td></tr>
+<tr><td><code>dark:</code></td><td>深色模式</td></tr>
+<tr><td><code>before:</code> <code>after:</code> <code>placeholder:</code></td><td>偽元素</td></tr>
+<tr><td><code>has-[:checked]:</code></td><td>內部包含某狀態時才套用</td></tr>
+</tbody></table></div>
+
+<h3 id="速查客製">客製與逃生門</h3>
+<div class="table-wrap"><table><thead><tr><th>寫法</th><th>說明</th></tr></thead><tbody>
+<tr><td><code>w-[73%]</code> <code>bg-[#1da1f2]</code> <code>top-[117px]</code></td><td>任意值</td></tr>
+<tr><td><code>p-13</code> <code>mt-27</code></td><td>刻度是動態的，沒列在文件裡的數字也能用</td></tr>
+<tr><td><code>bg-red-500!</code></td><td><code>!important</code>（v4 改為後綴）</td></tr>
+<tr><td><code>@import "tailwindcss";</code></td><td>唯一需要的引入</td></tr>
+<tr><td><code>@theme { --color-brand: #6366f1; }</code></td><td>自訂 token，產生 <code>bg-brand</code> 等工具類</td></tr>
+<tr><td><code>@custom-variant dark (&amp;:where(.dark, .dark *));</code></td><td>手動切換深色模式</td></tr>
+<tr><td><code>@utility 名稱 { … }</code></td><td>自訂工具類（取代 v3 的 <code>@layer utilities</code>）</td></tr>
+</tbody></table></div>
+<p><a href="cheatsheet.html">→ 打開完整速查表（含所有分類、v4 語法與 v3 改名對照）</a></p>
+<hr>
 <h2 id="-重點速記">重點速記</h2>
-<ul><li>Utility-First：在 HTML 組合小工具類，不寫 CSS。</li><li>間距刻度 <strong>1 = 4px</strong>，<code>p-4</code> = 16px。</li><li>顏色是 <code>屬性-色系-深淺</code>（50~950）。</li><li><strong>Mobile First</strong>：無前綴是手機，<code>md:</code>/<code>lg:</code> 是往上加。</li><li>狀態用 <code>hover:</code>/<code>focus:</code>，父子連動用 <code>group</code>/<code>peer</code>。</li><li>深色模式用 <code>dark:</code>。</li><li>v4 用 <code>@import &quot;tailwindcss&quot;</code> + <code>@theme</code> 客製；v3 用 config 檔。</li><li>重複優先「元件化」，少用 <code>@apply</code>。</li></ul>
-<p>打開 <code>examples/</code> 的 HTML 檔用瀏覽器看效果，再到 <a href="practice/exercises.html">練習題</a> 做實作練習。每一題都附了「AI 協助」示範怎麼問 AI。</p>
-<p style="margin-top:1.5em;"><a href="practice/exercises.html" style="display:inline-block;background:linear-gradient(135deg,#12336f,#0f766e);color:#fff;padding:14px 28px;border-radius:10px;font-weight:700;text-decoration:none;">前往 Tailwind 練習題 →</a></p>
+<ul><li>Utility-First：在 HTML 組合小工具類，不寫 CSS。</li><li>間距刻度 <strong>1 = 4px</strong>，<code>p-4</code> = 16px。</li><li>顏色是 <code>屬性-色系-深淺</code>（50~950）。</li><li><strong>Mobile First</strong>：無前綴是手機，<code>md:</code>/<code>lg:</code> 是往上加。</li><li>狀態用 <code>hover:</code>/<code>focus:</code>，父子連動用 <code>group</code>/<code>peer</code>。</li><li>深色模式用 <code>dark:</code>。</li><li>用 <code>@import &quot;tailwindcss&quot;</code> + <code>@theme</code> 客製（v3 舊專案才用 <code>tailwind.config.js</code>）。</li><li>重複優先「元件化」，少用 <code>@apply</code>。</li></ul>
+<p>建議的練習順序：先看章節 → 打開 <a href="#範例對照表">對應範例</a> 照著「動手改」提示改 class → 再到 <a href="practice/exercises.html" target="_blank" rel="noopener">練習題</a> 自己刻一份。每一題都附了「AI 協助」示範怎麼問 AI。</p>
+<div class="table-wrap"><table><thead><tr><th>範例檔</th><th>對應章節</th></tr></thead><tbody>
+<tr><td><a href="examples/01-basics.html">01 基礎工具類</a></td><td><a href="#1-什麼是-utility-first">1</a>、<a href="#4-核心工具類速查">4</a></td></tr>
+<tr><td><a href="examples/02-flex-grid.html">02 Flexbox 與 Grid</a></td><td><a href="#5-flexbox-與-grid-佈局">5</a></td></tr>
+<tr><td><a href="examples/03-responsive-state.html">03 響應式 + 狀態</a></td><td><a href="#6-響應式設計-rwd斷點">6</a>、<a href="#7-狀態變體hover--focus--group--peer">7</a></td></tr>
+<tr><td><a href="examples/04-darkmode-theme.html">04 深色模式 + 自訂主題</a></td><td><a href="#8-深色模式-dark-mode">8</a>、<a href="#9-自訂主題theme">9</a></td></tr>
+<tr><td><a href="examples/05-component-card.html">05 綜合實戰卡片牆</a></td><td><a href="#4-核心工具類速查">4</a>～<a href="#10-重複樣式的處理apply-與元件抽取">10</a></td></tr>
+</tbody></table></div>
+<aside class="callout example"><p><strong>期末專題</strong>：<a href="final-project/exercises.html">Focusly Landing Page 切版練習</a>　—　依 Figma 設計稿實作一頁完整的產品官網，拆成 7 小題（Header／Hero／按鈕／卡片／深色段落／CTA／Footer），每題都有起始檔與參考答案。</p></aside>
+<p style="margin-top:1.5em;"><a href="practice/exercises.html" style="display:inline-block;background:linear-gradient(135deg,#12336f,#0f766e);color:#fff;padding:14px 28px;border-radius:10px;font-weight:700;text-decoration:none;" target="_blank" rel="noopener">前往 Tailwind 練習題 →</a></p>
 </main>
 </div>
-<div class="page-links"><div class="link-row"><a class="link-button" href="../index.html">回課程首頁</a><a class="link-button" href="../sass/guide.html">前往 Sass 講義</a></div></div>
+<div class="page-links"><div class="link-row"><a class="link-button" href="cheatsheet.html">v4 完整速查表</a><a class="link-button" href="final-project/exercises.html">最終切版專題</a><a class="link-button" href="../index.html">回課程首頁</a><a class="link-button" href="../sass/guide.html">前往 Sass 講義</a></div></div>
 <footer><div class="footer-inner">Tailwind CSS 完整講義 | <a href="../index.html">回到 index.html</a></div></footer>
 
 <script>

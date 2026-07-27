@@ -5,12 +5,45 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>範例 05｜綜合實戰：產品卡片牆</title>
   <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+  <style>
+    .code-view { margin-top: 12px; border: 1px solid #cbd5e1; border-radius: 10px; overflow: hidden; background: #f8fafc; }
+    .code-view > summary { cursor: pointer; padding: 8px 12px; font-size: .85rem; font-weight: 700; color: #0f766e; list-style: none; }
+    .code-view > summary::before { content: "▸ "; }
+    .code-view[open] > summary::before { content: "▾ "; }
+    .code-view > summary:hover { background: #f1f5f9; }
+    .code-view pre { margin: 0; padding: 14px 16px; background: #111827; color: #e5e7eb; overflow-x: auto; }
+    .code-view code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: .82rem; line-height: 1.6; white-space: pre; }
+  </style>
+<link rel="stylesheet" href="../../assets/code-copy.css">
 </head>
 <body class="bg-gradient-to-br from-slate-50 to-slate-200 min-h-screen p-8">
 
   <div class="max-w-5xl mx-auto">
+
+    <!-- 講義對照導覽 -->
+    <nav class="mb-6 flex flex-wrap items-center gap-3 rounded-lg border border-slate-200 bg-white px-4 py-3 shadow-sm">
+      <a href="../guide.html#10-重複樣式的處理apply-與元件抽取" class="font-semibold text-indigo-600 hover:underline">← 回講義：10. 重複樣式的處理</a>
+      <span class="text-sm text-slate-400">範例 05 / 05（綜合第 4～10 章）</span>
+      <span class="ml-auto flex gap-2 text-sm">
+        <a href="04-darkmode-theme.html" class="rounded-md border border-slate-200 px-3 py-1 text-slate-600 hover:bg-slate-50">← 上一個</a>
+        <a href="../practice/exercises.html" class="rounded-md border border-slate-200 px-3 py-1 text-slate-600 hover:bg-slate-50" target="_blank" rel="noopener">練習題</a>
+      </span>
+    </nav>
+
     <h1 class="text-3xl font-bold text-slate-800 mb-2">精選商品</h1>
-    <p class="text-slate-500 mb-8">綜合運用 RWD、group-hover、狀態、圓角陰影的實戰範例</p>
+    <p class="text-slate-500 mb-4">綜合運用 RWD、group-hover、狀態、圓角陰影的實戰範例</p>
+
+    <!-- 對照講義章節與練習提示 -->
+    <div class="mb-8 rounded-lg border border-indigo-100 bg-indigo-50 px-4 py-3 text-sm text-slate-600">
+      <p class="mb-1 font-semibold text-slate-700">這張卡片牆用到的講義章節</p>
+      <ul class="list-disc pl-5 space-y-0.5">
+        <li><a href="../guide.html#grid" class="text-indigo-600 hover:underline">5. Grid</a>　+　<a href="../guide.html#6-響應式設計-rwd斷點" class="text-indigo-600 hover:underline">6. RWD</a>：<code class="bg-white px-1 rounded">grid-cols-1 sm:grid-cols-2 lg:grid-cols-3</code></li>
+        <li><a href="../guide.html#group依「父層狀態」改變子元素" class="text-indigo-600 hover:underline">7. group</a>：卡片外層 <code class="bg-white px-1 rounded">group</code> + 內部 <code class="bg-white px-1 rounded">group-hover:</code></li>
+        <li><a href="../guide.html#邊框與圓角、陰影" class="text-indigo-600 hover:underline">4. 圓角與陰影</a>：<code class="bg-white px-1 rounded">rounded-2xl</code>、<code class="bg-white px-1 rounded">hover:shadow-xl</code></li>
+        <li><a href="../guide.html#10-重複樣式的處理apply-與元件抽取" class="text-indigo-600 hover:underline">10. 重複樣式</a>：三張卡片 class 完全重複，實務上要抽成元件或 <code class="bg-white px-1 rounded">@apply</code></li>
+      </ul>
+      <p class="mt-2">動手練習：1) 加第四張卡片並把桌機改成 4 欄　2) 用 <code class="bg-white px-1 rounded">@apply</code> 把按鈕抽成 <code class="bg-white px-1 rounded">.btn-primary</code>　3) 幫整頁加上 <code class="bg-white px-1 rounded">dark:</code> 深色版本。</p>
+    </div>
 
     <!-- RWD 卡片牆 -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -56,7 +89,32 @@
       </article>
 
     </div>
+
+    <details class="code-view">
+      <summary>看／複製「卡片牆外框 + 單張卡片」的程式碼</summary>
+      <pre><code>&lt;!-- 外框：手機 1 欄、平板 2 欄、桌機 3 欄 --&gt;
+&lt;div class=&quot;grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6&quot;&gt;
+
+  &lt;!-- 單張卡片：外層 group，內部用 group-hover: 連動 --&gt;
+  &lt;article class=&quot;group bg-white rounded-2xl shadow-sm hover:shadow-xl overflow-hidden transition duration-300&quot;&gt;
+    &lt;div class=&quot;h-40 bg-gradient-to-r from-indigo-400 to-purple-400 group-hover:scale-105 transition&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;p-5&quot;&gt;
+      &lt;span class=&quot;inline-block px-2 py-0.5 text-xs rounded-full bg-indigo-100 text-indigo-700 mb-2&quot;&gt;新品&lt;/span&gt;
+      &lt;h3 class=&quot;text-lg font-bold text-slate-800 group-hover:text-indigo-600&quot;&gt;無線耳機&lt;/h3&gt;
+      &lt;p class=&quot;text-sm text-slate-500 mt-1 mb-4&quot;&gt;降噪 · 30 小時續航&lt;/p&gt;
+      &lt;div class=&quot;flex items-center justify-between&quot;&gt;
+        &lt;span class=&quot;text-xl font-bold text-slate-900&quot;&gt;$2,490&lt;/span&gt;
+        &lt;button class=&quot;px-4 py-2 bg-indigo-600 text-white text-sm rounded-lg hover:bg-indigo-700 active:scale-95 transition&quot;&gt;加入購物車&lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/article&gt;
+
+  &lt;!-- 想加第四張卡就複製整個 &lt;article&gt;，換色系與文字即可 --&gt;
+
+&lt;/div&gt;</code></pre>
+    </details>
   </div>
 
+<script src="../../assets/code-copy.js"></script>
 </body>
 </html>

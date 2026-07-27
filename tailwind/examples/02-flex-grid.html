@@ -5,14 +5,41 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>範例 02｜Flexbox 與 Grid</title>
   <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+  <style>
+    .code-view { margin-top: 12px; border: 1px solid #cbd5e1; border-radius: 10px; overflow: hidden; background: #f8fafc; }
+    .code-view > summary { cursor: pointer; padding: 8px 12px; font-size: .85rem; font-weight: 700; color: #0f766e; list-style: none; }
+    .code-view > summary::before { content: "▸ "; }
+    .code-view[open] > summary::before { content: "▾ "; }
+    .code-view > summary:hover { background: #f1f5f9; }
+    .code-view pre { margin: 0; padding: 14px 16px; background: #111827; color: #e5e7eb; overflow-x: auto; }
+    .code-view code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: .82rem; line-height: 1.6; white-space: pre; }
+  </style>
+<link rel="stylesheet" href="../../assets/code-copy.css">
 </head>
 <body class="bg-gray-100 p-8">
 
-  <h1 class="text-3xl font-bold text-gray-800 mb-6">02 Flexbox 與 Grid</h1>
+  <!-- 講義對照導覽 -->
+  <nav class="mb-6 flex flex-wrap items-center gap-3 rounded-lg border border-gray-200 bg-white px-4 py-3 shadow-sm">
+    <a href="../guide.html#5-flexbox-與-grid-佈局" class="font-semibold text-blue-600 hover:underline">← 回講義：5. Flexbox 與 Grid 佈局</a>
+    <span class="text-sm text-gray-400">範例 02 / 05</span>
+    <span class="ml-auto flex gap-2 text-sm">
+      <a href="01-basics.html" class="rounded-md border border-gray-200 px-3 py-1 text-gray-600 hover:bg-gray-50">← 上一個</a>
+      <a href="../practice/exercises.html" class="rounded-md border border-gray-200 px-3 py-1 text-gray-600 hover:bg-gray-50" target="_blank" rel="noopener">練習題</a>
+      <a href="03-responsive-state.html" class="rounded-md border border-gray-200 px-3 py-1 text-gray-600 hover:bg-gray-50">下一個範例 →</a>
+    </span>
+  </nav>
+
+  <h1 class="text-3xl font-bold text-gray-800 mb-2">02 Flexbox 與 Grid</h1>
+  <p class="text-gray-500 mb-6">對應講義第 5 章。每一區塊都附「動手改」提示與可展開複製的程式碼，改完存檔重整瀏覽器就能看到差異。</p>
 
   <!-- Flex：導覽列（兩端對齊 + 垂直置中）-->
   <section class="mb-8">
-    <h2 class="text-xl font-semibold mb-3">Flex 導覽列 justify-between</h2>
+    <h2 class="text-xl font-semibold mb-1">Flex 導覽列 justify-between</h2>
+    <p class="text-sm text-gray-500 mb-3">
+      對應講義：<a href="../guide.html#flexbox" class="text-blue-600 hover:underline">5. Flexbox 與 Grid 佈局 › Flexbox</a>　·
+      動手改：把 <code class="bg-gray-200 px-1 rounded">justify-between</code> 換成 <code class="bg-gray-200 px-1 rounded">justify-center</code>、
+      <code class="bg-gray-200 px-1 rounded">justify-end</code>，再把 <code class="bg-gray-200 px-1 rounded">flex</code> 加上 <code class="bg-gray-200 px-1 rounded">flex-col</code> 看排列方向。
+    </p>
     <nav class="flex items-center justify-between bg-white p-4 rounded-lg shadow">
       <div class="font-bold text-lg text-blue-600">LOGO</div>
       <div class="flex gap-6 text-gray-600">
@@ -21,25 +48,248 @@
         <a href="#" class="hover:text-blue-600">聯絡</a>
       </div>
     </nav>
+    <details class="code-view">
+      <summary>看／複製這一區的程式碼</summary>
+      <pre><code>&lt;nav class=&quot;flex items-center justify-between bg-white p-4 rounded-lg shadow&quot;&gt;
+  &lt;div class=&quot;font-bold text-lg text-blue-600&quot;&gt;LOGO&lt;/div&gt;
+  &lt;div class=&quot;flex gap-6 text-gray-600&quot;&gt;
+    &lt;a href=&quot;#&quot; class=&quot;hover:text-blue-600&quot;&gt;首頁&lt;/a&gt;
+    &lt;a href=&quot;#&quot; class=&quot;hover:text-blue-600&quot;&gt;關於&lt;/a&gt;
+    &lt;a href=&quot;#&quot; class=&quot;hover:text-blue-600&quot;&gt;聯絡&lt;/a&gt;
+  &lt;/div&gt;
+&lt;/nav&gt;</code></pre>
+    </details>
+  </section>
+
+  <!-- Flex 兩欄：flex-1 vs w-1/2 -->
+  <section class="mb-8">
+    <h2 class="text-xl font-semibold mb-1">Flex 兩欄：<code class="bg-gray-200 px-1 rounded">flex-1</code> vs <code class="bg-gray-200 px-1 rounded">w-1/2</code></h2>
+    <p class="text-sm text-gray-500 mb-3">
+      對應講義：<a href="../guide.html#用-flex-做多欄flex-1-vs-w-12" class="text-blue-600 hover:underline">5. 用 Flex 做多欄</a>　·
+      動手改：把兩個 <code class="bg-gray-200 px-1 rounded">flex-1</code> 其中一個換成 <code class="bg-gray-200 px-1 rounded">flex-[2]</code>，看變成 2:1。
+    </p>
+
+    <p class="text-sm font-medium text-gray-600 mb-2">A. flex-1：分配剩餘空間，gap 自動扣掉</p>
+    <div class="flex gap-4 mb-4">
+      <div class="flex-1 bg-white p-6 rounded-lg shadow text-center">flex-1</div>
+      <div class="flex-1 bg-white p-6 rounded-lg shadow text-center">flex-1</div>
+    </div>
+
+    <p class="text-sm font-medium text-gray-600 mb-2">B. w-1/2 + gap-4：50% + 50% + 間距 &gt; 100%，會被擠出去</p>
+    <div class="flex gap-4 mb-4 border-2 border-dashed border-red-300 rounded-lg">
+      <div class="w-1/2 bg-white p-6 rounded-lg shadow text-center">w-1/2</div>
+      <div class="w-1/2 bg-white p-6 rounded-lg shadow text-center">w-1/2</div>
+    </div>
+
+    <p class="text-sm font-medium text-gray-600 mb-2">C. w-1/2 不加 gap：剛好切一半（要間距就用內距或 calc）</p>
+    <div class="flex">
+      <div class="w-1/2 p-2"><div class="bg-white p-6 rounded-lg shadow text-center">w-1/2 + p-2</div></div>
+      <div class="w-1/2 p-2"><div class="bg-white p-6 rounded-lg shadow text-center">w-1/2 + p-2</div></div>
+    </div>
+    <details class="code-view">
+      <summary>看／複製這一區的程式碼</summary>
+      <pre><code>&lt;div class=&quot;flex gap-4 mb-4&quot;&gt;
+  &lt;div class=&quot;flex-1 bg-white p-6 rounded-lg shadow text-center&quot;&gt;flex-1&lt;/div&gt;
+  &lt;div class=&quot;flex-1 bg-white p-6 rounded-lg shadow text-center&quot;&gt;flex-1&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;flex gap-4 mb-4 border-2 border-dashed border-red-300 rounded-lg&quot;&gt;
+  &lt;div class=&quot;w-1/2 bg-white p-6 rounded-lg shadow text-center&quot;&gt;w-1/2&lt;/div&gt;
+  &lt;div class=&quot;w-1/2 bg-white p-6 rounded-lg shadow text-center&quot;&gt;w-1/2&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;flex&quot;&gt;
+  &lt;div class=&quot;w-1/2 p-2&quot;&gt;&lt;div class=&quot;bg-white p-6 rounded-lg shadow text-center&quot;&gt;w-1/2 + p-2&lt;/div&gt;&lt;/div&gt;
+  &lt;div class=&quot;w-1/2 p-2&quot;&gt;&lt;div class=&quot;bg-white p-6 rounded-lg shadow text-center&quot;&gt;w-1/2 + p-2&lt;/div&gt;&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+    </details>
+  </section>
+
+  <!-- Flex 三欄與不等比例 -->
+  <section class="mb-8">
+    <h2 class="text-xl font-semibold mb-1">Flex 三欄與不等比例</h2>
+    <p class="text-sm text-gray-500 mb-3">
+      對應講義：<a href="../guide.html#用-flex-做多欄flex-1-vs-w-12" class="text-blue-600 hover:underline">5. 用 Flex 做多欄</a>　·
+      動手改：把 <code class="bg-gray-200 px-1 rounded">w-1/3</code> 那組改成 <code class="bg-gray-200 px-1 rounded">w-[calc(33.333%-0.667rem)]</code>，讓它配 gap-4 也不爆版。
+    </p>
+
+    <p class="text-sm font-medium text-gray-600 mb-2">A. 三欄等分：flex-1 × 3</p>
+    <div class="flex gap-4 mb-4">
+      <div class="flex-1 bg-white p-6 rounded-lg shadow text-center">flex-1</div>
+      <div class="flex-1 bg-white p-6 rounded-lg shadow text-center">flex-1</div>
+      <div class="flex-1 bg-white p-6 rounded-lg shadow text-center">flex-1</div>
+    </div>
+
+    <p class="text-sm font-medium text-gray-600 mb-2">B. 三欄等分：w-1/3 × 3（用內距做間距）</p>
+    <div class="flex mb-4">
+      <div class="w-1/3 p-2"><div class="bg-white p-6 rounded-lg shadow text-center">w-1/3</div></div>
+      <div class="w-1/3 p-2"><div class="bg-white p-6 rounded-lg shadow text-center">w-1/3</div></div>
+      <div class="w-1/3 p-2"><div class="bg-white p-6 rounded-lg shadow text-center">w-1/3</div></div>
+    </div>
+
+    <p class="text-sm font-medium text-gray-600 mb-2">C. 不等比例：主內容 flex-[2] + 側欄 flex-1（= 2:1）</p>
+    <div class="flex gap-4 mb-4">
+      <div class="flex-[2] bg-white p-6 rounded-lg shadow text-center">主內容 flex-[2]</div>
+      <div class="flex-1 bg-white p-6 rounded-lg shadow text-center">側欄 flex-1</div>
+    </div>
+
+    <p class="text-sm font-medium text-gray-600 mb-2">D. 固定側欄 + 自適應主內容：w-56 + flex-1（常見後台版面）</p>
+    <div class="flex gap-4 mb-4">
+      <div class="w-56 bg-white p-6 rounded-lg shadow text-center">側欄 w-56（固定）</div>
+      <div class="flex-1 bg-white p-6 rounded-lg shadow text-center">主內容 flex-1（吃剩下全部）</div>
+    </div>
+
+    <p class="text-sm font-medium text-gray-600 mb-2">E. 經典三欄 1/4 · 1/2 · 1/4：左右側欄各佔 25%，中間主內容佔 50%（用 p-2 做間距）</p>
+    <div class="flex mb-4">
+      <div class="w-1/4 p-2"><div class="bg-white p-6 rounded-lg shadow text-center">左側欄 w-1/4</div></div>
+      <div class="w-1/2 p-2"><div class="bg-blue-50 border border-blue-200 p-6 rounded-lg shadow text-center font-medium">主內容 w-1/2</div></div>
+      <div class="w-1/4 p-2"><div class="bg-white p-6 rounded-lg shadow text-center">右側欄 w-1/4</div></div>
+    </div>
+
+    <p class="text-sm font-medium text-gray-600 mb-2">F. 同樣的 1:2:1，改用 flex-1 / flex-[2] / flex-1（可以直接搭 gap，不會爆版）</p>
+    <div class="flex gap-4">
+      <div class="flex-1 bg-white p-6 rounded-lg shadow text-center">flex-1</div>
+      <div class="flex-[2] bg-blue-50 border border-blue-200 p-6 rounded-lg shadow text-center font-medium">flex-[2]</div>
+      <div class="flex-1 bg-white p-6 rounded-lg shadow text-center">flex-1</div>
+    </div>
+    <details class="code-view">
+      <summary>看／複製這一區的程式碼</summary>
+      <pre><code>&lt;div class=&quot;flex gap-4 mb-4&quot;&gt;
+  &lt;div class=&quot;flex-1 bg-white p-6 rounded-lg shadow text-center&quot;&gt;flex-1&lt;/div&gt;
+  &lt;div class=&quot;flex-1 bg-white p-6 rounded-lg shadow text-center&quot;&gt;flex-1&lt;/div&gt;
+  &lt;div class=&quot;flex-1 bg-white p-6 rounded-lg shadow text-center&quot;&gt;flex-1&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;flex mb-4&quot;&gt;
+  &lt;div class=&quot;w-1/3 p-2&quot;&gt;&lt;div class=&quot;bg-white p-6 rounded-lg shadow text-center&quot;&gt;w-1/3&lt;/div&gt;&lt;/div&gt;
+  &lt;div class=&quot;w-1/3 p-2&quot;&gt;&lt;div class=&quot;bg-white p-6 rounded-lg shadow text-center&quot;&gt;w-1/3&lt;/div&gt;&lt;/div&gt;
+  &lt;div class=&quot;w-1/3 p-2&quot;&gt;&lt;div class=&quot;bg-white p-6 rounded-lg shadow text-center&quot;&gt;w-1/3&lt;/div&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;flex gap-4 mb-4&quot;&gt;
+  &lt;div class=&quot;flex-[2] bg-white p-6 rounded-lg shadow text-center&quot;&gt;主內容 flex-[2]&lt;/div&gt;
+  &lt;div class=&quot;flex-1 bg-white p-6 rounded-lg shadow text-center&quot;&gt;側欄 flex-1&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;flex gap-4 mb-4&quot;&gt;
+  &lt;div class=&quot;w-56 bg-white p-6 rounded-lg shadow text-center&quot;&gt;側欄 w-56（固定）&lt;/div&gt;
+  &lt;div class=&quot;flex-1 bg-white p-6 rounded-lg shadow text-center&quot;&gt;主內容 flex-1（吃剩下全部）&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;flex mb-4&quot;&gt;
+  &lt;div class=&quot;w-1/4 p-2&quot;&gt;&lt;div class=&quot;bg-white p-6 rounded-lg shadow text-center&quot;&gt;左側欄 w-1/4&lt;/div&gt;&lt;/div&gt;
+  &lt;div class=&quot;w-1/2 p-2&quot;&gt;&lt;div class=&quot;bg-blue-50 border border-blue-200 p-6 rounded-lg shadow text-center font-medium&quot;&gt;主內容 w-1/2&lt;/div&gt;&lt;/div&gt;
+  &lt;div class=&quot;w-1/4 p-2&quot;&gt;&lt;div class=&quot;bg-white p-6 rounded-lg shadow text-center&quot;&gt;右側欄 w-1/4&lt;/div&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;flex gap-4&quot;&gt;
+  &lt;div class=&quot;flex-1 bg-white p-6 rounded-lg shadow text-center&quot;&gt;flex-1&lt;/div&gt;
+  &lt;div class=&quot;flex-[2] bg-blue-50 border border-blue-200 p-6 rounded-lg shadow text-center font-medium&quot;&gt;flex-[2]&lt;/div&gt;
+  &lt;div class=&quot;flex-1 bg-white p-6 rounded-lg shadow text-center&quot;&gt;flex-1&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+    </details>
+  </section>
+
+  <!-- flex-wrap 與 RWD 換向 -->
+  <section class="mb-8">
+    <h2 class="text-xl font-semibold mb-1">flex-wrap 換行 + RWD 換方向</h2>
+    <p class="text-sm text-gray-500 mb-3">
+      對應講義：<a href="../guide.html#flexbox" class="text-blue-600 hover:underline">5. Flexbox</a>、
+      <a href="../guide.html#6-響應式設計-rwd斷點" class="text-blue-600 hover:underline">6. RWD</a>　·
+      動手改：把下方 <code class="bg-gray-200 px-1 rounded">flex-wrap</code> 拿掉，看六個項目被硬擠成一列。
+    </p>
+
+    <p class="text-sm font-medium text-gray-600 mb-2">A. flex-wrap：寬度不夠就換行（每項 w-1/4，靠 p-2 做間距）</p>
+    <div class="flex flex-wrap mb-4">
+      <div class="w-1/4 p-2"><div class="bg-white p-4 rounded-lg shadow text-center">1</div></div>
+      <div class="w-1/4 p-2"><div class="bg-white p-4 rounded-lg shadow text-center">2</div></div>
+      <div class="w-1/4 p-2"><div class="bg-white p-4 rounded-lg shadow text-center">3</div></div>
+      <div class="w-1/4 p-2"><div class="bg-white p-4 rounded-lg shadow text-center">4</div></div>
+      <div class="w-1/4 p-2"><div class="bg-white p-4 rounded-lg shadow text-center">5</div></div>
+      <div class="w-1/4 p-2"><div class="bg-white p-4 rounded-lg shadow text-center">6</div></div>
+    </div>
+
+    <p class="text-sm font-medium text-gray-600 mb-2">B. 手機直向、桌機橫向：flex-col md:flex-row（縮窄視窗看變化）</p>
+    <div class="flex flex-col md:flex-row gap-4">
+      <div class="flex-1 bg-white p-6 rounded-lg shadow text-center">欄 1</div>
+      <div class="flex-1 bg-white p-6 rounded-lg shadow text-center">欄 2</div>
+      <div class="flex-1 bg-white p-6 rounded-lg shadow text-center">欄 3</div>
+    </div>
+    <details class="code-view">
+      <summary>看／複製這一區的程式碼</summary>
+      <pre><code>&lt;div class=&quot;flex flex-wrap mb-4&quot;&gt;
+  &lt;div class=&quot;w-1/4 p-2&quot;&gt;&lt;div class=&quot;bg-white p-4 rounded-lg shadow text-center&quot;&gt;1&lt;/div&gt;&lt;/div&gt;
+  &lt;div class=&quot;w-1/4 p-2&quot;&gt;&lt;div class=&quot;bg-white p-4 rounded-lg shadow text-center&quot;&gt;2&lt;/div&gt;&lt;/div&gt;
+  &lt;div class=&quot;w-1/4 p-2&quot;&gt;&lt;div class=&quot;bg-white p-4 rounded-lg shadow text-center&quot;&gt;3&lt;/div&gt;&lt;/div&gt;
+  &lt;div class=&quot;w-1/4 p-2&quot;&gt;&lt;div class=&quot;bg-white p-4 rounded-lg shadow text-center&quot;&gt;4&lt;/div&gt;&lt;/div&gt;
+  &lt;div class=&quot;w-1/4 p-2&quot;&gt;&lt;div class=&quot;bg-white p-4 rounded-lg shadow text-center&quot;&gt;5&lt;/div&gt;&lt;/div&gt;
+  &lt;div class=&quot;w-1/4 p-2&quot;&gt;&lt;div class=&quot;bg-white p-4 rounded-lg shadow text-center&quot;&gt;6&lt;/div&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;flex flex-col md:flex-row gap-4&quot;&gt;
+  &lt;div class=&quot;flex-1 bg-white p-6 rounded-lg shadow text-center&quot;&gt;欄 1&lt;/div&gt;
+  &lt;div class=&quot;flex-1 bg-white p-6 rounded-lg shadow text-center&quot;&gt;欄 2&lt;/div&gt;
+  &lt;div class=&quot;flex-1 bg-white p-6 rounded-lg shadow text-center&quot;&gt;欄 3&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+    </details>
   </section>
 
   <!-- Grid：三欄卡片 -->
   <section class="mb-8">
-    <h2 class="text-xl font-semibold mb-3">Grid 三欄卡片 grid-cols-3</h2>
+    <h2 class="text-xl font-semibold mb-1">Grid 三欄卡片 grid-cols-3</h2>
+    <p class="text-sm text-gray-500 mb-3">
+      對應講義：<a href="../guide.html#grid" class="text-blue-600 hover:underline">5. Flexbox 與 Grid 佈局 › Grid</a>　·
+      動手改：把 <code class="bg-gray-200 px-1 rounded">grid-cols-3</code> 換成 <code class="bg-gray-200 px-1 rounded">grid-cols-2</code>，
+      再讓第一張卡片加上 <code class="bg-gray-200 px-1 rounded">col-span-2</code> 跨兩欄。
+    </p>
     <div class="grid grid-cols-3 gap-4">
       <div class="bg-white p-6 rounded-lg shadow text-center">卡片 1</div>
       <div class="bg-white p-6 rounded-lg shadow text-center">卡片 2</div>
       <div class="bg-white p-6 rounded-lg shadow text-center">卡片 3</div>
     </div>
+    <details class="code-view">
+      <summary>看／複製這一區的程式碼</summary>
+      <pre><code>&lt;div class=&quot;grid grid-cols-3 gap-4&quot;&gt;
+  &lt;div class=&quot;bg-white p-6 rounded-lg shadow text-center&quot;&gt;卡片 1&lt;/div&gt;
+  &lt;div class=&quot;bg-white p-6 rounded-lg shadow text-center&quot;&gt;卡片 2&lt;/div&gt;
+  &lt;div class=&quot;bg-white p-6 rounded-lg shadow text-center&quot;&gt;卡片 3&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+    </details>
   </section>
 
   <!-- 經典水平垂直置中 -->
   <section>
-    <h2 class="text-xl font-semibold mb-3">水平垂直置中</h2>
+    <h2 class="text-xl font-semibold mb-1">水平垂直置中</h2>
+    <p class="text-sm text-gray-500 mb-3">
+      對應講義：<a href="../guide.html#5-flexbox-與-grid-佈局" class="text-blue-600 hover:underline">5. Flexbox 與 Grid 佈局 › 經典置中</a>　·
+      動手改：拿掉 <code class="bg-gray-200 px-1 rounded">items-center</code> 或 <code class="bg-gray-200 px-1 rounded">justify-center</code> 各看一次，
+      再把 <code class="bg-gray-200 px-1 rounded">h-48</code> 換成 <code class="bg-gray-200 px-1 rounded">h-screen</code>。
+    </p>
     <div class="flex items-center justify-center h-48 bg-white rounded-lg shadow">
       <div class="px-6 py-3 bg-green-500 text-white rounded-lg">我在正中央</div>
     </div>
+    <details class="code-view">
+      <summary>看／複製這一區的程式碼</summary>
+      <pre><code>&lt;div class=&quot;flex items-center justify-center h-48 bg-white rounded-lg shadow&quot;&gt;
+  &lt;div class=&quot;px-6 py-3 bg-green-500 text-white rounded-lg&quot;&gt;我在正中央&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+    </details>
   </section>
 
+  <!-- 練習清單 -->
+  <section class="mb-8 rounded-lg border border-teal-200 bg-teal-50 p-5">
+    <h2 class="text-xl font-semibold mb-2 text-teal-900">動手練習（改完存檔重整看結果）</h2>
+    <ol class="list-decimal pl-5 space-y-1 text-gray-700">
+      <li>把「Flex 兩欄 A」改成左右 <strong>3:1</strong>（提示：<code class="bg-white px-1 rounded">flex-[3]</code> + <code class="bg-white px-1 rounded">flex-1</code>）。</li>
+      <li>把「Flex 兩欄 B」的爆版修好：<code class="bg-white px-1 rounded">w-1/2</code> 改成 <code class="bg-white px-1 rounded">w-[calc(50%-0.5rem)]</code>，或直接改用 <code class="bg-white px-1 rounded">flex-1</code>。</li>
+      <li>用 <code class="bg-white px-1 rounded">flex-wrap</code> + <code class="bg-white px-1 rounded">w-1/2 md:w-1/3 lg:w-1/4</code> 做一個會自己換行的卡片牆。</li>
+      <li>做一個後台版面：左側欄 <code class="bg-white px-1 rounded">w-64</code> 固定、右主內容 <code class="bg-white px-1 rounded">flex-1</code>，整體 <code class="bg-white px-1 rounded">min-h-screen</code>。</li>
+      <li>把「三欄 E」的 1/4 · 1/2 · 1/4 改成 RWD：手機用 <code class="bg-white px-1 rounded">flex-col</code> 疊成一欄、桌機才三欄；再讓右側欄在平板以下隱藏（<code class="bg-white px-1 rounded">hidden lg:block</code>）。</li>
+      <li>同一組三欄，分別用 Flex（<code class="bg-white px-1 rounded">flex-1</code>）和 Grid（<code class="bg-white px-1 rounded">grid-cols-3</code>）各做一次，比較把某一欄內容變很長時的差異。</li>
+    </ol>
+    <p class="mt-3 text-sm text-teal-900">選用原則：<strong>一維排列（一列或一行）用 Flex</strong>，欄列都要對齊的<strong>二維版面用 Grid</strong>；等分欄位優先 <code class="bg-white px-1 rounded">flex-1</code> 或 <code class="bg-white px-1 rounded">grid-cols-*</code>，需要精確比例才用 <code class="bg-white px-1 rounded">w-1/2</code> 這類分數寬。</p>
+  </section>
+
+<script src="../../assets/code-copy.js"></script>
 </body>
 </html>
