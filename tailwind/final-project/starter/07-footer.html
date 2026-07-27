@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>起始檔 07｜社會認同列與 Footer｜Focusly 切版練習</title>
+  <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <!-- 設計稿的色票與字體（每一題都一樣，直接沿用即可） -->
+  <style type="text/tailwindcss">
+    @theme {
+      --color-brand: #bbf451;        /* bg-brand / text-brand */
+      --color-brand-strong: #9ae600;
+      --color-brand-soft: #ecfcca;
+      --color-brand-ink: #3c6300;
+      --color-ink: #0f172b;          /* bg-ink / text-ink */
+      --font-display: "DM Sans", "Noto Sans TC", system-ui, sans-serif;
+    }
+  </style>
+</head>
+<body class="font-display bg-stone-50 text-ink antialiased">
+
+  <div class="border-b border-ink/10 bg-stone-100 px-6 py-3 text-sm">
+    <div class="mx-auto flex max-w-6xl flex-wrap items-center gap-x-3 gap-y-2">
+      <span class="rounded-full bg-amber-200 text-amber-900 px-3 py-1 font-bold">起始檔</span>
+      <strong>07 · 社會認同列與 Footer</strong>
+      <span class="text-slate-500">對應講義：<a href="../../guide.html#flexbox" class="text-blue-700 underline underline-offset-2">5. Flexbox</a>、<a href="../../guide.html#6-響應式設計-rwd斷點" class="text-blue-700 underline underline-offset-2">6. RWD</a></span>
+      <span class="ml-auto flex flex-wrap gap-2"><a href="../exercises.html" class="rounded-md border border-ink/10 bg-white px-3 py-1 transition hover:bg-stone-100">題目頁</a><a href="../answers/07-footer.html" class="rounded-md border border-ink/10 bg-white px-3 py-1 transition hover:bg-stone-100">看參考答案</a><a href="https://www.figma.com/design/usVgPWPxGlekwhcHjPVVU6/Focusly-Landing-Page?node-id=17-14" target="_blank" rel="noopener" class="rounded-md border border-ink/10 bg-white px-3 py-1 transition hover:bg-stone-100">Figma 練習板</a><a href="https://www.figma.com/design/usVgPWPxGlekwhcHjPVVU6/Focusly-Landing-Page?node-id=2-262" target="_blank" rel="noopener" class="rounded-md border border-ink/10 bg-white px-3 py-1 transition hover:bg-stone-100">Figma 完成稿</a><a href="../index.html" class="rounded-md border border-ink/10 bg-white px-3 py-1 transition hover:bg-stone-100">整頁完成版</a><a href="06-cta.html" class="rounded-md border border-ink/10 bg-white px-3 py-1 transition hover:bg-stone-100">← 上一題</a></span>
+    </div>
+  </div>
+
+  <div class="mx-auto max-w-6xl px-6 py-8">
+    <div class="grid gap-4 md:grid-cols-2">
+      <div class="rounded-2xl border border-amber-200 bg-amber-50 p-5 text-sm">
+        <p class="mb-2 font-bold">要做到的事</p>
+        <ol class="list-decimal space-y-1.5 pl-5 text-slate-700">
+        <li>社會認同列：白底、上下細邊框，左邊一句文案、右邊四個品牌名。</li>
+        <li>這一列在<strong>手機是直向堆疊置中</strong>，md 以上變成左右兩端對齊。</li>
+        <li>Footer：左邊版權、右邊兩個連結，同樣手機堆疊、sm 以上兩端對齊。</li>
+        <li>品牌名之間的間距用 <code>gap-x-10 gap-y-3</code>，換行時上下也要有間距。</li>
+        <li>連結加 hover 變深色的過場效果。</li>
+        </ol>
+      </div>
+      <div class="rounded-2xl border border-ink/10 bg-white p-5 text-sm">
+        <p class="mb-2 font-bold">會用到的 class</p>
+        <ul class="space-y-1.5 text-slate-700">
+        <li><code class="rounded bg-white px-1">flex flex-col md:flex-row</code>　手機直向、桌機橫向</li>
+        <li><code class="rounded bg-white px-1">md:justify-between</code>　兩端對齊</li>
+        <li><code class="rounded bg-white px-1">border-y border-ink/5</code>　上下細邊框</li>
+        <li><code class="rounded bg-white px-1">flex-wrap gap-x-10 gap-y-3</code>　會換行的排列</li>
+        <li><code class="rounded bg-white px-1">transition hover:text-ink</code>　連結 hover</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <!-- ↓↓↓ 從這裡開始寫 ↓↓↓ -->
+
+  <!-- TODO: 社會認同列 -->
+  <section class="TODO">
+  </section>
+
+  <div class="h-40"></div>
+
+  <!-- TODO: Footer -->
+  <footer class="TODO">
+  </footer>
+
+  <!-- ↑↑↑ 寫到這裡 ↑↑↑ -->
+
+</body>
+</html>

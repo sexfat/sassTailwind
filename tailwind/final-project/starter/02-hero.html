@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>起始檔 02｜Hero 雙欄版面｜Focusly 切版練習</title>
+  <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <!-- 設計稿的色票與字體（每一題都一樣，直接沿用即可） -->
+  <style type="text/tailwindcss">
+    @theme {
+      --color-brand: #bbf451;        /* bg-brand / text-brand */
+      --color-brand-strong: #9ae600;
+      --color-brand-soft: #ecfcca;
+      --color-brand-ink: #3c6300;
+      --color-ink: #0f172b;          /* bg-ink / text-ink */
+      --font-display: "DM Sans", "Noto Sans TC", system-ui, sans-serif;
+    }
+  </style>
+</head>
+<body class="font-display bg-stone-50 text-ink antialiased">
+
+  <div class="border-b border-ink/10 bg-stone-100 px-6 py-3 text-sm">
+    <div class="mx-auto flex max-w-6xl flex-wrap items-center gap-x-3 gap-y-2">
+      <span class="rounded-full bg-amber-200 text-amber-900 px-3 py-1 font-bold">起始檔</span>
+      <strong>02 · Hero 雙欄版面</strong>
+      <span class="text-slate-500">對應講義：<a href="../../guide.html#grid" class="text-blue-700 underline underline-offset-2">5. Grid</a>、<a href="../../guide.html#6-響應式設計-rwd斷點" class="text-blue-700 underline underline-offset-2">6. RWD</a></span>
+      <span class="ml-auto flex flex-wrap gap-2"><a href="../exercises.html" class="rounded-md border border-ink/10 bg-white px-3 py-1 transition hover:bg-stone-100">題目頁</a><a href="../answers/02-hero.html" class="rounded-md border border-ink/10 bg-white px-3 py-1 transition hover:bg-stone-100">看參考答案</a><a href="https://www.figma.com/design/usVgPWPxGlekwhcHjPVVU6/Focusly-Landing-Page?node-id=17-38" target="_blank" rel="noopener" class="rounded-md border border-ink/10 bg-white px-3 py-1 transition hover:bg-stone-100">Figma 練習板</a><a href="https://www.figma.com/design/usVgPWPxGlekwhcHjPVVU6/Focusly-Landing-Page?node-id=2-172" target="_blank" rel="noopener" class="rounded-md border border-ink/10 bg-white px-3 py-1 transition hover:bg-stone-100">Figma 完成稿</a><a href="../index.html" class="rounded-md border border-ink/10 bg-white px-3 py-1 transition hover:bg-stone-100">整頁完成版</a><a href="01-header.html" class="rounded-md border border-ink/10 bg-white px-3 py-1 transition hover:bg-stone-100">← 上一題</a><a href="03-button.html" class="rounded-md border border-ink/10 bg-white px-3 py-1 transition hover:bg-stone-100">下一題 →</a></span>
+    </div>
+  </div>
+
+  <div class="mx-auto max-w-6xl px-6 py-8">
+    <div class="grid gap-4 md:grid-cols-2">
+      <div class="rounded-2xl border border-amber-200 bg-amber-50 p-5 text-sm">
+        <p class="mb-2 font-bold">要做到的事</p>
+        <ol class="list-decimal space-y-1.5 pl-5 text-slate-700">
+        <li>整段用 Grid：<strong>手機一欄、lg 以上兩欄</strong>，欄距 <code>gap-14</code>。</li>
+        <li>左欄：小藥丸標籤（含一個小綠點）→ 大標題 → 說明段落 → 兩顆按鈕 → 一行小字。</li>
+        <li>大標題兩行，第二行要有<strong>螢光筆效果</strong>（綠色色塊墊在文字下半部）。</li>
+        <li>右欄：白色外框卡片，裡面是深色的產品畫面（先放色塊佔位也可以）。</li>
+        <li>幫整段加上背景光暈裝飾（模糊的圓形），記得容器要 <code>overflow-hidden</code>。</li>
+        </ol>
+      </div>
+      <div class="rounded-2xl border border-ink/10 bg-white p-5 text-sm">
+        <p class="mb-2 font-bold">會用到的 class</p>
+        <ul class="space-y-1.5 text-slate-700">
+        <li><code class="rounded bg-white px-1">grid gap-14 lg:grid-cols-2</code>　單欄 → 雙欄</li>
+        <li><code class="rounded bg-white px-1">text-5xl sm:text-6xl lg:text-7xl</code>　標題隨斷點放大</li>
+        <li><code class="rounded bg-white px-1">leading-[1.05] tracking-tight</code>　大標的行高與字距</li>
+        <li><code class="rounded bg-white px-1">relative / absolute</code>　螢光筆色塊定位</li>
+        <li><code class="rounded bg-white px-1">blur-3xl bg-brand/40</code>　背景光暈</li>
+        <li><code class="rounded bg-white px-1">max-w-lg</code>　限制段落寬度好閱讀</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <!-- ↓↓↓ 從這裡開始寫 ↓↓↓ -->
+  <section class="TODO">
+    <div class="TODO">
+
+      <!-- 左欄：文案 -->
+      <div>
+        <!-- TODO: 藥丸標籤「為專注而設計的生產力工具」 -->
+        <!-- TODO: h1「別只是忙碌。」+ 換行 +「完成重要的事。」（第二行加螢光筆） -->
+        <!-- TODO: 說明段落 -->
+        <!-- TODO: 兩顆按鈕 -->
+        <!-- TODO: 小字「無需信用卡 · 隨時可取消」 -->
+      </div>
+
+      <!-- 右欄：產品預覽卡 -->
+      <div>
+        <!-- TODO: 白色外框 + 深色內卡 -->
+      </div>
+
+    </div>
+  </section>
+  <!-- ↑↑↑ 寫到這裡 ↑↑↑ -->
+
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>起始檔 05｜深色段落與編號清單｜Focusly 切版練習</title>
+  <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <!-- 設計稿的色票與字體（每一題都一樣，直接沿用即可） -->
+  <style type="text/tailwindcss">
+    @theme {
+      --color-brand: #bbf451;        /* bg-brand / text-brand */
+      --color-brand-strong: #9ae600;
+      --color-brand-soft: #ecfcca;
+      --color-brand-ink: #3c6300;
+      --color-ink: #0f172b;          /* bg-ink / text-ink */
+      --font-display: "DM Sans", "Noto Sans TC", system-ui, sans-serif;
+    }
+  </style>
+</head>
+<body class="font-display bg-stone-50 text-ink antialiased">
+
+  <div class="border-b border-ink/10 bg-stone-100 px-6 py-3 text-sm">
+    <div class="mx-auto flex max-w-6xl flex-wrap items-center gap-x-3 gap-y-2">
+      <span class="rounded-full bg-amber-200 text-amber-900 px-3 py-1 font-bold">起始檔</span>
+      <strong>05 · 深色段落與編號清單</strong>
+      <span class="text-slate-500">對應講義：<a href="../../guide.html#5-flexbox-與-grid-佈局" class="text-blue-700 underline underline-offset-2">5. Flex / Grid</a>、<a href="../../guide.html#4-核心工具類速查" class="text-blue-700 underline underline-offset-2">4. 顏色</a></span>
+      <span class="ml-auto flex flex-wrap gap-2"><a href="../exercises.html" class="rounded-md border border-ink/10 bg-white px-3 py-1 transition hover:bg-stone-100">題目頁</a><a href="../answers/05-section.html" class="rounded-md border border-ink/10 bg-white px-3 py-1 transition hover:bg-stone-100">看參考答案</a><a href="https://www.figma.com/design/usVgPWPxGlekwhcHjPVVU6/Focusly-Landing-Page?node-id=17-103" target="_blank" rel="noopener" class="rounded-md border border-ink/10 bg-white px-3 py-1 transition hover:bg-stone-100">Figma 練習板</a><a href="https://www.figma.com/design/usVgPWPxGlekwhcHjPVVU6/Focusly-Landing-Page?node-id=2-100" target="_blank" rel="noopener" class="rounded-md border border-ink/10 bg-white px-3 py-1 transition hover:bg-stone-100">Figma 完成稿</a><a href="../index.html" class="rounded-md border border-ink/10 bg-white px-3 py-1 transition hover:bg-stone-100">整頁完成版</a><a href="04-cards.html" class="rounded-md border border-ink/10 bg-white px-3 py-1 transition hover:bg-stone-100">← 上一題</a><a href="06-cta.html" class="rounded-md border border-ink/10 bg-white px-3 py-1 transition hover:bg-stone-100">下一題 →</a></span>
+    </div>
+  </div>
+
+  <div class="mx-auto max-w-6xl px-6 py-8">
+    <div class="grid gap-4 md:grid-cols-2">
+      <div class="rounded-2xl border border-amber-200 bg-amber-50 p-5 text-sm">
+        <p class="mb-2 font-bold">要做到的事</p>
+        <ol class="list-decimal space-y-1.5 pl-5 text-slate-700">
+        <li>整段換成深色底、白色文字，上下留大量空白（<code>py-20</code> 以上）。</li>
+        <li>版面用 Grid：手機一欄、lg 以上兩欄，左邊標題、右邊步驟清單。</li>
+        <li>步驟清單用 <code>ol</code>，每一項是「編號圓圈 + 標題 + 說明」的水平排列。</li>
+        <li>前兩個編號圓圈是<strong>綠色外框</strong>，第三個是<strong>綠色實心 + 深色數字</strong>。</li>
+        <li>深色底上的說明文字用較淺的灰（slate-400），不要用純白，才有層次。</li>
+        </ol>
+      </div>
+      <div class="rounded-2xl border border-ink/10 bg-white p-5 text-sm">
+        <p class="mb-2 font-bold">會用到的 class</p>
+        <ul class="space-y-1.5 text-slate-700">
+        <li><code class="rounded bg-white px-1">bg-ink text-white</code>　深色段落</li>
+        <li><code class="rounded bg-white px-1">px-6 py-20 lg:py-24</code>　大留白</li>
+        <li><code class="rounded bg-white px-1">grid gap-14 lg:grid-cols-2</code>　雙欄敘事</li>
+        <li><code class="rounded bg-white px-1">space-y-8</code>　清單項目間距</li>
+        <li><code class="rounded bg-white px-1">flex gap-5 / shrink-0</code>　編號不被壓縮</li>
+        <li><code class="rounded bg-white px-1">rounded-full border border-brand/40</code>　外框圓圈</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <!-- ↓↓↓ 從這裡開始寫 ↓↓↓ -->
+  <section class="TODO">
+    <div class="TODO">
+
+      <div>
+        <!-- TODO: 小標「使用方式」+ H2「三步驟，找回你的時間。」 -->
+      </div>
+
+      <ol class="TODO">
+        <!-- TODO: 三個步驟，每個是「編號圓圈 + 標題 + 說明」 -->
+      </ol>
+
+    </div>
+  </section>
+  <!-- ↑↑↑ 寫到這裡 ↑↑↑ -->
+
+</body>
+</html>

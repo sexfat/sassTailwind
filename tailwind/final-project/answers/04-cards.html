@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>參考答案 04｜卡片與響應式 Grid｜Focusly 切版練習</title>
+  <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <!-- 設計稿的色票與字體（每一題都一樣，直接沿用即可） -->
+  <style type="text/tailwindcss">
+    @theme {
+      --color-brand: #bbf451;        /* bg-brand / text-brand */
+      --color-brand-strong: #9ae600;
+      --color-brand-soft: #ecfcca;
+      --color-brand-ink: #3c6300;
+      --color-ink: #0f172b;          /* bg-ink / text-ink */
+      --font-display: "DM Sans", "Noto Sans TC", system-ui, sans-serif;
+    }
+  </style>
+</head>
+<body class="font-display bg-stone-50 text-ink antialiased">
+
+  <div class="border-b border-ink/10 bg-stone-100 px-6 py-3 text-sm">
+    <div class="mx-auto flex max-w-6xl flex-wrap items-center gap-x-3 gap-y-2">
+      <span class="rounded-full bg-brand text-ink px-3 py-1 font-bold">參考答案</span>
+      <strong>04 · 卡片與響應式 Grid</strong>
+      <span class="text-slate-500">對應講義：<a href="../../guide.html#grid" class="text-blue-700 underline underline-offset-2">5. Grid</a>、<a href="../../guide.html#6-響應式設計-rwd斷點" class="text-blue-700 underline underline-offset-2">6. RWD</a></span>
+      <span class="ml-auto flex flex-wrap gap-2"><a href="../exercises.html" class="rounded-md border border-ink/10 bg-white px-3 py-1 transition hover:bg-stone-100">題目頁</a><a href="../starter/04-cards.html" class="rounded-md border border-ink/10 bg-white px-3 py-1 transition hover:bg-stone-100">回起始檔</a><a href="https://www.figma.com/design/usVgPWPxGlekwhcHjPVVU6/Focusly-Landing-Page?node-id=17-81" target="_blank" rel="noopener" class="rounded-md border border-ink/10 bg-white px-3 py-1 transition hover:bg-stone-100">Figma 練習板</a><a href="https://www.figma.com/design/usVgPWPxGlekwhcHjPVVU6/Focusly-Landing-Page?node-id=2-49" target="_blank" rel="noopener" class="rounded-md border border-ink/10 bg-white px-3 py-1 transition hover:bg-stone-100">Figma 完成稿</a><a href="../index.html" class="rounded-md border border-ink/10 bg-white px-3 py-1 transition hover:bg-stone-100">整頁完成版</a><a href="03-button.html" class="rounded-md border border-ink/10 bg-white px-3 py-1 transition hover:bg-stone-100">← 上一題</a><a href="05-section.html" class="rounded-md border border-ink/10 bg-white px-3 py-1 transition hover:bg-stone-100">下一題 →</a></span>
+    </div>
+  </div>
+
+<!-- ===== 04 Features ===== -->
+    <section id="features" class="bg-stone-50 px-6 py-20 lg:py-24">
+      <div class="mx-auto max-w-6xl">
+
+        <p class="text-sm font-bold tracking-[0.2em] text-lime-700">簡單但有效</p>
+        <h2 class="mt-2 text-4xl font-bold tracking-tight sm:text-5xl">你需要的，就這三件事。</h2>
+        <p class="mt-4 max-w-xl text-lg leading-8 text-slate-600">
+          不再用複雜功能增加壓力，讓工具回到最單純的目的。
+        </p>
+
+        <!-- 先做一張卡，再用 grid 複製排列 -->
+        <div class="mt-12 grid gap-6 md:grid-cols-3">
+
+          <article class="group rounded-3xl border border-ink/5 bg-white p-7 transition hover:-translate-y-1 hover:shadow-xl hover:shadow-ink/5">
+            <span class="grid size-12 place-items-center rounded-2xl bg-amber-100 text-xl">◎</span>
+            <h3 class="mt-6 text-xl font-bold">一次只專注一件事</h3>
+            <p class="mt-3 leading-7 text-slate-600">每天選出最重要的任務，把時間和注意力留給它。</p>
+          </article>
+
+          <article class="group rounded-3xl border border-ink/5 bg-white p-7 transition hover:-translate-y-1 hover:shadow-xl hover:shadow-ink/5">
+            <span class="grid size-12 place-items-center rounded-2xl bg-lime-100 text-xl">◴</span>
+            <h3 class="mt-6 text-xl font-bold">運用專注週期</h3>
+            <p class="mt-3 leading-7 text-slate-600">用剛好的時間區塊進入心流，也記得在適當時候休息。</p>
+          </article>
+
+          <article class="group rounded-3xl border border-ink/5 bg-white p-7 transition hover:-translate-y-1 hover:shadow-xl hover:shadow-ink/5">
+            <span class="grid size-12 place-items-center rounded-2xl bg-sky-100 text-xl">↗</span>
+            <h3 class="mt-6 text-xl font-bold">看見自己的進步</h3>
+            <p class="mt-3 leading-7 text-slate-600">用清楚的紀錄了解工作節奏，讓每個小成就累積成改變。</p>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+  <div class="mx-auto max-w-6xl px-6 py-10">
+    <div class="rounded-2xl border border-ink/10 bg-white p-5 text-sm">
+      <p class="mb-2 font-bold">這一段的重點</p>
+      <ul class="list-disc space-y-1.5 pl-5 text-slate-700">
+        <li>流程是「先做一張卡 → 再用 Grid 複製」，不要一開始就想著三欄版面。</li>
+        <li><code>grid gap-6 md:grid-cols-3</code>：手機一欄、平板以上三欄，卡片高度會自動對齊。</li>
+        <li>圖示方塊用 <code>grid size-12 place-items-center</code> 做置中，比 flex 更短。</li>
+        <li>卡片的 hover 效果放在 <code>article</code> 上，整張卡都是感應區，比只有標題變色更好操作。</li>
+      </ul>
+      <p class="mt-3 text-slate-500">想看完整程式碼：直接用編輯器打開這個檔案，或在瀏覽器按右鍵「檢視網頁原始碼」。</p>
+    </div>
+  </div>
+
+</body>
+</html>

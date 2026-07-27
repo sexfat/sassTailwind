@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>起始檔 04｜卡片與響應式 Grid｜Focusly 切版練習</title>
+  <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <!-- 設計稿的色票與字體（每一題都一樣，直接沿用即可） -->
+  <style type="text/tailwindcss">
+    @theme {
+      --color-brand: #bbf451;        /* bg-brand / text-brand */
+      --color-brand-strong: #9ae600;
+      --color-brand-soft: #ecfcca;
+      --color-brand-ink: #3c6300;
+      --color-ink: #0f172b;          /* bg-ink / text-ink */
+      --font-display: "DM Sans", "Noto Sans TC", system-ui, sans-serif;
+    }
+  </style>
+</head>
+<body class="font-display bg-stone-50 text-ink antialiased">
+
+  <div class="border-b border-ink/10 bg-stone-100 px-6 py-3 text-sm">
+    <div class="mx-auto flex max-w-6xl flex-wrap items-center gap-x-3 gap-y-2">
+      <span class="rounded-full bg-amber-200 text-amber-900 px-3 py-1 font-bold">起始檔</span>
+      <strong>04 · 卡片與響應式 Grid</strong>
+      <span class="text-slate-500">對應講義：<a href="../../guide.html#grid" class="text-blue-700 underline underline-offset-2">5. Grid</a>、<a href="../../guide.html#6-響應式設計-rwd斷點" class="text-blue-700 underline underline-offset-2">6. RWD</a></span>
+      <span class="ml-auto flex flex-wrap gap-2"><a href="../exercises.html" class="rounded-md border border-ink/10 bg-white px-3 py-1 transition hover:bg-stone-100">題目頁</a><a href="../answers/04-cards.html" class="rounded-md border border-ink/10 bg-white px-3 py-1 transition hover:bg-stone-100">看參考答案</a><a href="https://www.figma.com/design/usVgPWPxGlekwhcHjPVVU6/Focusly-Landing-Page?node-id=17-81" target="_blank" rel="noopener" class="rounded-md border border-ink/10 bg-white px-3 py-1 transition hover:bg-stone-100">Figma 練習板</a><a href="https://www.figma.com/design/usVgPWPxGlekwhcHjPVVU6/Focusly-Landing-Page?node-id=2-49" target="_blank" rel="noopener" class="rounded-md border border-ink/10 bg-white px-3 py-1 transition hover:bg-stone-100">Figma 完成稿</a><a href="../index.html" class="rounded-md border border-ink/10 bg-white px-3 py-1 transition hover:bg-stone-100">整頁完成版</a><a href="03-button.html" class="rounded-md border border-ink/10 bg-white px-3 py-1 transition hover:bg-stone-100">← 上一題</a><a href="05-section.html" class="rounded-md border border-ink/10 bg-white px-3 py-1 transition hover:bg-stone-100">下一題 →</a></span>
+    </div>
+  </div>
+
+  <div class="mx-auto max-w-6xl px-6 py-8">
+    <div class="grid gap-4 md:grid-cols-2">
+      <div class="rounded-2xl border border-amber-200 bg-amber-50 p-5 text-sm">
+        <p class="mb-2 font-bold">要做到的事</p>
+        <ol class="list-decimal space-y-1.5 pl-5 text-slate-700">
+        <li>先寫段落標題區：小標（品牌綠、字距加寬）、H2、說明段落。</li>
+        <li><strong>先完成一張卡片</strong>：圖示色塊 → 標題 → 說明文字。</li>
+        <li>確認一張卡好看之後，再用 Grid 複製成三張。</li>
+        <li>Grid 設定：手機一欄、md 以上三欄、間距 <code>gap-6</code>。</li>
+        <li>三張卡的圖示底色分別用 amber-100 / lime-100 / sky-100。</li>
+        <li>加上 hover：卡片微微上浮並加深陰影。</li>
+        </ol>
+      </div>
+      <div class="rounded-2xl border border-ink/10 bg-white p-5 text-sm">
+        <p class="mb-2 font-bold">會用到的 class</p>
+        <ul class="space-y-1.5 text-slate-700">
+        <li><code class="rounded bg-white px-1">grid gap-6 md:grid-cols-3</code>　一欄 → 三欄</li>
+        <li><code class="rounded bg-white px-1">rounded-3xl border border-ink/5 bg-white p-7</code>　卡片外觀</li>
+        <li><code class="rounded bg-white px-1">grid size-12 place-items-center rounded-2xl</code>　圖示方塊置中</li>
+        <li><code class="rounded bg-white px-1">tracking-[0.2em]</code>　小標字距</li>
+        <li><code class="rounded bg-white px-1">hover:-translate-y-1 hover:shadow-xl</code>　卡片浮起</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <section class="px-6 pb-16">
+    <div class="mx-auto max-w-6xl">
+
+      <!-- ↓↓↓ 從這裡開始寫 ↓↓↓ -->
+
+      <!-- TODO: 小標「簡單但有效」 -->
+      <!-- TODO: H2「你需要的，就這三件事。」 -->
+      <!-- TODO: 說明段落 -->
+
+      <div class="TODO">
+        <!-- TODO: 第一張卡（做好再複製成三張） -->
+        <article class="TODO">
+          <!-- TODO: 圖示色塊 ◎ -->
+          <!-- TODO: 標題 -->
+          <!-- TODO: 說明 -->
+        </article>
+      </div>
+
+      <!-- ↑↑↑ 寫到這裡 ↑↑↑ -->
+    </div>
+  </section>
+
+</body>
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>起始檔 01｜Header 與手機選單｜Focusly 切版練習</title>
+  <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <!-- 設計稿的色票與字體（每一題都一樣，直接沿用即可） -->
+  <style type="text/tailwindcss">
+    @theme {
+      --color-brand: #bbf451;        /* bg-brand / text-brand */
+      --color-brand-strong: #9ae600;
+      --color-brand-soft: #ecfcca;
+      --color-brand-ink: #3c6300;
+      --color-ink: #0f172b;          /* bg-ink / text-ink */
+      --font-display: "DM Sans", "Noto Sans TC", system-ui, sans-serif;
+    }
+  </style>
+</head>
+<body class="font-display bg-stone-50 text-ink antialiased">
+
+  <div class="border-b border-ink/10 bg-stone-100 px-6 py-3 text-sm">
+    <div class="mx-auto flex max-w-6xl flex-wrap items-center gap-x-3 gap-y-2">
+      <span class="rounded-full bg-amber-200 text-amber-900 px-3 py-1 font-bold">起始檔</span>
+      <strong>01 · Header 與手機選單</strong>
+      <span class="text-slate-500">對應講義：<a href="../../guide.html#5-flexbox-與-grid-佈局" class="text-blue-700 underline underline-offset-2">5. Flexbox</a>、<a href="../../guide.html#6-響應式設計-rwd斷點" class="text-blue-700 underline underline-offset-2">6. RWD</a></span>
+      <span class="ml-auto flex flex-wrap gap-2"><a href="../exercises.html" class="rounded-md border border-ink/10 bg-white px-3 py-1 transition hover:bg-stone-100">題目頁</a><a href="../answers/01-header.html" class="rounded-md border border-ink/10 bg-white px-3 py-1 transition hover:bg-stone-100">看參考答案</a><a href="https://www.figma.com/design/usVgPWPxGlekwhcHjPVVU6/Focusly-Landing-Page?node-id=17-14" target="_blank" rel="noopener" class="rounded-md border border-ink/10 bg-white px-3 py-1 transition hover:bg-stone-100">Figma 練習板</a><a href="https://www.figma.com/design/usVgPWPxGlekwhcHjPVVU6/Focusly-Landing-Page?node-id=2-6" target="_blank" rel="noopener" class="rounded-md border border-ink/10 bg-white px-3 py-1 transition hover:bg-stone-100">Figma 完成稿</a><a href="../index.html" class="rounded-md border border-ink/10 bg-white px-3 py-1 transition hover:bg-stone-100">整頁完成版</a><a href="02-hero.html" class="rounded-md border border-ink/10 bg-white px-3 py-1 transition hover:bg-stone-100">下一題 →</a></span>
+    </div>
+  </div>
+
+  <div class="mx-auto max-w-6xl px-6 py-8">
+    <div class="grid gap-4 md:grid-cols-2">
+      <div class="rounded-2xl border border-amber-200 bg-amber-50 p-5 text-sm">
+        <p class="mb-2 font-bold">要做到的事</p>
+        <ol class="list-decimal space-y-1.5 pl-5 text-slate-700">
+        <li>頁首固定在畫面上方，捲動時不會消失。</li>
+        <li>左邊：深色圓角方塊裡放字母 F，右邊接品牌名 Focusly。</li>
+        <li>中間：功能／使用方式／關於我們三個連結，<strong>手機隱藏、md 以上才顯示</strong>。</li>
+        <li>右邊：深色藥丸按鈕「免費開始」，以及一顆<strong>只在手機出現</strong>的漢堡按鈕。</li>
+        <li>點漢堡展開手機選單面板（連結垂直排列），再點一次收合。</li>
+        </ol>
+      </div>
+      <div class="rounded-2xl border border-ink/10 bg-white p-5 text-sm">
+        <p class="mb-2 font-bold">會用到的 class</p>
+        <ul class="space-y-1.5 text-slate-700">
+        <li><code class="rounded bg-white px-1">sticky top-0 z-50</code>　固定頁首</li>
+        <li><code class="rounded bg-white px-1">mx-auto max-w-6xl px-6</code>　內容置中並限制寬度</li>
+        <li><code class="rounded bg-white px-1">flex items-center justify-between h-20</code>　左右兩端對齊</li>
+        <li><code class="rounded bg-white px-1">hidden md:flex gap-8</code>　桌機才顯示的導覽</li>
+        <li><code class="rounded bg-white px-1">md:hidden</code>　只在手機顯示的漢堡</li>
+        <li><code class="rounded bg-white px-1">classList.toggle('hidden')</code>　JS 切換選單顯示</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <!-- ↓↓↓ 從這裡開始寫 ↓↓↓ -->
+  <header class="TODO">
+    <div class="TODO">
+
+      <!-- TODO: Logo（方塊 F + Focusly） -->
+
+      <!-- TODO: 桌機導覽（手機隱藏） -->
+
+      <!-- TODO: 免費開始按鈕 + 漢堡按鈕 -->
+
+    </div>
+
+    <!-- TODO: 手機選單面板（預設 hidden） -->
+  </header>
+  <!-- ↑↑↑ 寫到這裡 ↑↑↑ -->
+
+  <!-- 底下這段只是讓頁面有高度，方便測試 sticky 效果 -->
+  <div class="mx-auto max-w-6xl space-y-4 px-6 py-10 text-slate-400">
+    <p>捲動看看，頁首應該要黏在上面。</p>
+    <div class="h-[120vh] rounded-2xl border border-dashed border-ink/10"></div>
+  </div>
+
+</body>
+</html>

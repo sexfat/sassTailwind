@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>起始檔 03｜按鈕的四個層次｜Focusly 切版練習</title>
+  <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <!-- 設計稿的色票與字體（每一題都一樣，直接沿用即可） -->
+  <style type="text/tailwindcss">
+    @theme {
+      --color-brand: #bbf451;        /* bg-brand / text-brand */
+      --color-brand-strong: #9ae600;
+      --color-brand-soft: #ecfcca;
+      --color-brand-ink: #3c6300;
+      --color-ink: #0f172b;          /* bg-ink / text-ink */
+      --font-display: "DM Sans", "Noto Sans TC", system-ui, sans-serif;
+    }
+  </style>
+</head>
+<body class="font-display bg-stone-50 text-ink antialiased">
+
+  <div class="border-b border-ink/10 bg-stone-100 px-6 py-3 text-sm">
+    <div class="mx-auto flex max-w-6xl flex-wrap items-center gap-x-3 gap-y-2">
+      <span class="rounded-full bg-amber-200 text-amber-900 px-3 py-1 font-bold">起始檔</span>
+      <strong>03 · 按鈕的四個層次</strong>
+      <span class="text-slate-500">對應講義：<a href="../../guide.html#7-狀態變體hover--focus--group--peer" class="text-blue-700 underline underline-offset-2">7. 狀態變體</a>、<a href="../../guide.html#4-核心工具類速查" class="text-blue-700 underline underline-offset-2">4. 核心工具類</a></span>
+      <span class="ml-auto flex flex-wrap gap-2"><a href="../exercises.html" class="rounded-md border border-ink/10 bg-white px-3 py-1 transition hover:bg-stone-100">題目頁</a><a href="../answers/03-button.html" class="rounded-md border border-ink/10 bg-white px-3 py-1 transition hover:bg-stone-100">看參考答案</a><a href="https://www.figma.com/design/usVgPWPxGlekwhcHjPVVU6/Focusly-Landing-Page?node-id=17-55" target="_blank" rel="noopener" class="rounded-md border border-ink/10 bg-white px-3 py-1 transition hover:bg-stone-100">Figma 練習板</a><a href="https://www.figma.com/design/usVgPWPxGlekwhcHjPVVU6/Focusly-Landing-Page?node-id=2-188" target="_blank" rel="noopener" class="rounded-md border border-ink/10 bg-white px-3 py-1 transition hover:bg-stone-100">Figma 完成稿</a><a href="../index.html" class="rounded-md border border-ink/10 bg-white px-3 py-1 transition hover:bg-stone-100">整頁完成版</a><a href="02-hero.html" class="rounded-md border border-ink/10 bg-white px-3 py-1 transition hover:bg-stone-100">← 上一題</a><a href="04-cards.html" class="rounded-md border border-ink/10 bg-white px-3 py-1 transition hover:bg-stone-100">下一題 →</a></span>
+    </div>
+  </div>
+
+  <div class="mx-auto max-w-6xl px-6 py-8">
+    <div class="grid gap-4 md:grid-cols-2">
+      <div class="rounded-2xl border border-amber-200 bg-amber-50 p-5 text-sm">
+        <p class="mb-2 font-bold">要做到的事</p>
+        <ol class="list-decimal space-y-1.5 pl-5 text-slate-700">
+        <li>做三種按鈕：主要（深底白字）、次要（白底外框）、強調（品牌綠底深字）。</li>
+        <li>三者的<strong>間距、圓角、字重</strong>一致，只有顏色不同。</li>
+        <li>加上互動狀態：hover 微微上浮、active 回到原位、focus-visible 有外框光暈。</li>
+        <li>再做一顆 <code>disabled</code> 狀態的按鈕（變淡、游標禁止）。</li>
+        <li>最後做一顆「圖示 + 文字」的按鈕，確認圖示與文字有正確對齊。</li>
+        </ol>
+      </div>
+      <div class="rounded-2xl border border-ink/10 bg-white p-5 text-sm">
+        <p class="mb-2 font-bold">會用到的 class</p>
+        <ul class="space-y-1.5 text-slate-700">
+        <li><code class="rounded bg-white px-1">px-6 py-3.5</code>　內距＝按鈕大小</li>
+        <li><code class="rounded bg-white px-1">rounded-xl font-semibold</code>　外觀</li>
+        <li><code class="rounded bg-white px-1">transition hover:-translate-y-0.5</code>　hover 上浮</li>
+        <li><code class="rounded bg-white px-1">active:translate-y-0</code>　按下回位</li>
+        <li><code class="rounded bg-white px-1">focus-visible:ring-2 ring-offset-2</code>　鍵盤聚焦</li>
+        <li><code class="rounded bg-white px-1">disabled:opacity-50 disabled:cursor-not-allowed</code>　停用狀態</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="mx-auto max-w-6xl px-6 pb-16">
+    <h2 class="mb-6 text-2xl font-bold">按鈕練習區</h2>
+
+    <!-- ↓↓↓ 從這裡開始寫 ↓↓↓ -->
+    <div class="flex flex-wrap gap-4">
+
+      <button class="TODO">主要按鈕</button>
+      <button class="TODO">次要按鈕</button>
+      <button class="TODO">強調按鈕</button>
+      <button class="TODO" disabled>停用中</button>
+
+    </div>
+    <!-- ↑↑↑ 寫到這裡 ↑↑↑ -->
+  </div>
+
+</body>
+</html>

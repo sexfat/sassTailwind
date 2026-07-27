@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>起始檔 06｜CTA 收尾區塊｜Focusly 切版練習</title>
+  <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <!-- 設計稿的色票與字體（每一題都一樣，直接沿用即可） -->
+  <style type="text/tailwindcss">
+    @theme {
+      --color-brand: #bbf451;        /* bg-brand / text-brand */
+      --color-brand-strong: #9ae600;
+      --color-brand-soft: #ecfcca;
+      --color-brand-ink: #3c6300;
+      --color-ink: #0f172b;          /* bg-ink / text-ink */
+      --font-display: "DM Sans", "Noto Sans TC", system-ui, sans-serif;
+    }
+  </style>
+</head>
+<body class="font-display bg-stone-50 text-ink antialiased">
+
+  <div class="border-b border-ink/10 bg-stone-100 px-6 py-3 text-sm">
+    <div class="mx-auto flex max-w-6xl flex-wrap items-center gap-x-3 gap-y-2">
+      <span class="rounded-full bg-amber-200 text-amber-900 px-3 py-1 font-bold">起始檔</span>
+      <strong>06 · CTA 收尾區塊</strong>
+      <span class="text-slate-500">對應講義：<a href="../../guide.html#9-自訂主題theme" class="text-blue-700 underline underline-offset-2">9. @theme</a>、<a href="../../guide.html#邊框與圓角、陰影" class="text-blue-700 underline underline-offset-2">4. 圓角陰影</a></span>
+      <span class="ml-auto flex flex-wrap gap-2"><a href="../exercises.html" class="rounded-md border border-ink/10 bg-white px-3 py-1 transition hover:bg-stone-100">題目頁</a><a href="../answers/06-cta.html" class="rounded-md border border-ink/10 bg-white px-3 py-1 transition hover:bg-stone-100">看參考答案</a><a href="https://www.figma.com/design/usVgPWPxGlekwhcHjPVVU6/Focusly-Landing-Page?node-id=17-130" target="_blank" rel="noopener" class="rounded-md border border-ink/10 bg-white px-3 py-1 transition hover:bg-stone-100">Figma 練習板</a><a href="https://www.figma.com/design/usVgPWPxGlekwhcHjPVVU6/Focusly-Landing-Page?node-id=2-151" target="_blank" rel="noopener" class="rounded-md border border-ink/10 bg-white px-3 py-1 transition hover:bg-stone-100">Figma 完成稿</a><a href="../index.html" class="rounded-md border border-ink/10 bg-white px-3 py-1 transition hover:bg-stone-100">整頁完成版</a><a href="05-section.html" class="rounded-md border border-ink/10 bg-white px-3 py-1 transition hover:bg-stone-100">← 上一題</a><a href="07-footer.html" class="rounded-md border border-ink/10 bg-white px-3 py-1 transition hover:bg-stone-100">下一題 →</a></span>
+    </div>
+  </div>
+
+  <div class="mx-auto max-w-6xl px-6 py-8">
+    <div class="grid gap-4 md:grid-cols-2">
+      <div class="rounded-2xl border border-amber-200 bg-amber-50 p-5 text-sm">
+        <p class="mb-2 font-bold">要做到的事</p>
+        <ol class="list-decimal space-y-1.5 pl-5 text-slate-700">
+        <li>做一個品牌綠的大圓角區塊（圓角約 32px），內容全部置中。</li>
+        <li>內容：小標「今天就開始」→ H2 → 說明段落 → 深色按鈕。</li>
+        <li>左上與右下各放一個裝飾圓環（只有粗邊框、半透明白）。</li>
+        <li>裝飾圓環要被裁切在區塊內：外層加 <code>overflow-hidden</code>。</li>
+        <li>文字要蓋在裝飾之上：文字元素加 <code>relative</code>。</li>
+        </ol>
+      </div>
+      <div class="rounded-2xl border border-ink/10 bg-white p-5 text-sm">
+        <p class="mb-2 font-bold">會用到的 class</p>
+        <ul class="space-y-1.5 text-slate-700">
+        <li><code class="rounded bg-white px-1">rounded-[2rem] bg-brand</code>　大圓角品牌色區塊</li>
+        <li><code class="rounded bg-white px-1">px-6 py-16 text-center</code>　內距與置中</li>
+        <li><code class="rounded bg-white px-1">relative / overflow-hidden</code>　裝飾定位與裁切</li>
+        <li><code class="rounded bg-white px-1">border-[12px] border-white/30</code>　裝飾圓環</li>
+        <li><code class="rounded bg-white px-1">mx-auto max-w-xl</code>　限制段落寬度</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <section class="px-6 py-16">
+    <!-- ↓↓↓ 從這裡開始寫 ↓↓↓ -->
+    <div class="TODO">
+
+      <!-- TODO: 兩個裝飾圓環 -->
+
+      <!-- TODO: 小標 / H2 / 說明 / 按鈕 -->
+
+    </div>
+    <!-- ↑↑↑ 寫到這裡 ↑↑↑ -->
+  </section>
+
+</body>
+</html>
