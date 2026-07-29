@@ -227,6 +227,7 @@ hr { border: 0; border-top: 1px solid var(--border); margin: 30px 0; }
 <a class="h3" href="#切換的-js-完整寫法">切換的 JS 完整寫法</a>
 <a class="h2" href="#9-自訂主題theme">9. 自訂主題（<code>@theme</code>）</a>
 <a class="h3" href="#用-css-的-theme">用 CSS 的 <code>@theme</code></a>
+<a class="h3" href="#theme-的命名規則"><code>@theme</code> 的命名規則</a>
 <a class="h2" href="#10-重複樣式的處理apply-與元件抽取">10. 重複樣式的處理：<code>@apply</code> 與元件抽取</a>
 <a class="h3" href="#做法-a元件化（首選）">做法 A：元件化（首選）</a>
 <a class="h3" href="#做法-bapply-抽出自訂-class">做法 B：<code>@apply</code> 抽出自訂 class</a>
@@ -284,6 +285,29 @@ hr { border: 0; border-top: 1px solid var(--border); margin: 30px 0; }
 &lt;script src=&quot;https://unpkg.com/@tailwindcss/browser@4&quot;&gt;&lt;/script&gt;</code></pre></div>
 <aside class="callout v3"><p class="v3-tag">v3 補充</p><p>v3 的 Play CDN 是 <code>&lt;script src=&quot;https://cdn.tailwindcss.com&quot;&gt;&lt;/script&gt;</code>，本教材不使用。</p></aside>
 <p>本教材 <code>examples/</code> 內的 HTML 都用這種方式，直接用瀏覽器打開就能看效果。</p>
+<h4 id="要留意用-cdn-時客製-css-不能放在外部檔案">要留意：用 CDN 時，客製 CSS 不能放在外部檔案</h4>
+<p>這是 Play CDN 最容易踩的坑。下面這樣寫，<code>bg-brand</code> 永遠不會生效：</p>
+<div class="code-wrap"><div class="code-toolbar"><span>html</span><button type="button" class="copy-code">複製</button></div><pre><code class="language-html">&lt;!-- 不會生效 --&gt;
+&lt;script src=&quot;https://unpkg.com/@tailwindcss/browser@4&quot;&gt;&lt;/script&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;tailwind.css&quot;&gt;   &lt;!-- 檔案裡寫了 @import &quot;tailwindcss&quot;; 和 @theme {} --&gt;</code></pre></div>
+<p>原因有三層：</p>
+<ol>
+<li><code>@import &quot;tailwindcss&quot;;</code> 和 <code>@theme {}</code> 都是<strong>需要編譯的 Tailwind 指令</strong>，不是瀏覽器看得懂的 CSS 語法。</li>
+<li>普通的 <code>&lt;link&gt;</code> 是交給瀏覽器原生的 CSS 解析器處理，它看不懂 <code>@theme</code>，就整段忽略 → <code>--color-brand</code> 從沒被定義 → <code>bg-brand</code> 這個 class 也從來沒被產生出來。</li>
+<li><code>@tailwindcss/browser@4</code> 這支 CDN script <strong>只會掃描頁面裡標記為 <code>type=&quot;text/tailwindcss&quot;</code> 的樣式內容</strong>，不會去攔截一般的 <code>&lt;link&gt;</code> 標籤。</li>
+</ol>
+<p>正確寫法是把客製 CSS <strong>內嵌</strong>，並標上 <code>type</code>：</p>
+<div class="code-wrap"><div class="code-toolbar"><span>html</span><button type="button" class="copy-code">複製</button></div><pre><code class="language-html">&lt;script src=&quot;https://unpkg.com/@tailwindcss/browser@4&quot;&gt;&lt;/script&gt;
+&lt;style type=&quot;text/tailwindcss&quot;&gt;
+  @theme {
+    --color-brand: #6366f1;
+  }
+&lt;/style&gt;</code></pre></div>
+<aside class="callout warning"><p>CDN 版已經自帶 <code>@import &quot;tailwindcss&quot;;</code>，內嵌時<strong>不用再寫一次</strong>，寫了反而可能重複載入。這也是為什麼本教材 <code>examples/</code> 裡的 <code>&lt;style type=&quot;text/tailwindcss&quot;&gt;</code> 都只有 <code>@theme</code> 和 <code>@custom-variant</code>，沒有 <code>@import</code>。</p></aside>
+<p>怎麼確認踩到這個坑：打開開發者工具，在 Elements 面板選 <code>&lt;html&gt;</code> 看 Computed / Styles 裡的 <code>:root</code>，如果找不到 <code>--color-brand</code>，就是 <code>@theme</code> 根本沒被編譯到。</p>
+<p>真的想維持獨立的 <code>.css</code> 檔（正式專案本來就該這樣），就得走真正的編譯流程：</p>
+<div class="code-wrap"><div class="code-toolbar"><span>bash</span><button type="button" class="copy-code">複製</button></div><pre><code class="language-bash">npx @tailwindcss/cli -i tailwind.css -o output.css --watch</code></pre></div>
+<p>然後 HTML 改成 <code>&lt;link rel=&quot;stylesheet&quot; href=&quot;output.css&quot;&gt;</code>，並<strong>移除</strong> CDN script — 兩者不要同時存在。用 <code>file://</code> 直接開檔練習時 CDN 版最省事，但「檔案分離」的寫法在這個模式下走不通。</p>
 <h3 id="方法-btailwind-cli">方法 B：Tailwind CLI</h3>
 <div class="code-wrap"><div class="code-toolbar"><span>bash</span><button type="button" class="copy-code">複製</button></div><pre><code class="language-bash">npm install tailwindcss @tailwindcss/cli
 
@@ -505,6 +529,91 @@ export default {
   --breakpoint-3xl: 1920px;      /* 新增 3xl: 斷點 */
 }</code></pre></div>
 <div class="code-wrap"><div class="code-toolbar"><span>html</span><button type="button" class="copy-code">複製</button></div><pre><code class="language-html">&lt;button class=&quot;bg-brand hover:bg-brand-dark font-display p-18&quot;&gt;品牌按鈕&lt;/button&gt;</code></pre></div>
+<aside class="callout note"><p>用 Play CDN 時，<code>@theme</code> 寫在 <code>&lt;style type=&quot;text/tailwindcss&quot;&gt;</code> 裡；用 CLI / Vite 時寫在你的入口 CSS（<code>@import &quot;tailwindcss&quot;;</code> 的下面）。</p>
+<p>CDN 模式下<strong>不能</strong>把 <code>@theme</code> 放進外部 <code>.css</code> 檔用 <code>&lt;link&gt;</code> 載入，瀏覽器會整段忽略、<code>bg-brand</code> 永遠不會生效——原因與解法見 <a href="#要留意用-cdn-時客製-css-不能放在外部檔案">3. 安裝與環境 › 要留意：用 CDN 時，客製 CSS 不能放在外部檔案</a>。</p></aside>
+
+<h3 id="theme-的命名規則"><code>@theme</code> 的命名規則</h3>
+<p>這是 v4 最需要弄懂的一件事：<strong><code>@theme</code> 裡的變數名不是你自己隨便取的，前面那一段是 Tailwind 規定的「命名空間」，它決定會生出哪一種工具類。</strong></p>
+<div class="code-wrap"><div class="code-toolbar"><span>css</span><button type="button" class="copy-code">複製</button></div><pre><code class="language-css">--color-brand: #6366f1;
+  └─┬─┘ └─┬─┘
+    │     └─ 你取的名字 → 變成 class 的尾巴
+    └─ 命名空間 → 決定生出 bg-* / text-* / border-* 這一整組</code></pre></div>
+<p>所以 <code>--color-brand</code> 會生出 <code>bg-brand</code>、<code>text-brand</code>、<code>border-brand</code>…；改成 <code>--radius-brand</code> 就變成生出 <code>rounded-brand</code>。<strong>同一個名字放在不同命名空間，產生的工具類完全不同。</strong></p>
+
+<h4 id="常用命名空間對照表">常用命名空間對照表</h4>
+<div class="table-wrap"><table><thead><tr><th>命名空間</th><th>生出的工具類</th><th>範例</th></tr></thead><tbody>
+<tr><td><code>--color-*</code></td><td><code>bg-*</code> <code>text-*</code> <code>border-*</code> <code>ring-*</code> <code>fill-*</code> <code>stroke-*</code> <code>divide-*</code> <code>outline-*</code> <code>accent-*</code> <code>caret-*</code> <code>from-*</code> <code>via-*</code> <code>to-*</code></td><td><code>--color-brand: #6366f1</code> → <code>bg-brand</code></td></tr>
+<tr><td><code>--spacing-*</code></td><td>間距刻度：<code>p-*</code> <code>m-*</code> <code>gap-*</code> <code>w-*</code> <code>h-*</code> <code>inset-*</code> <code>translate-*</code>…</td><td><code>--spacing-18: 4.5rem</code> → <code>p-18</code></td></tr>
+<tr><td><code>--breakpoint-*</code></td><td>響應式斷點變體</td><td><code>--breakpoint-3xl: 1920px</code> → <code>3xl:flex</code></td></tr>
+<tr><td><code>--container-*</code></td><td><code>max-w-*</code> 與容器查詢尺寸</td><td><code>--container-prose: 65ch</code> → <code>max-w-prose</code></td></tr>
+<tr><td><code>--font-*</code></td><td><code>font-*</code>（字體家族）</td><td><code>--font-display: 'Noto Sans TC'</code> → <code>font-display</code></td></tr>
+<tr><td><code>--text-*</code></td><td><code>text-*</code>（字級大小）</td><td><code>--text-hero: 4rem</code> → <code>text-hero</code></td></tr>
+<tr><td><code>--font-weight-*</code></td><td><code>font-*</code>（字重）</td><td><code>--font-weight-extra: 850</code> → <code>font-extra</code></td></tr>
+<tr><td><code>--tracking-*</code></td><td><code>tracking-*</code>（字距）</td><td><code>--tracking-tight: -0.02em</code></td></tr>
+<tr><td><code>--leading-*</code></td><td><code>leading-*</code>（行高）</td><td><code>--leading-cozy: 1.7</code></td></tr>
+<tr><td><code>--radius-*</code></td><td><code>rounded-*</code></td><td><code>--radius-card: 1.25rem</code> → <code>rounded-card</code></td></tr>
+<tr><td><code>--shadow-*</code></td><td><code>shadow-*</code></td><td><code>--shadow-card: 0 2px 8px #0002</code></td></tr>
+<tr><td><code>--inset-shadow-*</code></td><td><code>inset-shadow-*</code></td><td></td></tr>
+<tr><td><code>--drop-shadow-*</code></td><td><code>drop-shadow-*</code></td><td></td></tr>
+<tr><td><code>--blur-*</code></td><td><code>blur-*</code></td><td></td></tr>
+<tr><td><code>--aspect-*</code></td><td><code>aspect-*</code></td><td><code>--aspect-card: 3 / 4</code> → <code>aspect-card</code></td></tr>
+<tr><td><code>--ease-*</code></td><td><code>ease-*</code>（緩動曲線）</td><td><code>--ease-snappy: cubic-bezier(.2,0,0,1)</code></td></tr>
+<tr><td><code>--animate-*</code></td><td><code>animate-*</code></td><td><code>--animate-wiggle: wiggle 1s infinite</code></td></tr>
+<tr><td><code>--perspective-*</code></td><td><code>perspective-*</code></td><td></td></tr>
+</tbody></table></div>
+<p>注意 <code>text</code> 這個字在兩邊都出現，但意義不同：<code>--color-*</code> 產生的 <code>text-brand</code> 是<strong>文字顏色</strong>，<code>--text-*</code> 產生的 <code>text-hero</code> 是<strong>字級</strong>。Tailwind 靠值的型別分辨，不會打架。</p>
+
+<h4 id="名字本身的規則">名字本身的規則</h4>
+<ol>
+<li><strong>只能用小寫、數字與連字號。</strong> 名字會原封不動接到工具類後面，<code>--color-brandDark</code> 會變成 <code>bg-brandDark</code> 這種難用的 class，不要這樣寫。</li>
+<li><strong>名字裡可以有連字號</strong>，會被當成名字的一部分：<code>--color-brand-dark</code> → <code>bg-brand-dark</code>。</li>
+<li><strong>數字當名字就是刻度</strong>：<code>--spacing-18: 4.5rem</code> → <code>p-18</code>、<code>m-18</code>、<code>gap-18</code>。</li>
+<li><strong>命名空間打錯就什麼都不會發生。</strong> <code>--brand-color: #6366f1</code> 不屬於任何命名空間，它只是一個普通 CSS 變數，不會有 <code>bg-brand-color</code> 這個 class。這是初學最常見的錯誤。</li>
+</ol>
+
+<h4 id="覆蓋內建值與清空">覆蓋內建值與清空</h4>
+<p>同名就是覆蓋，這是改掉內建刻度的方法：</p>
+<div class="code-wrap"><div class="code-toolbar"><span>css</span><button type="button" class="copy-code">複製</button></div><pre><code class="language-css">@theme {
+  --color-blue-500: #2563eb;   /* 全站的 bg-blue-500 都換成這個藍 */
+  --radius-lg: 14px;           /* rounded-lg 改成 14px */
+}</code></pre></div>
+<p>不想要整組內建值（例如公司只用自家色票，不要 Tailwind 那 22 種顏色），用 <code>initial</code> 清空：</p>
+<div class="code-wrap"><div class="code-toolbar"><span>css</span><button type="button" class="copy-code">複製</button></div><pre><code class="language-css">@theme {
+  --color-*: initial;          /* 清掉所有內建顏色 */
+  --color-brand: #6366f1;      /* 再放回自己的 */
+  --color-ink: #111827;
+}</code></pre></div>
+<p><code>--*: initial;</code> 則是清掉<strong>全部</strong>預設主題，只留你自己定義的。除非你在做設計系統，否則不建議。</p>
+
+<h4 id="一個-token-帶多個屬性">一個 token 帶多個屬性</h4>
+<p>字級這種「一個名字要帶好幾個值」的，用兩個連字號接子屬性：</p>
+<div class="code-wrap"><div class="code-toolbar"><span>css</span><button type="button" class="copy-code">複製</button></div><pre><code class="language-css">@theme {
+  --text-hero: 4rem;
+  --text-hero--line-height: 1.1;
+  --text-hero--letter-spacing: -0.02em;
+  --text-hero--font-weight: 700;
+}</code></pre></div>
+<p>之後只要寫 <code>text-hero</code>，字級、行高、字距、字重會一起套上。</p>
+
+<h4 id="三個常用的修飾字">三個常用的修飾字</h4>
+<div class="code-wrap"><div class="code-toolbar"><span>css</span><button type="button" class="copy-code">複製</button></div><pre><code class="language-css">@theme inline { … }      /* 值裡有 var() 參照別的變數時要用 */
+@theme static { … }      /* 沒被用到的變數也照樣輸出到 CSS */
+@theme reference { … }   /* 只定義、不輸出變數，給多檔案共用時用 */</code></pre></div>
+<p>其中 <code>inline</code> 最容易踩到：如果你的 token 是「參照另一個變數」，例如想讓深色模式換掉品牌色，寫成一般的 <code>@theme</code> 會固定成定義當下的值，要加 <code>inline</code> 才會即時跟著變：</p>
+<div class="code-wrap"><div class="code-toolbar"><span>css</span><button type="button" class="copy-code">複製</button></div><pre><code class="language-css">@theme inline {
+  --color-surface: var(--surface);
+}
+
+:root      { --surface: #ffffff; }
+.dark      { --surface: #111827; }</code></pre></div>
+
+<h4 id="其他限制">其他限制</h4>
+<ul>
+<li><code>@theme</code> 只能寫在 CSS 的<strong>最外層</strong>，不能包在 <code>@media</code>、<code>.dark {}</code> 或任何選擇器裡面。要隨模式換值，就用上面 <code>inline</code> 那種寫法。</li>
+<li><code>@theme</code> 定義的變數同時也是<strong>真的 CSS 變數</strong>，會輸出在 <code>:root</code>，所以你在自己的 CSS 裡可以直接 <code>color: var(--color-brand);</code>。</li>
+<li>刻度沒有、又懶得取名的一次性數值，不必寫進 <code>@theme</code>，直接用任意值 <code>bg-[#6366f1]</code>、<code>p-[13px]</code> 就好；會重複用到的才值得變成 token。</li>
+</ul>
+
 <aside class="callout v3"><p class="v3-tag">v3 補充</p><p>v3 沒有 <code>@theme</code>，客製要寫在 <code>tailwind.config.js</code>：</p></aside>
 <div class="code-wrap"><div class="code-toolbar"><span>js（v3 舊寫法，僅供參考）</span><button type="button" class="copy-code">複製</button></div><pre><code class="language-js">module.exports = {
   content: ['./src/**/*.{html,js}'],
