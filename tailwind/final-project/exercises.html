@@ -171,7 +171,7 @@
       <li><strong class="text-brand">01</strong>　把七個區塊組成完整的一頁，順序照 Figma 完成稿。</li>
       <li><strong class="text-brand">02</strong>　改 <code class="rounded bg-white/10 px-1">@theme</code> 裡的 <code class="rounded bg-white/10 px-1">--color-brand</code>，一行換掉整站主色。</li>
       <li><strong class="text-brand">03</strong>　幫整頁加上深色模式（<code class="rounded bg-white/10 px-1">dark:</code>），並在 Header 加一顆切換按鈕。</li>
-      <li><strong class="text-brand">04</strong>　把重複的按鈕樣式用 <code class="rounded bg-white/10 px-1">@apply</code> 抽成 <code class="rounded bg-white/10 px-1">.btn-primary</code>，比較前後的可讀性。</li>
+      <li><strong class="text-brand">04</strong>　把重複的按鈕樣式用 <code class="rounded bg-white/10 px-1">@utility btn-primary { @apply … }</code> 抽成一個自訂類（v4 寫法，不是 v3 的 <code class="rounded bg-white/10 px-1">@layer components</code>），比較前後的可讀性。</li>
       <li><strong class="text-brand">05</strong>　手機選單改用純 CSS 做（<code class="rounded bg-white/10 px-1">peer</code> + <code class="rounded bg-white/10 px-1">peer-checked:block</code>），不寫 JS。</li>
     </ol>
   </section>
