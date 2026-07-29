@@ -75,10 +75,22 @@
       <div class="flex-1 bg-white p-6 rounded-lg shadow text-center">flex-1</div>
     </div>
 
-    <p class="text-sm font-medium text-gray-600 mb-2">B. w-1/2 + gap-4：50% + 50% + 間距 &gt; 100%，會被擠出去</p>
+    <p class="text-sm font-medium text-gray-600 mb-2">B. w-1/2 + gap-4：50% + 50% + 間距 &gt; 100%，不換行時兩欄被壓成 calc(50% - 8px)，沒爆版但比例失真</p>
+    <div class="flex gap-4 mb-4 border-2 border-dashed border-amber-300 rounded-lg">
+      <div class="w-1/2 bg-white p-6 rounded-lg shadow text-center">w-1/2</div>
+      <div class="w-1/2 bg-white p-6 rounded-lg shadow text-center">w-1/2</div>
+    </div>
+
+    <p class="text-sm font-medium text-gray-600 mb-2">B2. 同樣的寬度加上 flex-wrap：放不下就換行，變成上下各一欄</p>
+    <div class="flex flex-wrap gap-4 mb-4 border-2 border-dashed border-amber-300 rounded-lg">
+      <div class="w-1/2 bg-white p-6 rounded-lg shadow text-center">w-1/2</div>
+      <div class="w-1/2 bg-white p-6 rounded-lg shadow text-center">w-1/2</div>
+    </div>
+
+    <p class="text-sm font-medium text-gray-600 mb-2">B3. 加上 shrink-0：不能收縮又不能換行，這時才真的溢出父層（往右超出虛線框）</p>
     <div class="flex gap-4 mb-4 border-2 border-dashed border-red-300 rounded-lg">
-      <div class="w-1/2 bg-white p-6 rounded-lg shadow text-center">w-1/2</div>
-      <div class="w-1/2 bg-white p-6 rounded-lg shadow text-center">w-1/2</div>
+      <div class="w-1/2 shrink-0 bg-white p-6 rounded-lg shadow text-center">w-1/2 shrink-0</div>
+      <div class="w-1/2 shrink-0 bg-white p-6 rounded-lg shadow text-center">w-1/2 shrink-0</div>
     </div>
 
     <p class="text-sm font-medium text-gray-600 mb-2">C. w-1/2 不加 gap：剛好切一半（要間距就用內距或 calc）</p>
@@ -93,9 +105,22 @@
   &lt;div class=&quot;flex-1 bg-white p-6 rounded-lg shadow text-center&quot;&gt;flex-1&lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div class=&quot;flex gap-4 mb-4 border-2 border-dashed border-red-300 rounded-lg&quot;&gt;
+&lt;!-- 不換行：被壓成 calc(50% - 8px)，比例失真但不爆版 --&gt;
+&lt;div class=&quot;flex gap-4 mb-4&quot;&gt;
   &lt;div class=&quot;w-1/2 bg-white p-6 rounded-lg shadow text-center&quot;&gt;w-1/2&lt;/div&gt;
   &lt;div class=&quot;w-1/2 bg-white p-6 rounded-lg shadow text-center&quot;&gt;w-1/2&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- flex-wrap：放不下就換行 --&gt;
+&lt;div class=&quot;flex flex-wrap gap-4 mb-4&quot;&gt;
+  &lt;div class=&quot;w-1/2 ...&quot;&gt;w-1/2&lt;/div&gt;
+  &lt;div class=&quot;w-1/2 ...&quot;&gt;w-1/2&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- shrink-0：不能收縮也不換行，真的溢出 --&gt;
+&lt;div class=&quot;flex gap-4 mb-4&quot;&gt;
+  &lt;div class=&quot;w-1/2 shrink-0 ...&quot;&gt;w-1/2 shrink-0&lt;/div&gt;
+  &lt;div class=&quot;w-1/2 shrink-0 ...&quot;&gt;w-1/2 shrink-0&lt;/div&gt;
 &lt;/div&gt;
 
 &lt;div class=&quot;flex&quot;&gt;
@@ -281,7 +306,7 @@
     <h2 class="text-xl font-semibold mb-2 text-teal-900">動手練習（改完存檔重整看結果）</h2>
     <ol class="list-decimal pl-5 space-y-1 text-gray-700">
       <li>把「Flex 兩欄 A」改成左右 <strong>3:1</strong>（提示：<code class="bg-white px-1 rounded">flex-[3]</code> + <code class="bg-white px-1 rounded">flex-1</code>）。</li>
-      <li>把「Flex 兩欄 B」的爆版修好：<code class="bg-white px-1 rounded">w-1/2</code> 改成 <code class="bg-white px-1 rounded">w-[calc(50%-0.5rem)]</code>，或直接改用 <code class="bg-white px-1 rounded">flex-1</code>。</li>
+      <li>把「Flex 兩欄 B / B3」修成真正的各半：<code class="bg-white px-1 rounded">w-1/2</code> 改成 <code class="bg-white px-1 rounded">w-[calc(50%-0.5rem)]</code>，或直接改用 <code class="bg-white px-1 rounded">flex-1</code>。改完用開發者工具量一下寬度，確認 B 原本其實是 calc(50% - 8px) 而不是 50%。</li>
       <li>用 <code class="bg-white px-1 rounded">flex-wrap</code> + <code class="bg-white px-1 rounded">w-1/2 md:w-1/3 lg:w-1/4</code> 做一個會自己換行的卡片牆。</li>
       <li>做一個後台版面：左側欄 <code class="bg-white px-1 rounded">w-64</code> 固定、右主內容 <code class="bg-white px-1 rounded">flex-1</code>，整體 <code class="bg-white px-1 rounded">min-h-screen</code>。</li>
       <li>把「三欄 E」的 1/4 · 1/2 · 1/4 改成 RWD：手機用 <code class="bg-white px-1 rounded">flex-col</code> 疊成一欄、桌機才三欄；再讓右側欄在平板以下隱藏（<code class="bg-white px-1 rounded">hidden lg:block</code>）。</li>

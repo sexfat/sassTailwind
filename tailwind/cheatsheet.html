@@ -185,7 +185,7 @@ footer { max-width: 1280px; margin: 0 auto; padding: 0 24px 32px; color: var(--m
 <tr><td><code>basis-1/2</code> <code>basis-64</code> <code>basis-auto</code> <code>basis-full</code></td><td>flex-basis 起始尺寸</td></tr>
 <tr><td><code>order-1</code> <code>order-first</code> <code>order-last</code> <code>order-none</code></td><td>視覺排序</td></tr>
 </tbody></table></div>
-<div class="callout"><p>兩欄各半：<code>flex-1</code> + <code>flex-1</code>（可配 <code>gap</code>）；<code>w-1/2</code> + <code>gap-4</code> 會爆版，需要 <code>w-[calc(50%-0.5rem)]</code>。</p></div>
+<div class="callout"><p>兩欄各半：<code>flex-1</code> + <code>flex-1</code>（可配 <code>gap</code>）；<code>w-1/2</code> + <code>gap-4</code> 因為超過 100%，不換行時兩欄會被壓成 <code>calc(50% - 8px)</code>（比例失真）、加 <code>flex-wrap</code> 則換行，要精確比例又要間距就寫 <code>w-[calc(50%-0.5rem)]</code>。</p></div>
 
 <h2 id="grid">Grid</h2>
 <div class="table-wrap"><table><thead><tr><th>Class</th><th>CSS / 說明</th></tr></thead><tbody>
