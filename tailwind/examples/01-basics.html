@@ -63,6 +63,41 @@
     </details>
   </section>
 
+  <!-- 尺寸：固定寬 vs 最大寬 -->
+  <section class="mb-8">
+    <h2 class="text-xl font-semibold text-gray-700 mb-1">尺寸：固定寬 vs 最大寬</h2>
+    <p class="text-sm text-gray-500 mb-3">
+      對應講義：<a href="../guide.html#尺寸（sizing）" class="text-blue-600 hover:underline">4. 核心工具類速查 › 尺寸</a>　·
+      動手改：<strong>拖曳下面兩個灰框的右下角</strong>把容器拉窄，看誰會溢出。刻度沒有的數字就用任意值
+      <code class="bg-gray-200 px-1 rounded">w-[1200px]</code>。
+    </p>
+
+    <p class="text-sm font-medium text-gray-600 mb-2">A. w-[1200px]：寫死寬度，容器一變窄就溢出，逼出水平捲軸</p>
+    <div class="resize-x overflow-auto max-w-full min-w-[240px] border-2 border-dashed border-red-300 rounded-lg p-3 mb-4 bg-gray-100">
+      <div class="w-[1200px] bg-white p-6 rounded-lg shadow text-center">w-[1200px]</div>
+    </div>
+
+    <p class="text-sm font-medium text-gray-600 mb-2">B. w-full max-w-[1200px] mx-auto：最多 1200px，容器變窄就跟著縮</p>
+    <div class="resize-x overflow-auto max-w-full min-w-[240px] border-2 border-dashed border-green-300 rounded-lg p-3 bg-gray-100">
+      <div class="w-full max-w-[1200px] mx-auto bg-white p-6 rounded-lg shadow text-center">w-full max-w-[1200px] mx-auto</div>
+    </div>
+    <p class="text-sm text-gray-500 mt-2">
+      版面容器幾乎都用 B，再加 <code class="bg-gray-200 px-1 rounded">px-4</code> 留左右安全邊界。真的要固定寬時（側欄、固定尺寸卡片）才用 A，
+      而且放在 flex 容器裡要記得加 <code class="bg-gray-200 px-1 rounded">shrink-0</code>，否則一樣會被壓縮。
+    </p>
+    <details class="code-view">
+      <summary>看／複製這一區的程式碼</summary>
+      <pre><code>&lt;!-- 寫死 1200px，視窗小於 1200px 時會溢出、產生水平捲軸 --&gt;
+&lt;div class=&quot;w-[1200px]&quot;&gt;...&lt;/div&gt;
+
+&lt;!-- 比較好的做法：最大 1200px，小螢幕自動縮 --&gt;
+&lt;div class=&quot;w-full max-w-[1200px] mx-auto&quot;&gt;...&lt;/div&gt;
+
+&lt;!-- 實務上的版面容器 --&gt;
+&lt;div class=&quot;w-full max-w-[1200px] mx-auto px-4&quot;&gt;...&lt;/div&gt;</code></pre>
+    </details>
+  </section>
+
   <!-- 文字工具類 -->
   <section class="mb-8">
     <h2 class="text-xl font-semibold text-gray-700 mb-1">文字</h2>
