@@ -14,6 +14,14 @@
       --color-brand-dark: #4f46e5;
     }
   </style>
+  <!-- 在畫面畫出來之前先決定要不要加 dark，避免重整時閃一下白底 -->
+  <script>
+    const saved = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    if (saved === 'dark' || (!saved && prefersDark)) {
+      document.documentElement.classList.add('dark');
+    }
+  </script>
   <style>
     .code-view { margin-top: 12px; border: 1px solid #cbd5e1; border-radius: 10px; overflow: hidden; background: #f8fafc; }
     .code-view > summary { cursor: pointer; padding: 8px 12px; font-size: .85rem; font-weight: 700; color: #0f766e; list-style: none; }
@@ -41,7 +49,7 @@
 
   <div class="flex items-center justify-between mb-6">
     <h1 class="text-3xl font-bold">04 深色模式 + 自訂主題</h1>
-    <button onclick="document.documentElement.classList.toggle('dark')"
+    <button id="theme-toggle"
             class="px-4 py-2 rounded-lg bg-brand text-white hover:bg-brand-dark transition">
       切換深/淺色
     </button>
@@ -72,6 +80,47 @@
     </details>
   </section>
 
+  <!-- 切換的 JS -->
+  <section class="mb-8">
+    <h2 class="text-xl font-semibold mb-1">切換的 JS</h2>
+    <p class="text-sm text-gray-500 dark:text-gray-400 mb-3">
+      對應講義：<a href="../guide.html#切換的-js-完整寫法" class="text-blue-600 dark:text-blue-400 hover:underline">8. 深色模式 › 切換的 JS 完整寫法</a>　·
+      動手試：切成深色後<strong>重新整理</strong>這一頁，顏色會留著；按下面的「切回跟隨系統」再重整，就會回去看你作業系統的設定。
+    </p>
+    <div class="p-6 rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800">
+      <p class="text-gray-600 dark:text-gray-300 mb-3">
+        目前狀態：<code id="theme-state" class="bg-gray-200 dark:bg-gray-700 px-1 rounded">-</code>
+      </p>
+      <button id="theme-reset"
+              class="px-3 py-1.5 rounded-md border border-gray-300 dark:border-gray-600 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 transition">
+        切回跟隨系統（清掉 localStorage）
+      </button>
+    </div>
+    <details class="code-view">
+      <summary>看／複製這一區的程式碼</summary>
+      <pre><code>&lt;!-- 1. 放在 &lt;head&gt;：畫面畫出來之前就決定要不要加 dark，避免閃白底 --&gt;
+&lt;script&gt;
+  const saved = localStorage.getItem('theme');
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  if (saved === 'dark' || (!saved &amp;&amp; prefersDark)) {
+    document.documentElement.classList.add('dark');
+  }
+&lt;/script&gt;
+
+&lt;!-- 2. 按鈕：切換 &lt;html&gt; 的 dark class，並把選擇存起來 --&gt;
+&lt;button id=&quot;theme-toggle&quot;&gt;切換深/淺色&lt;/button&gt;
+&lt;script&gt;
+  document.getElementById('theme-toggle').addEventListener('click', () =&gt; {
+    const isDark = document.documentElement.classList.toggle('dark');
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+  });
+&lt;/script&gt;
+
+&lt;!-- 3. 想切回跟隨系統，就把記錄清掉 --&gt;
+localStorage.removeItem('theme');</code></pre>
+    </details>
+  </section>
+
   <!-- 自訂主題色 bg-brand -->
   <section>
     <h2 class="text-xl font-semibold mb-1">自訂品牌色（@theme 定義的 bg-brand）</h2>
@@ -94,6 +143,32 @@
 &lt;/div&gt;</code></pre>
     </details>
   </section>
+
+  <script>
+    const state = document.getElementById('theme-state');
+    const showState = () => {
+      const saved = localStorage.getItem('theme');
+      const isDark = document.documentElement.classList.contains('dark');
+      state.textContent = saved
+        ? `${isDark ? '深色' : '淺色'}（手動選的，存在 localStorage）`
+        : `${isDark ? '深色' : '淺色'}（沒選過，跟隨系統設定）`;
+    };
+
+    document.getElementById('theme-toggle').addEventListener('click', () => {
+      const isDark = document.documentElement.classList.toggle('dark');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+      showState();
+    });
+
+    document.getElementById('theme-reset').addEventListener('click', () => {
+      localStorage.removeItem('theme');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      document.documentElement.classList.toggle('dark', prefersDark);
+      showState();
+    });
+
+    showState();
+  </script>
 
 <script src="../../assets/code-copy.js"></script>
 </body>

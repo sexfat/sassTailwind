@@ -154,14 +154,31 @@ a{color:var(--brand);}
 <li>做三欄式價目表（Free / Pro / Team），Pro 方案要用品牌色外框「突顯」。</li>
 <li>右上角一個按鈕可切換深色模式，整頁在深/淺色都要好看（善用 <code>dark:</code>）。</li>
 <li>桌機三欄、手機一欄（RWD）。</li>
+<li>切換的選擇要記得住：重新整理後維持上次選的顏色，沒選過就跟隨系統。</li>
 </ul>
+<p>切換用的 JS 直接給你，重點是搞懂它在做什麼（細節看<a href="../guide.html#切換的-js-完整寫法">講義 8. 深色模式 › 切換的 JS 完整寫法</a>）。第一段放 <code>&lt;head&gt;</code>，在畫面畫出來之前先決定要不要加 <code>dark</code>，避免重整閃白底：</p>
+<pre><code>&lt;script&gt;
+  const saved = localStorage.getItem('theme');
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  if (saved === 'dark' || (!saved &amp;&amp; prefersDark)) {
+    document.documentElement.classList.add('dark');
+  }
+&lt;/script&gt;</code></pre>
+<p>第二段放 <code>&lt;/body&gt;</code> 前，負責按鈕的切換與記錄：</p>
+<pre><code>&lt;script&gt;
+  document.getElementById('theme-toggle').addEventListener('click', () =&gt; {
+    const isDark = document.documentElement.classList.toggle('dark');
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+  });
+&lt;/script&gt;</code></pre>
+<p>別忘了 CSS 要先設手動策略：<code>@custom-variant dark (&amp;:where(.dark, .dark *));</code>，按鈕要有 <code>id="theme-toggle"</code>。</p>
 <div class="ai"><div class="t">AI 協助 · 可以這樣問（挑戰題建議分段問）</div>
 <pre><code>我要用 Tailwind v4（Play CDN）做「可切換深色模式的三欄價目表」，請分步驟帶我：
 步驟1：怎麼在 CDN 頁面用 @theme 自訂一個品牌色？
 步驟2：三欄價目表(Free/Pro/Team)，桌機 3 欄手機 1 欄，Pro 用品牌色外框突顯。
 步驟3：右上角按鈕切換深色模式(class 策略)，並用 dark: 讓深/淺色都好看。
 每步先解釋再給範例，讓我逐步完成。</code></pre>
-<p class="tip">深色模式切換牽涉一小段 JS（toggle html 的 class）。可單獨問：「請給我切換 dark class 的最小 JS。」</p></div>
+<p class="tip">切換的 JS 上面已經給了，不用再問。真的想弄懂可以追問：「為什麼判斷 dark 的 script 要放 <code>&lt;head&gt;</code> 而不是 <code>&lt;/body&gt;</code> 前？」</p></div>
 </div>
 <script>
 (() => {
@@ -208,7 +225,7 @@ a{color:var(--brand);}
 </${'body'}>`,
     5: String.raw`<body>
   <div>
-    <button>切換深/淺色</button>
+    <button id="theme-toggle">切換深/淺色</button>
     <div>
       <div>Free</div>
       <div>Pro</div>
@@ -279,6 +296,15 @@ a{color:var(--brand);}
   }
 </${'style'}>
 
+<!-- 放在 <head> 裡，畫面畫出來之前就決定要不要加 dark，避免重整閃白底 -->
+<${'script'}>
+  const saved = localStorage.getItem('theme');
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  if (saved === 'dark' || (!saved && prefersDark)) {
+    document.documentElement.classList.add('dark');
+  }
+</${'script'}>
+
 <body class="min-h-screen bg-gray-50 text-gray-900 dark:bg-gray-900 dark:text-gray-100 transition-colors p-8">
   <div class="max-w-5xl mx-auto">
     <div class="flex items-center justify-between mb-10">
@@ -286,7 +312,7 @@ a{color:var(--brand);}
         <h1 class="text-3xl font-bold">選擇你的方案</h1>
         <p class="text-gray-500 dark:text-gray-400 mt-1">隨時可升級或取消</p>
       </div>
-      <button onclick="document.documentElement.classList.toggle('dark')"
+      <button id="theme-toggle"
               class="px-4 py-2 rounded-lg bg-brand text-white hover:bg-brand-dark transition">
         切換深/淺色
       </button>
@@ -298,6 +324,13 @@ a{color:var(--brand);}
       <div class="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 p-8">Team</div>
     </div>
   </div>
+
+  <${'script'}>
+    document.getElementById('theme-toggle').addEventListener('click', () => {
+      const isDark = document.documentElement.classList.toggle('dark');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    });
+  </${'script'}>
 </${'body'}>`
   };
   const wrap = document.querySelector('.wrap');

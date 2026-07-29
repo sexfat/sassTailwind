@@ -224,6 +224,7 @@ hr { border: 0; border-top: 1px solid var(--border); margin: 30px 0; }
 <a class="h3" href="#group依「父層狀態」改變子元素"><code>group</code>：依「父層狀態」改變子元素</a>
 <a class="h3" href="#peer依「兄弟元素狀態」改變"><code>peer</code>：依「兄弟元素狀態」改變</a>
 <a class="h2" href="#8-深色模式-dark-mode">8. 深色模式 Dark Mode</a>
+<a class="h3" href="#切換的-js-完整寫法">切換的 JS 完整寫法</a>
 <a class="h2" href="#9-自訂主題theme">9. 自訂主題（<code>@theme</code>）</a>
 <a class="h3" href="#用-css-的-theme">用 CSS 的 <code>@theme</code></a>
 <a class="h2" href="#10-重複樣式的處理apply-與元件抽取">10. 重複樣式的處理：<code>@apply</code> 與元件抽取</a>
@@ -445,7 +446,7 @@ export default {
 &lt;p class=&quot;hidden peer-invalid:block text-red-500&quot;&gt;Email 格式錯誤&lt;/p&gt;</code></pre></div>
 <hr>
 <h2 id="8-深色模式-dark-mode">8. 深色模式 Dark Mode</h2>
-<aside class="callout example"><p><strong>對應範例</strong>：<a href="examples/04-darkmode-theme.html">04-darkmode-theme.html</a>　—　右上角按鈕可手動切換深／淺色，檔案裡就有 <code>@custom-variant dark</code> 的完整寫法。</p></aside>
+<aside class="callout example"><p><strong>對應範例</strong>：<a href="examples/04-darkmode-theme.html">04-darkmode-theme.html</a>　—　右上角按鈕可手動切換深／淺色，切完重整還會記得；檔案裡有 <code>@custom-variant dark</code> 與切換 JS 的完整寫法，「切換的 JS」那一區可以看到目前是手動選的還是跟隨系統。</p></aside>
 <p>用 <code>dark:</code> 前綴指定深色模式下的樣式。</p>
 <div class="code-wrap"><div class="code-toolbar"><span>html</span><button type="button" class="copy-code">複製</button></div><pre><code class="language-html">&lt;div class=&quot;bg-white text-gray-900 dark:bg-gray-800 dark:text-white&quot;&gt;
   自動或手動切換深淺色
@@ -454,6 +455,41 @@ export default {
 <div class="code-wrap"><div class="code-toolbar"><span>js</span><button type="button" class="copy-code">複製</button></div><pre><code class="language-js">document.documentElement.classList.toggle('dark');</code></pre></div>
 <aside class="callout note"><p>設定手動切換策略：在 CSS 加 <code>@custom-variant dark (&amp;:where(.dark, .dark *));</code>。</p></aside>
 <aside class="callout v3"><p class="v3-tag">v3 補充</p><p>v3 是在 <code>tailwind.config.js</code> 設 <code>darkMode: 'class'</code>。</p></aside>
+<h3 id="切換的-js-完整寫法">切換的 JS 完整寫法</h3>
+<p>上面那行一按就能切，但重新整理後就忘了。實務上要做到三件事：<strong>記住使用者的選擇</strong>、<strong>沒選過時跟隨系統</strong>、<strong>重整時不要閃一下白底</strong>。</p>
+<p>第一段放在 <code>&lt;head&gt;</code>，在畫面繪製前就決定好要不要加 <code>dark</code>：</p>
+<div class="code-wrap"><div class="code-toolbar"><span>html</span><button type="button" class="copy-code">複製</button></div><pre><code class="language-html">&lt;!-- 放在 &lt;head&gt; 裡，越早越好，避免重整時先閃白底再變深色 --&gt;
+&lt;script&gt;
+  const saved = localStorage.getItem('theme');
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  if (saved === 'dark' || (!saved &amp;&amp; prefersDark)) {
+    document.documentElement.classList.add('dark');
+  }
+&lt;/script&gt;</code></pre></div>
+<p>第二段是按鈕本身，切換時順手把選擇存起來：</p>
+<div class="code-wrap"><div class="code-toolbar"><span>html</span><button type="button" class="copy-code">複製</button></div><pre><code class="language-html">&lt;button id=&quot;theme-toggle&quot; class=&quot;px-4 py-2 rounded-lg bg-gray-200 dark:bg-gray-700&quot;&gt;
+  切換深／淺色
+&lt;/button&gt;
+
+&lt;script&gt;
+  document.getElementById('theme-toggle').addEventListener('click', () =&gt; {
+    const isDark = document.documentElement.classList.toggle('dark');
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+  });
+&lt;/script&gt;</code></pre></div>
+<p>重點整理：</p>
+<div class="table-wrap"><table><thead><tr><th>做的事</th><th>為什麼</th></tr></thead><tbody>
+<tr><td><code>classList.toggle('dark')</code> 加在 <code>documentElement</code></td><td><code>dark:</code> 是靠 <code>&lt;html class=&quot;dark&quot;&gt;</code> 生效，不能加在 <code>&lt;body&gt;</code></td></tr>
+<tr><td><code>localStorage</code> 存 <code>'dark'</code> / <code>'light'</code></td><td>記住選擇，重整、換頁都還在</td></tr>
+<tr><td>沒存過才看 <code>prefers-color-scheme</code></td><td>使用者手動選過就以他的選擇為準</td></tr>
+<tr><td>判斷的 script 放 <code>&lt;head&gt;</code> 而非 <code>&lt;/body&gt;</code> 前</td><td>放太後面會先畫出淺色再變深色，出現俗稱的 FOUC 閃爍</td></tr>
+</tbody></table></div>
+<p>想讓使用者「切回跟隨系統」，就把記錄清掉：<code>localStorage.removeItem('theme')</code>。</p>
+<aside class="callout note"><p>頁面在「使用者沒手動選過」的狀態下，可以再監聽系統主題變化即時跟著換：</p>
+<div class="code-wrap"><div class="code-toolbar"><span>js</span><button type="button" class="copy-code">複製</button></div><pre><code class="language-js">window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) =&gt; {
+  if (localStorage.getItem('theme')) return;   // 手動選過就不要蓋掉
+  document.documentElement.classList.toggle('dark', e.matches);
+});</code></pre></div></aside>
 <hr>
 <h2 id="9-自訂主題theme">9. 自訂主題（<code>@theme</code>）</h2>
 <aside class="callout example"><p><strong>對應範例</strong>：<a href="examples/04-darkmode-theme.html">04-darkmode-theme.html</a>　—　<code>@theme</code> 定義 <code>--color-brand</code> 後直接使用 <code>bg-brand</code>，可自行再加一組顏色試試。</p></aside>

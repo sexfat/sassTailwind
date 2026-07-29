@@ -12,6 +12,14 @@
       --color-brand-dark: #4f46e5;
     }
   </style>
+  <!-- 在畫面畫出來之前先決定要不要加 dark，避免重整時閃一下白底 -->
+  <script>
+    const saved = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    if (saved === 'dark' || (!saved && prefersDark)) {
+      document.documentElement.classList.add('dark');
+    }
+  </script>
 <link rel="stylesheet" href="../../../assets/code-copy.css">
 </head>
 <body class="min-h-screen bg-gray-50 text-gray-900 dark:bg-gray-900 dark:text-gray-100 transition-colors p-8">
@@ -22,7 +30,7 @@
         <h1 class="text-3xl font-bold">選擇你的方案</h1>
         <p class="text-gray-500 dark:text-gray-400 mt-1">隨時可升級或取消</p>
       </div>
-      <button onclick="document.documentElement.classList.toggle('dark')"
+      <button id="theme-toggle"
               class="px-4 py-2 rounded-lg bg-brand text-white hover:bg-brand-dark transition">
         切換深/淺色
       </button>
@@ -76,6 +84,14 @@
 
     </div>
   </div>
+
+  <!-- 切換時順手把選擇存進 localStorage，重整後才記得住 -->
+  <script>
+    document.getElementById('theme-toggle').addEventListener('click', () => {
+      const isDark = document.documentElement.classList.toggle('dark');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    });
+  </script>
 
   <script>
     (() => {
